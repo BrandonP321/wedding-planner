@@ -1,0 +1,43 @@
+@import "../../styles/webSharedStyles.scss";
+
+.input,
+.textarea {
+  padding: $sizeXS;
+  border: 2px solid black;
+}
+
+.fieldLabel {
+}
+
+.radio,
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.radioInput {
+  border: 2px solid black;
+  border-radius: 50%;
+  width: $sizeS;
+  height: $sizeS;
+  margin-right: $sizeXS;
+
+  &:checked {
+    background-color: $baseColorRichLavender;
+  }
+}
+
+.checkbox {
+}
+
+.checkboxInput {
+  border: 2px solid black;
+  border-radius: $sizeXXS;
+  width: $sizeS;
+  height: $sizeS;
+  margin-right: $sizeXS;
+
+  &:checked {
+    background-color: $baseColorRichLavender;
+  }
+}

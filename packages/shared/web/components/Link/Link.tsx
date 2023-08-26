@@ -40,6 +40,8 @@ export type ButtonLinkProps = Omit<
 export const ButtonLink = ({
   variant = "secondary",
   classes,
+  rightIcon,
+  leftIcon,
   ...props
 }: ButtonLinkProps) => {
   return (
@@ -51,7 +53,7 @@ export const ButtonLink = ({
         btnStyles[variant]
       )}
     >
-      <ButtonContent {...props} />
+      <ButtonContent rightIcon={rightIcon} leftIcon={leftIcon} {...props} />
     </Link>
   );
 };

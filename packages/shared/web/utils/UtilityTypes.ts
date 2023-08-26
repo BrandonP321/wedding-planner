@@ -1,4 +1,4 @@
-export type Size = "xxl" | "xl" | "l" | "m" | "s" | "xs" | "xxs";
+export type Size = "xxl" | "xl" | "l" | "m" | "s" | "xs" | "xxs" | "n";
 
 export type ClassesProp<T extends string> = {
   [key in T]?: string;
