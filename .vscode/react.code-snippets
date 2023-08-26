@@ -1,0 +1,17 @@
+{
+  "React component": {
+    "scope": "typescriptreact",
+    "prefix": "tsrc",
+    "body": [
+      "import React from \"react\";",
+      "import styles from \"./${TM_FILENAME_BASE}.module.scss\";",
+      "",
+      "export type ${TM_FILENAME_BASE}Props = {};",
+      "",
+      "export const ${TM_FILENAME_BASE} = (props: ${TM_FILENAME_BASE}Props) => {",
+      "\treturn <div>${TM_FILENAME_BASE}</div>;",
+      "}",
+      ""
+    ]
+  }
+}

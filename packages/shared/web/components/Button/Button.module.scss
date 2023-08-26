@@ -1,0 +1,20 @@
+@import "../../styles/webSharedStyles.scss";
+
+.button {
+  padding: $sizeXS;
+  border-radius: $borderRadiusS;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &.primary {
+    background-color: $colorSecondary;
+    color: $colorTextOppositePrimary;
+  }
+
+  &.secondary {
+    border: 2px solid black;
+    color: $colorTextPrimary;
+  }
+}

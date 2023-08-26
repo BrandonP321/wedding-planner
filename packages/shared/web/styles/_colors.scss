@@ -52,6 +52,10 @@ $colorTextSecondaryVar: --color-text-secondary;
 $colorTextSecondary: var(#{$colorTextSecondaryVar});
 @include SetRootValue($colorTextSecondaryVar, $baseColorDarkGrey);
 
+$colorTextOppositePrimaryVar: --color-text-opposite-primary;
+$colorTextOppositePrimary: var(#{$colorTextOppositePrimaryVar});
+@include SetRootValue($colorTextOppositePrimaryVar, $baseColorWhite);
+
 // Status indicators
 $colorSuccessVar: --color-success;
 $colorSuccess: var(#{$colorSuccessVar});

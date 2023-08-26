@@ -2,26 +2,60 @@
 // SIZE
 // ======================================================================================================
 // XXL
-$sizeXXLargeVar: --size-xxl;
-$sizeXXLarge: var(#{$sizeXXLargeVar});
-@include SetRootValue($sizeXXLargeVar, 3rem);
+$sizeXXLVar: --size-xxl;
+$sizeXXLarge: var(#{$sizeXXLVar});
+@include SetRootValue($sizeXXLVar, 3rem);
 // XL
-$sizeXLargeVar: --size-xl;
-$sizeXLarge: var(#{$sizeXLargeVar});
-@include SetRootValue($sizeXLargeVar, 2.5rem);
+$sizeXLVar: --size-xl;
+$sizeXL: var(#{$sizeXLVar});
+@include SetRootValue($sizeXLVar, 2.5rem);
 // L
-$sizeLargeVar: --size-l;
-$sizeLarge: var(#{$sizeLargeVar});
-@include SetRootValue($sizeLargeVar, 2rem);
+$sizeLVar: --size-l;
+$sizeL: var(#{$sizeLVar});
+@include SetRootValue($sizeLVar, 2rem);
 // M
-$sizeMediumVar: --size-m;
-$sizeMedium: var(#{$sizeMediumVar});
-@include SetRootValue($sizeMediumVar, 1.5rem);
+$sizeMVar: --size-m;
+$sizeM: var(#{$sizeMVar});
+@include SetRootValue($sizeMVar, 1.5rem);
 // S
-$sizeSmallVar: --size-s;
-$sizeSmall: var(#{$sizeSmallVar});
-@include SetRootValue($sizeSmallVar, 1rem);
+$sizeSVar: --size-s;
+$sizeS: var(#{$sizeSVar});
+@include SetRootValue($sizeSVar, 1rem);
 // XS
-$sizeXSmallVar: --size-xs;
-$sizeXSmall: var(#{$sizeXSmallVar});
-@include SetRootValue($sizeXSmallVar, 0.5rem);
+$sizeXSVar: --size-xs;
+$sizeXS: var(#{$sizeXSVar});
+@include SetRootValue($sizeXSVar, 0.5rem);
+// XXS
+$sizeXXSVar: --size-xxs;
+$sizeXXS: var(#{$sizeXXSVar});
+@include SetRootValue($sizeXXSVar, 0.25rem);
+
+$sizeMap: (
+  "xxl": $sizeXXLarge,
+  "xl": $sizeXL,
+  "l": $sizeL,
+  "m": $sizeM,
+  "s": $sizeS,
+  "xs": $sizeXS,
+  "xxs": $sizeXXS,
+);
+
+// ======================================================================================================
+// Borders
+// ======================================================================================================
+// L
+$borderRadiusLVar: --border-radius-l;
+$borderRadiusL: var(#{$borderRadiusLVar});
+@include SetRootValue($borderRadiusLVar, 1rem);
+// M
+$borderRadiusMVar: --border-radius-m;
+$borderRadiusM: var(#{$borderRadiusMVar});
+@include SetRootValue($borderRadiusMVar, 0.5rem);
+// S
+$borderRadiusSVar: --border-radius-s;
+$borderRadiusS: var(#{$borderRadiusSVar});
+@include SetRootValue($borderRadiusSVar, 0.25rem);
+// XS
+$borderRadiusXSVar: --border-radius-xs;
+$borderRadiusXS: var(#{$borderRadiusXSVar});
+@include SetRootValue($borderRadiusXSVar, 0.125rem);

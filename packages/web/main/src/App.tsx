@@ -1,17 +1,17 @@
 import React from "react";
+import { Button, ButtonLink, SpaceBetween } from "@wedding-planner/shared/web";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <Router>
       <h1>Something</h1>
-      <h2>Something</h2>
-      <h3>Something</h3>
-      <h4>Something</h4>
-      <p>
-        Something <a href="asdf">Some link</a>
-      </p>
-      <small>Something</small>
-    </div>
+      <SpaceBetween size="s">
+        <Button>asdf</Button>
+        <Button>asdf</Button>
+        <ButtonLink to="/asdf">asdf</ButtonLink>
+      </SpaceBetween>
+    </Router>
   );
 }
 

@@ -1,0 +1,13 @@
+@import "../../styles/webSharedStyles.scss";
+
+.spaceBetween {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  @include generateSizeClassNamesForProperty(gap);
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
