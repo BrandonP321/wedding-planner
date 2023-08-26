@@ -11,6 +11,7 @@ import {
   RadioFormField,
   SpaceBetween,
   SubmitButton,
+  ToggleField,
 } from "@wedding-planner/shared/web";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
@@ -35,7 +36,7 @@ function App() {
           This is a <ExternalLink to={"/"}>Link</ExternalLink>
         </p>
         <Formik
-          initialValues={{ myInput: "", myRadio: "one" }}
+          initialValues={{ myInput: "", myRadio: "one", myToggle: true }}
           onSubmit={(v) => {
             console.log(v);
           }}
@@ -61,6 +62,11 @@ function App() {
                 <CheckboxField value="checkTwo" label="Check Two" />
                 <CheckboxField value="checkThree" label="Check Three" />
               </CheckboxFormField>
+
+              <CheckboxFormField name="myToggle" label="Some Toggle">
+                <ToggleField label="Toggle One" value="toggleOne" />
+              </CheckboxFormField>
+
               <SubmitButton />
             </SpaceBetween>
           </Form>

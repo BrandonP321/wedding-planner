@@ -59,3 +59,14 @@ $borderRadiusS: var(#{$borderRadiusSVar});
 $borderRadiusXSVar: --border-radius-xs;
 $borderRadiusXS: var(#{$borderRadiusXSVar});
 @include SetRootValue($borderRadiusXSVar, 0.125rem);
+
+// ======================================================================================================
+// Forms
+// ======================================================================================================
+$checkboxHeightVar: --checkbox-height;
+$checkboxHeight: var(#{$checkboxHeightVar});
+@include SetRootValue($checkboxHeightVar, 1.5rem);
+
+$radioInnerScaleVar: --radio-inner-size;
+$radioInnerScale: var(#{$radioInnerScaleVar});
+@include SetRootValue($radioInnerScaleVar, 0.7);
