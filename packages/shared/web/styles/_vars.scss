@@ -70,3 +70,44 @@ $checkboxHeight: var(#{$checkboxHeightVar});
 $radioInnerScaleVar: --radio-inner-size;
 $radioInnerScale: var(#{$radioInnerScaleVar});
 @include SetRootValue($radioInnerScaleVar, 0.7);
+
+// ======================================================================================================
+// Z Index
+// ======================================================================================================
+$zIndexModalVar: --z-index-modal;
+$zIndexModal: var(#{$zIndexModalVar});
+@include SetRootValue($zIndexModalVar, 1000);
+
+// ======================================================================================================
+// Widths
+// ======================================================================================================
+$maxWidthXLVar: --max-width-xl;
+$maxWidthXL: var(#{$maxWidthXLVar});
+@include SetRootValue($maxWidthXLVar, 70rem);
+
+$maxWidthLVar: --max-width-l;
+$maxWidthL: var(#{$maxWidthLVar});
+@include SetRootValue($maxWidthLVar, 50rem);
+
+$maxWidthMVar: --max-width-m;
+$maxWidthM: var(#{$maxWidthMVar});
+@include SetRootValue($maxWidthMVar, 30rem);
+
+$maxWidthSVar: --max-width-s;
+$maxWidthS: var(#{$maxWidthSVar});
+@include SetRootValue($maxWidthSVar, 20rem);
+
+$pageContentWidthVar: --page-content-width;
+$pageContentWidth: var(#{$pageContentWidthVar});
+@include SetRootValue($pageContentWidthVar, 90%);
+
+// ======================================================================================================
+// Transitions
+// ======================================================================================================
+$transitionVar: --transition;
+$transition: var(#{$transitionVar});
+@include SetRootValue($transitionVar, all 0.15s);
+
+$transitionLinearVar: --transition-linear;
+$transitionLinear: var(#{$transitionLinearVar});
+@include SetRootValue($transitionLinearVar, all 0.15s linear);

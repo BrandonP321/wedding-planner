@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonLink,
@@ -7,6 +7,7 @@ import {
   ExternalLink,
   FormField,
   InputField,
+  Modal,
   RadioField,
   RadioFormField,
   SpaceBetween,
@@ -18,6 +19,8 @@ import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
 
 function App() {
+  const [showModal, setShowModal] = useState(true);
+
   return (
     <Router>
       <h1>Something</h1>
@@ -27,7 +30,7 @@ function App() {
       <p>Something</p>
       <small>Something</small>
       <SpaceBetween size="s" vertical>
-        <Button>asdf</Button>
+        <Button onClick={() => setShowModal(true)}>Show Modal</Button>
         <Button>asdf</Button>
         <ButtonLink to="/asdf" rightIcon={faArrowUpRight}>
           asdf
@@ -35,6 +38,11 @@ function App() {
         <p>
           This is a <ExternalLink to={"/"}>Link</ExternalLink>
         </p>
+
+        <Modal show={showModal} toggleShow={() => setShowModal(!showModal)}>
+          <h1>Modal</h1>
+        </Modal>
+
         <Formik
           initialValues={{ myInput: "", myRadio: "one", myToggle: true }}
           onSubmit={(v) => {

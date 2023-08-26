@@ -10,7 +10,10 @@ $baseColorSoftPink: #ffc0cb;
 $baseColorGold: #ffd700;
 $baseColorSilver: #c0c0c0;
 $baseColorDarkGrey: #333333;
-$baseColorBlack: #000000;
+$baseColorBlack: rgb(0, 0, 0);
+@function BaseColorBlackFaded($a) {
+  @return rgba(0, 0, 0, $a);
+}
 $baseColorWhite: #ffffff;
 $baseColorGrey: #f4f4f4;
 $baseColorSoftRed: #ff6b6b;
@@ -68,3 +71,21 @@ $colorError: var(#{$colorErrorVar});
 $colorInfoVar: --color-info;
 $colorInfo: var(#{$colorInfoVar});
 @include SetRootValue($colorInfoVar, $baseColorSoftBlue);
+
+$darkOverlayVar: --dark-overlay;
+$darkOverlay: var(#{$darkOverlayVar});
+@include SetRootValue($darkOverlayVar, rgb(0 0 0 / 0.5));
+
+// Box Shadow
+$darkBoxShadowVar: --dark-box-shadow;
+$darkBoxShadow: var(#{$darkBoxShadowVar});
+@include SetRootValue($darkBoxShadowVar, #{0 0 3rem BaseColorBlackFaded(0.25)});
+
+// Oher
+$colorDarkFadeVar: --color-dark-fade;
+$colorDarkFade: var(#{$colorDarkFadeVar});
+@include SetRootValue($colorDarkFadeVar, rgb(#{$colorTextPrimary} / 0.15));
+
+$colorTextFadedPrimaryVar: --color-text-faded-primary;
+$colorTextFadedPrimary: var(#{$colorTextFadedPrimaryVar});
+@include SetRootValue($colorTextFadedPrimaryVar, BaseColorBlackFaded(0.6));
