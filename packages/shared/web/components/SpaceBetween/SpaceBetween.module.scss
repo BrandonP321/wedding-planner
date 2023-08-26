@@ -2,12 +2,13 @@
 
 .spaceBetween {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
 
   @include generateSizeClassNamesForProperty(gap);
 
   &.vertical {
     flex-direction: column;
+    align-items: flex-start;
   }
 }

@@ -3,10 +3,12 @@ import styles from "./Button.module.scss";
 import classNames from "classnames";
 import { ClassesProp, HTMLButtonProps } from "../../utils";
 import { Link, LinkProps } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type ButtonVariant = "primary" | "secondary";
 
-type SharedButtonProps = ButtonContentProps & {
+export type SharedButtonProps = ButtonContentProps & {
   variant?: ButtonVariant;
   classes?: ClassesProp<"root">;
 };
@@ -29,29 +31,31 @@ export const Button = ({
   );
 };
 
-export type ButtonLinkProps = Omit<
-  LinkProps & React.RefAttributes<HTMLAnchorElement>,
-  "className"
-> &
-  SharedButtonProps;
+export type ButtonContentProps = React.PropsWithChildren<{
+  rightIcon?: IconProp;
+  leftIcon?: IconProp;
+}>;
 
-export const ButtonLink = ({
-  variant = "secondary",
-  classes,
-  ...props
-}: ButtonLinkProps) => {
+export const ButtonContent = ({
+  children,
+  rightIcon,
+  leftIcon,
+}: ButtonContentProps) => {
   return (
-    <Link
-      {...props}
-      className={classNames(styles.button, classes?.root, styles[variant])}
-    >
-      <ButtonContent {...props} />
-    </Link>
+    <>
+      {leftIcon && (
+        <>
+          <FontAwesomeIcon icon={leftIcon} className={styles.leftIcon} />
+          &nbsp;
+        </>
+      )}
+      {children}
+      {rightIcon && (
+        <>
+          &nbsp;
+          <FontAwesomeIcon icon={rightIcon} className={styles.rightIcon} />
+        </>
+      )}
+    </>
   );
-};
-
-type ButtonContentProps = React.PropsWithChildren<{}>;
-
-const ButtonContent = ({ children }: ButtonContentProps) => {
-  return <>{children}</>;
 };
