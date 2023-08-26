@@ -5,6 +5,7 @@ import { ClassesProp, HTMLButtonProps } from "../../utils";
 import { Link, LinkProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useFormikContext } from "formik";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -18,16 +19,39 @@ export type ButtonProps = Omit<HTMLButtonProps, "className"> &
 
 export const Button = ({
   variant = "secondary",
+  type = "button",
   classes,
   ...props
 }: ButtonProps) => {
   return (
     <button
       {...props}
+      type={type}
       className={classNames(styles.button, classes?.root, styles[variant])}
     >
       <ButtonContent {...props} />
     </button>
+  );
+};
+
+export const SubmitButton = ({
+  type,
+  variant = "primary",
+  children = "Submit",
+  disabled,
+  ...props
+}: ButtonProps) => {
+  const { dirty } = useFormikContext();
+
+  return (
+    <Button
+      {...props}
+      type="submit"
+      variant={variant}
+      disabled={disabled ?? !dirty}
+    >
+      {children}
+    </Button>
   );
 };
 

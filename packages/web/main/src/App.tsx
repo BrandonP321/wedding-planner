@@ -10,6 +10,7 @@ import {
   RadioField,
   RadioFormField,
   SpaceBetween,
+  SubmitButton,
 } from "@wedding-planner/shared/web";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
@@ -60,6 +61,7 @@ function App() {
                 <CheckboxField value="checkTwo" label="Check Two" />
                 <CheckboxField value="checkThree" label="Check Three" />
               </CheckboxFormField>
+              <SubmitButton />
             </SpaceBetween>
           </Form>
         </Formik>

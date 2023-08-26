@@ -17,6 +17,11 @@
     border: 2px solid black;
     color: $colorTextPrimary;
   }
+
+  &.disabled,
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .leftIcon {
