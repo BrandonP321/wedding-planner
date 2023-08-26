@@ -1,0 +1,57 @@
+@import "./webSharedStyles.scss";
+
+* {
+  @include nonTouchDevice() {
+    @include ScrollbarWidth();
+    @include ScrollbarThumb();
+    @include ScrollbarTrack();
+  }
+}
+
+html * {
+  font-size: $fontSizeM;
+  line-height: $lineHeightM;
+  font-family: $fontFamilyPrimary;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: bold;
+}
+
+h1,
+h2 {
+  color: $colorTextPrimary;
+}
+
+h3,
+h4 {
+  color: $colorTextSecondary;
+}
+
+h1 {
+  @include FontSizeXXL();
+}
+
+h2 {
+  @include FontSizeXL();
+}
+
+h3 {
+  @include FontSizeL();
+}
+
+small {
+  @include FontSizeXS();
+  color: $colorTextSecondary;
+}
+
+a {
+  color: $colorSecondary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,66 @@
+@import "mixins";
+// =============================================================================
+// Base colors
+// =============================================================================
+$baseColorSoftBlue: #89abe3;
+$baseColorMediumLavender: #d8bfd8;
+$baseColorRichLavender: #9966cc;
+$baseColorRoseGold: #b76e79;
+$baseColorSoftPink: #ffc0cb;
+$baseColorGold: #ffd700;
+$baseColorSilver: #c0c0c0;
+$baseColorDarkGrey: #333333;
+$baseColorBlack: #000000;
+$baseColorWhite: #ffffff;
+$baseColorGrey: #f4f4f4;
+$baseColorSoftRed: #ff6b6b;
+$baseColorSoftGreen: #4caf50;
+
+// =============================================================================
+// Site Colors
+// =============================================================================
+// Background
+$colorBackgroundVar: --color-background;
+$colorBackground: var(#{$colorBackgroundVar});
+@include SetRootValue($colorBackgroundVar, $baseColorWhite);
+
+// Primary
+$colorPrimaryVar: --color-primary;
+$colorPrimary: var(#{$colorPrimaryVar});
+@include SetRootValue($colorPrimaryVar, $baseColorSoftBlue);
+
+// Secondary
+$colorSecondaryVar: --color-secondary;
+$colorSecondary: var(#{$colorSecondaryVar});
+@include SetRootValue($colorSecondaryVar, $baseColorRoseGold);
+
+// Accent
+$colorAccentSilverVar: --color-accent-silver;
+$colorAccentSilver: var(#{$colorAccentSilverVar});
+@include SetRootValue($colorAccentSilverVar, $baseColorSilver);
+
+$colorAccentGoldVar: --color-accent-gold;
+$colorAccentGold: var(#{$colorAccentGoldVar});
+@include SetRootValue($colorAccentGoldVar, $baseColorGold);
+
+// Text
+$colorTextPrimaryVar: --color-text-primary;
+$colorTextPrimary: var(#{$colorTextPrimaryVar});
+@include SetRootValue($colorTextPrimaryVar, $baseColorBlack);
+
+$colorTextSecondaryVar: --color-text-secondary;
+$colorTextSecondary: var(#{$colorTextSecondaryVar});
+@include SetRootValue($colorTextSecondaryVar, $baseColorDarkGrey);
+
+// Status indicators
+$colorSuccessVar: --color-success;
+$colorSuccess: var(#{$colorSuccessVar});
+@include SetRootValue($colorSuccessVar, $baseColorSoftGreen);
+
+$colorErrorVar: --color-error;
+$colorError: var(#{$colorErrorVar});
+@include SetRootValue($colorErrorVar, $baseColorSoftRed);
+
+$colorInfoVar: --color-info;
+$colorInfo: var(#{$colorInfoVar});
+@include SetRootValue($colorInfoVar, $baseColorSoftBlue);

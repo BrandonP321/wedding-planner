@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
+    "paths": {}
   },
   "include": [
     "src"

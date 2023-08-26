@@ -1,0 +1,27 @@
+// ======================================================================================================
+// SIZE
+// ======================================================================================================
+// XXL
+$sizeXXLargeVar: --size-xxl;
+$sizeXXLarge: var(#{$sizeXXLargeVar});
+@include SetRootValue($sizeXXLargeVar, 3rem);
+// XL
+$sizeXLargeVar: --size-xl;
+$sizeXLarge: var(#{$sizeXLargeVar});
+@include SetRootValue($sizeXLargeVar, 2.5rem);
+// L
+$sizeLargeVar: --size-l;
+$sizeLarge: var(#{$sizeLargeVar});
+@include SetRootValue($sizeLargeVar, 2rem);
+// M
+$sizeMediumVar: --size-m;
+$sizeMedium: var(#{$sizeMediumVar});
+@include SetRootValue($sizeMediumVar, 1.5rem);
+// S
+$sizeSmallVar: --size-s;
+$sizeSmall: var(#{$sizeSmallVar});
+@include SetRootValue($sizeSmallVar, 1rem);
+// XS
+$sizeXSmallVar: --size-xs;
+$sizeXSmall: var(#{$sizeXSmallVar});
+@include SetRootValue($sizeXSmallVar, 0.5rem);

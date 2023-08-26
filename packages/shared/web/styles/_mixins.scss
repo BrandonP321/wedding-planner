@@ -1,0 +1,36 @@
+@mixin ScrollbarWidth($width: 10px) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+}
+
+@mixin ScrollbarThumb(
+  $bgColor: rgba($baseColorDarkGrey, 0.7),
+  $bgColorHover: $baseColorDarkGrey,
+  $trackColor: $colorBackground,
+  $borderRadius: $sizeSmall
+) {
+  &::-webkit-scrollbar-thumb {
+    background-color: $bgColor;
+    transition: all 0.2s;
+    border-radius: $borderRadius;
+    border: 2px solid $trackColor;
+
+    &:hover {
+      background-color: $bgColorHover;
+    }
+  }
+}
+
+@mixin ScrollbarTrack($bgColor: $colorBackground) {
+  &::-webkit-scrollbar-track {
+    background-color: $bgColor;
+    @content;
+  }
+}
+
+@mixin SetRootValue($name, $value) {
+  :root {
+    #{$name}: $value;
+  }
+}
