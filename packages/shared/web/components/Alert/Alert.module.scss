@@ -1,0 +1,60 @@
+@import "../../styles/webSharedStyles.scss";
+
+$alertPadding: $sizeS;
+
+.alert {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: $alertPadding;
+  border-radius: $borderRadiusM;
+  border: 2px solid $colorInfo;
+  width: 100%;
+
+  &.info {
+  }
+
+  &.error {
+    border-color: $colorDanger;
+  }
+
+  &.success {
+    border-color: $colorSuccess;
+  }
+}
+
+.title {
+  margin-bottom: $sizeXS;
+
+  h2,
+  h3,
+  h4,
+  h5 {
+    @include FontSizeS();
+  }
+}
+
+.content {
+}
+
+.alertIcon {
+  font-size: $fontSizeM;
+  margin-right: $alertPadding;
+}
+
+.exitBtn {
+  display: flex;
+  position: absolute;
+  top: $sizeXS;
+  right: $sizeXS;
+
+  .exitIcon {
+    font-size: $fontSizeXS;
+    color: $colorTextFadedPrimary;
+    transition: $transition;
+
+    &:hover {
+      color: $colorTextPrimary;
+    }
+  }
+}

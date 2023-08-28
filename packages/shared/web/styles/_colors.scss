@@ -64,14 +64,15 @@ $colorSuccessVar: --color-success;
 $colorSuccess: var(#{$colorSuccessVar});
 @include SetRootValue($colorSuccessVar, $baseColorSoftGreen);
 
-$colorErrorVar: --color-error;
-$colorError: var(#{$colorErrorVar});
-@include SetRootValue($colorErrorVar, $baseColorSoftRed);
+$colorDangerVar: --color-error;
+$colorDanger: var(#{$colorDangerVar});
+@include SetRootValue($colorDangerVar, $baseColorSoftRed);
 
 $colorInfoVar: --color-info;
 $colorInfo: var(#{$colorInfoVar});
 @include SetRootValue($colorInfoVar, $baseColorSoftBlue);
 
+// Overlay
 $darkOverlayVar: --dark-overlay;
 $darkOverlay: var(#{$darkOverlayVar});
 @include SetRootValue($darkOverlayVar, rgb(0 0 0 / 0.5));

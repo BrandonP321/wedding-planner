@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   Button,
   ButtonLink,
   CheckboxField,
@@ -19,7 +20,7 @@ import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
 
 function App() {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Router>
@@ -38,6 +39,10 @@ function App() {
         <p>
           This is a <ExternalLink to={"/"}>Link</ExternalLink>
         </p>
+
+        <Alert title={<h2>Some alert title</h2>} type="error">
+          This is my alert
+        </Alert>
 
         <Modal show={showModal} toggleShow={() => setShowModal(!showModal)}>
           <h1>Modal</h1>
