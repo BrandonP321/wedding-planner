@@ -1,0 +1,10 @@
+@import "../../styles/uiBase.scss";
+
+.footer {
+  padding: $sizeL $sizeS $sizeS $sizeS;
+  background-color: $baseColorDarkGrey;
+
+  h2 {
+    color: white;
+  }
+}

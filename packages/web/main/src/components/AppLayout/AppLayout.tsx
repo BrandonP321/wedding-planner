@@ -1,27 +1,27 @@
 import React from "react";
 import styles from "./AppLayout.module.scss";
 import { UnifiedAppLayout } from "@wedding-planner/shared/web/components";
-import { Actions, useAppDispatch, useAppLayout } from "../../store";
+import { Outlet } from "react-router-dom";
+import { MainNav } from "../MainNav/MainNav";
+import { MobileNav } from "../MobileNav/MobileNav";
+import { MainFooter } from "../MainFooter/MainFooter";
 
 export type AppLayoutProps = React.PropsWithChildren<{}>;
 
 export const AppLayout = (props: AppLayoutProps) => {
   return (
-    <UnifiedAppLayout footer={<div />} header={<div />} mobileNav={<div />}>
-      <Inner />
+    <UnifiedAppLayout
+      classes={{
+        overlay: styles.overlay,
+        overlayHidden: styles.hide,
+        mobileNav: styles.mobileNav,
+        mobileNavHidden: styles.hide,
+      }}
+      footer={<MainFooter />}
+      header={<MainNav />}
+      mobileNav={<MobileNav />}
+    >
+      <Outlet />
     </UnifiedAppLayout>
-  );
-};
-
-const Inner = () => {
-  const {} = useAppLayout();
-  const dispatch = useAppDispatch();
-
-  return (
-    <div>
-      <button onClick={() => dispatch(Actions.AppLayout.toggleMobileNav())}>
-        Toggle
-      </button>
-    </div>
   );
 };

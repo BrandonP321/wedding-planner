@@ -1,29 +1,65 @@
-@import "../../styles//webSharedStyles.scss";
+@import "../../styles/webSharedStyles.scss";
+
+.appLayout,
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 .appLayout {
+  background-color: $colorBackground;
+}
+
+.content {
+  justify-content: space-between;
+  overflow-y: auto;
 }
 
 .main {
+  padding: $sizeS $sizeM;
+
+  @include mobileVW() {
+    padding: $sizeS;
+  }
 }
 
-.mobileNav {
+.mobileNav,
+.overlay {
   display: none;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  max-width: $maxWidthL;
-  background-color: red;
-  transition: $transition;
+  transition: $transitionSlow;
+  z-index: $zIndexHeader;
+
+  @include mediumVW() {
+    display: block;
+  }
 
   @include mobileVW() {
     max-width: none;
-    display: block;
+  }
+}
+
+.mobileNav {
+  max-width: $maxWidthM;
+  background-color: $colorBackground;
+
+  @include mobileVW() {
+    max-width: none;
   }
 
   &.hide {
     transform: translateX(100%);
+  }
+}
+
+.overlay {
+  &.hide {
+    pointer-events: none;
   }
 }
 

@@ -78,6 +78,10 @@ $zIndexModalVar: --z-index-modal;
 $zIndexModal: var(#{$zIndexModalVar});
 @include SetRootValue($zIndexModalVar, 1000);
 
+$zIndexHeaderVar: --z-index-header;
+$zIndexHeader: var(#{$zIndexHeaderVar});
+@include SetRootValue($zIndexHeaderVar, 950);
+
 // ======================================================================================================
 // Widths
 // ======================================================================================================
@@ -107,6 +111,10 @@ $pageContentWidth: var(#{$pageContentWidthVar});
 $transitionVar: --transition;
 $transition: var(#{$transitionVar});
 @include SetRootValue($transitionVar, all 0.15s);
+
+$transitionSlowVar: --transition-slow;
+$transitionSlow: var(#{$transitionSlowVar});
+@include SetRootValue($transitionSlowVar, all 0.3s);
 
 $transitionLinearVar: --transition-linear;
 $transitionLinear: var(#{$transitionLinearVar});

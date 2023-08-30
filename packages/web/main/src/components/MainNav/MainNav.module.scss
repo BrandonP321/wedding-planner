@@ -1,0 +1,19 @@
+@import "../../styles/uiBase.scss";
+
+.header {
+  justify-content: space-between;
+  padding: $sizeS $sizeM;
+  background-color: $baseColorDarkGrey;
+
+  // TEMP
+  button {
+    color: white;
+  }
+}
+
+.temp {
+  font-size: $fontSizeL;
+  font-weight: bold;
+  line-height: initial;
+  color: white;
+}

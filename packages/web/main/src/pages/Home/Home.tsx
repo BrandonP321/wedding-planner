@@ -22,14 +22,28 @@ import { useResponsive } from "../../store";
 type Props = {};
 
 export function Home(props: Props) {
-  const { mobile } = useResponsive();
-
-  console.log({ mobile });
-
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
+      <h1>Something</h1>
+      <h2>Something</h2>
+      <h3>Something</h3>
+      <h4>Something</h4>
+      <p>Something</p>
+      <small>Something</small>
+      <h1>Something</h1>
+      <h2>Something</h2>
+      <h3>Something</h3>
+      <h4>Something</h4>
+      <p>Something</p>
+      <small>Something</small>
+      <h1>Something</h1>
+      <h2>Something</h2>
+      <h3>Something</h3>
+      <h4>Something</h4>
+      <p>Something</p>
+      <small>Something</small>
       <h1>Something</h1>
       <h2>Something</h2>
       <h3>Something</h3>
