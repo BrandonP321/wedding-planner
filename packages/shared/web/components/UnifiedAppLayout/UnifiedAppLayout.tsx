@@ -3,29 +3,36 @@ import styles from "./UnifiedAppLayout.module.scss";
 import classNames from "classnames";
 import { ClassesProp } from "../../utils";
 import { Outlet } from "react-router-dom";
+import { useAppLayout } from "../../store";
 
-export type UnifiedAppLayoutProps = {
-  Header: React.ComponentType;
-  Footer: React.ComponentType;
-  MobileNav: JSX.Element;
+export type UnifiedAppLayoutProps = React.PropsWithChildren<{
+  header: JSX.Element;
+  footer: JSX.Element;
+  mobileNav: JSX.Element;
   classes?: ClassesProp<"root" | "mobileNav">;
-  toggleMobileNav: () => void;
-};
+}>;
 
 export const UnifiedAppLayout = ({
-  Footer,
-  Header,
+  footer,
+  header,
   classes,
-  MobileNav,
-  toggleMobileNav,
+  mobileNav,
+  children,
 }: UnifiedAppLayoutProps) => {
+  const { showMobileNav } = useAppLayout();
+
   return (
     <div className={classNames(styles.appLayout, classes?.root)}>
-      <Header />
-      <main className={styles.main}>
-        <Outlet />
-      </main>
-      <Footer />
+      {header}
+      <div
+        className={classNames(styles.mobileNav, !showMobileNav && styles.hide)}
+      >
+        {mobileNav}
+      </div>
+
+      <main className={styles.main}>{children}</main>
+
+      {footer}
     </div>
   );
 };

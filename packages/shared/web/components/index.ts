@@ -4,3 +4,4 @@ export * from "./Link/Link";
 export * from "./Form";
 export * from "./Modal/Modal";
 export * from "./Alert/Alert";
+export * from "./UnifiedAppLayout/UnifiedAppLayout";

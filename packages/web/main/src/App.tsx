@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { store, storeHelpers } from "./store";
 import { Provider } from "react-redux";
 import { Home } from "./pages";
+import { AppLayout } from "./components";
 
 function App() {
   useEffect(() => {
@@ -15,7 +16,9 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
         </Routes>
       </Router>
     </Provider>

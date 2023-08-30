@@ -5,3 +5,27 @@
 
 .main {
 }
+
+.mobileNav {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: $maxWidthL;
+  background-color: red;
+  transition: $transition;
+
+  @include mobileVW() {
+    max-width: none;
+    display: block;
+  }
+
+  &.hide {
+    transform: translateX(100%);
+  }
+}
+
+.mobileNavExitBtn {
+}
