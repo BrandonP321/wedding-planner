@@ -1,0 +1,31 @@
+@import "../../styles/webSharedStyles.scss";
+
+.page {
+  h1 {
+    margin: $sizeM 0 $sizeXS 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h2 {
+    margin: $sizeS 0 $sizeXS 0;
+  }
+
+  h3,
+  h4 {
+    margin-top: $sizeS;
+  }
+
+  p {
+    margin: $sizeXS 0;
+  }
+
+  ol,
+  ul {
+    list-style: initial;
+    padding: 0;
+    padding-inline-start: $sizeL;
+  }
+}
