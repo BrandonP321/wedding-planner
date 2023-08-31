@@ -18,6 +18,7 @@ import {
 import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
 import { useResponsive } from "../../store";
+import { AppHelmet } from "../../components";
 
 type Props = {};
 
@@ -26,6 +27,7 @@ export function Home(props: Props) {
 
   return (
     <>
+      <AppHelmet />
       <h1>Something</h1>
       <h2>Something</h2>
       <h3>Something</h3>

@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./PrivacyPolicy.module.scss";
 import { BasicPage } from "@wedding-planner/shared/web/components";
+import { AppHelmet } from "../../components";
 
 export type PrivacyPolicyProps = {};
 
 export const PrivacyPolicy = (props: PrivacyPolicyProps) => {
   return (
     <BasicPage>
+      <AppHelmet title="Privacy policy" />
       <h1>Privacy Policy</h1>
       <p>Last updated: July 14, 2023</p>
       <p>

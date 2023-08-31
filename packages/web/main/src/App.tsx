@@ -4,6 +4,7 @@ import { store, storeHelpers } from "./store";
 import { Provider } from "react-redux";
 import { Home, PrivacyPolicy } from "./pages";
 import { AppLayout } from "./components";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   useEffect(() => {
@@ -13,19 +14,21 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <Router>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Home />} />
+    <HelmetProvider>
+      <Provider store={store}>
+        <Router>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Home />} />
 
-            <Route path="/legal">
-              <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+              <Route path="/legal">
+                <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </Router>
-    </Provider>
+          </Routes>
+        </Router>
+      </Provider>
+    </HelmetProvider>
   );
 }
 
