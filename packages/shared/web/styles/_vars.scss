@@ -82,6 +82,10 @@ $zIndexHeaderVar: --z-index-header;
 $zIndexHeader: var(#{$zIndexHeaderVar});
 @include SetRootValue($zIndexHeaderVar, 950);
 
+$zIndexToastVar: --z-index-toast;
+$zIndexToast: var(#{$zIndexToastVar});
+@include SetRootValue($zIndexToastVar, 900);
+
 // ======================================================================================================
 // Widths
 // ======================================================================================================

@@ -1,0 +1,52 @@
+@import "../../styles/webSharedStyles.scss";
+
+$toastHorizontalSpace: $sizeM;
+$toastVerticalSpace: $sizeM;
+
+.toast {
+  position: absolute;
+  top: $toastVerticalSpace;
+  right: $toastHorizontalSpace;
+  padding: $sizeS;
+  box-shadow: $darkBoxShadow;
+  border: 2px solid $colorInfo;
+  border-radius: $borderRadiusM;
+  background-color: $colorBackground;
+  width: 100%;
+  max-width: $maxWidthS;
+  z-index: $zIndexToast;
+
+  @include tinyVW() {
+    width: auto;
+    max-width: none;
+    left: $toastHorizontalSpace;
+  }
+
+  &.danger {
+    border-color: $colorDanger;
+  }
+
+  &.success {
+    border-color: $colorDanger;
+  }
+
+  &.bottom {
+    top: auto;
+    bottom: $toastVerticalSpace;
+  }
+
+  &.left {
+    right: auto;
+    left: $toastVerticalSpace;
+
+    @include tinyVW() {
+      right: $toastHorizontalSpace;
+    }
+  }
+
+  &.hide {
+  }
+}
+
+.text {
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -17,13 +17,28 @@ import {
 } from "@wedding-planner/shared/web";
 import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
-import { useResponsive } from "../../store";
+import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
+
+const tempFetcher = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // resolve({ res: "Some response" });
+      reject({ msg: "This is some error msg" });
+    }, 1000);
+  });
+};
 
 type Props = {};
 
 export function Home(props: Props) {
   const [showModal, setShowModal] = useState(false);
+  const { errMsg, isLoading, response } = useFetch(tempFetcher, {
+    fetchOnMount: true,
+    overrideDefaultErrorHandling: true,
+  });
+
+  console.log({ errMsg, isLoading, response });
 
   return (
     <>

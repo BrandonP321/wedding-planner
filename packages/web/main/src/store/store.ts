@@ -3,6 +3,7 @@ import {
   ResponsiveSliceHelperInternal,
   appLayoutSlice,
   createStoreHelper,
+  notificationsSlice,
   responsiveSlice,
 } from "@wedding-planner/shared/web/store";
 import { useDispatch } from "react-redux";
@@ -11,6 +12,7 @@ export const store = configureStore({
   reducer: {
     ...responsiveSlice.reducer,
     ...appLayoutSlice.reducer,
+    ...notificationsSlice.reducer,
   },
 });
 

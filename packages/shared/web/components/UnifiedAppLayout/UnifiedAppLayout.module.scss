@@ -17,6 +17,7 @@
 }
 
 .main {
+  position: relative;
   padding: $sizeS $sizeM;
 
   @include mobileVW() {
