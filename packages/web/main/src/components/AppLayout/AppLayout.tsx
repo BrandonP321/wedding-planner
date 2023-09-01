@@ -13,8 +13,6 @@ import { useNotifications } from "../../store";
 export type AppLayoutProps = React.PropsWithChildren<{}>;
 
 export const AppLayout = (props: AppLayoutProps) => {
-  const { notifications } = useNotifications();
-
   return (
     <UnifiedAppLayout
       classes={{
@@ -27,10 +25,20 @@ export const AppLayout = (props: AppLayoutProps) => {
       header={<MainNav />}
       mobileNav={<MobileNav />}
     >
+      <AppNotifications />
+      <Outlet />
+    </UnifiedAppLayout>
+  );
+};
+
+const AppNotifications = () => {
+  const { notifications } = useNotifications();
+
+  return (
+    <>
       {notifications.map((n, i) => (
         <UnifiedToast key={i} msg={n.msg} variant={n.type} />
       ))}
-      <Outlet />
-    </UnifiedAppLayout>
+    </>
   );
 };

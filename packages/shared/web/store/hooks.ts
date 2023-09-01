@@ -32,8 +32,8 @@ type UseFetchOptions = {
   overrideDefaultErrorHandling?: boolean;
 };
 
-export const useFetch = <T extends any, P extends []>(
-  apiCall: (...params: P) => Promise<T>,
+export const useFetch = <T extends (...params: any[]) => any>(
+  apiCall: T,
   { fetchOnMount, overrideDefaultErrorHandling }: UseFetchOptions
 ) => {
   const [response, setResponse] = useState<T | null>(null);
@@ -42,7 +42,7 @@ export const useFetch = <T extends any, P extends []>(
 
   const dispatch = useDispatch();
 
-  const makeAPICall = async (...params: P) => {
+  const makeAPICall = async (...params: Parameters<T>) => {
     setIsLoading(true);
     setErrMsg(null);
 

@@ -20,11 +20,11 @@ import { Form, Formik } from "formik";
 import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
 
-const tempFetcher = () => {
+const tempFetcher = (a: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // resolve({ res: "Some response" });
-      reject({ msg: "This is some error msg" });
+      resolve({ res: `your value is ${a}` });
+      // reject({ msg: "This is some error msg" });
     }, 1000);
   });
 };
@@ -33,8 +33,8 @@ type Props = {};
 
 export function Home(props: Props) {
   const [showModal, setShowModal] = useState(false);
-  const { errMsg, isLoading, response } = useFetch(tempFetcher, {
-    fetchOnMount: true,
+  const { errMsg, isLoading, response, makeAPICall } = useFetch(tempFetcher, {
+    // fetchOnMount: true,
     overrideDefaultErrorHandling: true,
   });
 
@@ -42,6 +42,7 @@ export function Home(props: Props) {
 
   return (
     <>
+      <Button onClick={() => makeAPICall(5)}>Make API Call</Button>
       <AppHelmet />
       <h1>Something</h1>
       <h2>Something</h2>
