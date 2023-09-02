@@ -36,7 +36,7 @@ export const useFetch = <T extends (...params: any[]) => any>(
   apiCall: T,
   { fetchOnMount, overrideDefaultErrorHandling }: UseFetchOptions
 ) => {
-  const [response, setResponse] = useState<T | null>(null);
+  const [response, setResponse] = useState<ReturnType<T> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errMsg, setErrMsg] = useState<string | null>(null);
 

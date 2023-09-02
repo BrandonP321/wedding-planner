@@ -5,9 +5,13 @@ import {
   ButtonLink,
   CheckboxField,
   CheckboxFormField,
+  CheckboxValues,
   ExternalLink,
   FormField,
+  FormikForm,
+  FormikSubmit,
   InputField,
+  InputValues,
   Modal,
   RadioField,
   RadioFormField,
@@ -19,31 +23,84 @@ import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
 import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
+import * as Yup from "yup";
 
-const tempFetcher = (a: number) => {
+const tempAPICall = (a: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({ res: `your value is ${a}` });
-      // reject({ msg: "This is some error msg" });
+      // resolve({ res: `your value is ${a}` });
+      reject({ msg: "This is some error msg" });
     }, 1000);
   });
+};
+
+enum TempInputField {
+  Email = "email",
+}
+
+enum TempCheckboxField {
+  One = "one",
+}
+
+enum TempCheckboxValue {
+  One = "one-v",
+  Two = "two-v",
+}
+
+type TempFormValues = InputValues<typeof TempInputField> &
+  CheckboxValues<typeof TempCheckboxField, TempCheckboxValue>;
+
+const tempSchema = Yup.object().shape({
+  email: Yup.string()
+    .max(5, "Email must be less than 5 characers long")
+    .required("Email required"),
+});
+
+const TempForm = () => {
+  const handleSubmit: FormikSubmit<TempFormValues> = async (v, f) => {
+    console.log(v.one);
+  };
+
+  return (
+    <FormikForm
+      validationSchema={tempSchema}
+      initialValues={{
+        [TempInputField.Email]: "",
+        [TempCheckboxField.One]: [] as TempCheckboxValue[],
+      }}
+      onSubmit={handleSubmit}
+    >
+      <Form>
+        <FormField name={TempInputField.Email} label="email">
+          <InputField />
+        </FormField>
+        <CheckboxFormField name={TempCheckboxField.One} label="Some checkbox">
+          <CheckboxField label="Check One" value={TempCheckboxValue.One} />
+          <CheckboxField label="Check Two" value={TempCheckboxValue.Two} />
+        </CheckboxFormField>
+
+        <SubmitButton />
+      </Form>
+    </FormikForm>
+  );
 };
 
 type Props = {};
 
 export function Home(props: Props) {
   const [showModal, setShowModal] = useState(false);
-  const { errMsg, isLoading, response, makeAPICall } = useFetch(tempFetcher, {
+  const { errMsg, isLoading, response, makeAPICall } = useFetch(tempAPICall, {
     // fetchOnMount: true,
     overrideDefaultErrorHandling: true,
   });
 
-  console.log({ errMsg, isLoading, response });
+  const handleSubmit = () => {};
 
   return (
     <>
-      <Button onClick={() => makeAPICall(5)}>Make API Call</Button>
       <AppHelmet />
+      <Button onClick={() => makeAPICall(5)}>Make API Call</Button>
+      <TempForm />
       <h1>Something</h1>
       <h2>Something</h2>
       <h3>Something</h3>
