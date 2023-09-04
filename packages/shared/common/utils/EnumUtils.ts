@@ -1,11 +1,12 @@
 import _ from "lodash";
+import { InvertedEnum } from "../utils";
 
 export class EnumUtils {
   /** Inverts an enum and sets its values to empty strings */
   public static invertWithNewValues = <T extends { [key: string]: any }, V>(
     obj: T,
     value: V
-  ): { [key in T[keyof T]]: string } => {
+  ): InvertedEnum<T, V> => {
     const keysArr = _.keys(_.invert(obj)).map((key) => ({ key }));
 
     const keysObj = _.keyBy(keysArr, (o) => o.key) as any;

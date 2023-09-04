@@ -5,19 +5,18 @@ import {
   ButtonLink,
   CheckboxField,
   CheckboxFormField,
-  CheckboxValues,
   ExternalLink,
   FormField,
   FormikForm,
   FormikSubmit,
   InputField,
-  InputValues,
   Modal,
   RadioField,
   RadioFormField,
   SpaceBetween,
   SubmitButton,
   ToggleField,
+  getEmptyInitialValues,
 } from "@wedding-planner/shared/web";
 import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
@@ -39,16 +38,37 @@ enum TempInputField {
 }
 
 enum TempCheckboxField {
-  One = "one",
+  CheckOne = "checkFieldOne",
+  CheckTwo = "checkFieldTwo",
 }
 
-enum TempCheckboxValue {
+enum TempCheckboxOneValue {
   One = "one-v",
   Two = "two-v",
 }
 
-type TempFormValues = InputValues<typeof TempInputField> &
-  CheckboxValues<typeof TempCheckboxField, TempCheckboxValue>;
+enum TempCheckboxTwoValue {
+  One = "one-v",
+  Two = "two-v",
+}
+
+enum TempToggleField {
+  ToggleOne = "toggleOne",
+}
+
+enum TempRadioField {
+  RadioOne = "radioOne",
+  RadioTwo = "radioTwo",
+}
+
+enum TempRadioOneValue {
+  one = "radioOne-v",
+  two = "radioTwo-v",
+}
+
+enum TempRadioTwoValue {
+  one = "radioTwo-v",
+}
 
 const tempSchema = Yup.object().shape({
   email: Yup.string()
@@ -56,17 +76,31 @@ const tempSchema = Yup.object().shape({
     .required("Email required"),
 });
 
+const initial = getEmptyInitialValues({
+  inputFields: TempInputField,
+  toggleFields: TempToggleField,
+  checkboxFields: {
+    [TempCheckboxField.CheckOne]: TempCheckboxOneValue,
+    [TempCheckboxField.CheckTwo]: TempCheckboxTwoValue,
+  },
+  radioFields: {
+    [TempRadioField.RadioOne]: TempRadioOneValue,
+    [TempRadioField.RadioTwo]: TempRadioTwoValue,
+  },
+});
+
+type TempFormValues = typeof initial;
+
 const TempForm = () => {
-  const handleSubmit: FormikSubmit<TempFormValues> = async (v, f) => {
-    console.log(v.one);
-  };
+  const handleSubmit: FormikSubmit<TempFormValues> = async (v, f) => {};
 
   return (
     <FormikForm
       validationSchema={tempSchema}
       initialValues={{
-        [TempInputField.Email]: "",
-        [TempCheckboxField.One]: [] as TempCheckboxValue[],
+        ...initial,
+        radioOne: TempRadioOneValue.one,
+        radioTwo: TempRadioTwoValue.one,
       }}
       onSubmit={handleSubmit}
     >
@@ -74,10 +108,18 @@ const TempForm = () => {
         <FormField name={TempInputField.Email} label="email">
           <InputField />
         </FormField>
-        <CheckboxFormField name={TempCheckboxField.One} label="Some checkbox">
-          <CheckboxField label="Check One" value={TempCheckboxValue.One} />
-          <CheckboxField label="Check Two" value={TempCheckboxValue.Two} />
+        <CheckboxFormField
+          name={TempCheckboxField.CheckOne}
+          label="Some checkbox"
+        >
+          <CheckboxField label="Check One" value={TempCheckboxOneValue.One} />
+          <CheckboxField label="Check Two" value={TempCheckboxOneValue.Two} />
         </CheckboxFormField>
+
+        <RadioFormField name={TempRadioField.RadioOne}>
+          <RadioField label="Radio One" value={TempRadioOneValue.one} />
+          <RadioField label="Radio Two" value={TempRadioOneValue.two} />
+        </RadioFormField>
 
         <SubmitButton />
       </Form>

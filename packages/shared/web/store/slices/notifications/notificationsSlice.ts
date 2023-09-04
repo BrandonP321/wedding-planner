@@ -29,7 +29,6 @@ const slice = createSlice({
   initialState,
   reducers: {
     pushErr: (state, { payload }: PayloadAction<{ msg: string }>) => {
-      console.log("pushErr");
       pushNotification(state, payload.msg, "danger");
     },
     pushInfo: (state, { payload }: PayloadAction<{ msg: string }>) => {
