@@ -23,6 +23,7 @@ import { Form, Formik } from "formik";
 import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
 import * as Yup from "yup";
+import { FormSpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 
 const tempAPICall = (a: number) => {
   return new Promise((resolve, reject) => {
@@ -105,23 +106,25 @@ const TempForm = () => {
       onSubmit={handleSubmit}
     >
       <Form>
-        <FormField name={TempInputField.Email} label="email">
-          <InputField />
-        </FormField>
-        <CheckboxFormField
-          name={TempCheckboxField.CheckOne}
-          label="Some checkbox"
-        >
-          <CheckboxField label="Check One" value={TempCheckboxOneValue.One} />
-          <CheckboxField label="Check Two" value={TempCheckboxOneValue.Two} />
-        </CheckboxFormField>
+        <FormSpaceBetween>
+          <FormField name={TempInputField.Email} label="email">
+            <InputField />
+          </FormField>
+          <CheckboxFormField
+            name={TempCheckboxField.CheckOne}
+            label="Some checkbox"
+          >
+            <CheckboxField label="Check One" value={TempCheckboxOneValue.One} />
+            <CheckboxField label="Check Two" value={TempCheckboxOneValue.Two} />
+          </CheckboxFormField>
 
-        <RadioFormField name={TempRadioField.RadioOne}>
-          <RadioField label="Radio One" value={TempRadioOneValue.one} />
-          <RadioField label="Radio Two" value={TempRadioOneValue.two} />
-        </RadioFormField>
+          <RadioFormField label="Some Radio" name={TempRadioField.RadioOne}>
+            <RadioField label="Radio One" value={TempRadioOneValue.one} />
+            <RadioField label="Radio Two" value={TempRadioOneValue.two} />
+          </RadioFormField>
 
-        <SubmitButton />
+          <SubmitButton />
+        </FormSpaceBetween>
       </Form>
     </FormikForm>
   );
