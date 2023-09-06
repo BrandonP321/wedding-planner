@@ -4,13 +4,16 @@ import App from "./App";
 // import reportWebVitals from "./reportWebVitals";
 import "destyle.css";
 import "./index.scss";
+import { I18nextProvider } from "react-i18next";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <I18nextProvider>
+      <App />
+    </I18nextProvider>
   </React.StrictMode>
 );
 
