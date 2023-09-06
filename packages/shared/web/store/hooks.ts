@@ -37,7 +37,7 @@ export const useFetch = <T extends (...params: any[]) => any>(
   { fetchOnMount, overrideDefaultErrorHandling }: UseFetchOptions
 ) => {
   const [response, setResponse] = useState<ReturnType<T> | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!!fetchOnMount);
   const [errMsg, setErrMsg] = useState<string | null>(null);
 
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ export const useFetch = <T extends (...params: any[]) => any>(
       .catch((err: { msg: string }) => {
         setErrMsg(err.msg);
 
-        overrideDefaultErrorHandling &&
+        !overrideDefaultErrorHandling &&
           dispatch(NotificationActions.Notifications.pushErr(err));
       })
       .finally(() => setIsLoading(false));
