@@ -36,8 +36,8 @@ class DeploymentAccount {
 
 const accounts: DeploymentAccount[] = [
   new DeploymentAccount({ stage: Stage.DEV }),
-  new DeploymentAccount({ stage: Stage.STAGING }),
-  new DeploymentAccount({ stage: Stage.PROD }),
+  // new DeploymentAccount({ stage: Stage.STAGING }),
+  // new DeploymentAccount({ stage: Stage.PROD }),
 ];
 
 export class CDKPipelineStack extends cdk.Stack {
@@ -59,15 +59,15 @@ export class CDKPipelineStack extends cdk.Stack {
     });
 
     accounts.forEach((account) => {
-      const stage = pipeline.addStage(
-        new CDKPipelineStage(this, "", {
+      const pipelineStage = pipeline.addStage(
+        new CDKPipelineStage(this, account.stage, {
           ...props,
           env: { ...account },
           ...account,
         })
       );
 
-      stage.addPost(new ManualApprovalStep("approval"));
+      pipelineStage.addPost(new ManualApprovalStep("approval"));
     });
   }
 }
