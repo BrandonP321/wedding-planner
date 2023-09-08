@@ -20,6 +20,7 @@ export class CDKPipelineStack extends cdk.Stack {
           "yarn build",
           "yarn cdk synth",
         ],
+        primaryOutputDirectory: "packages/cdk/cdk.out",
       }),
     });
   }
