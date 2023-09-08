@@ -11,9 +11,7 @@ export class WebMainStack extends cdk.Stack {
       sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
         owner: "BrandonP321",
         repository: "wedding-planner",
-        oauthToken: cdk.SecretValue.secretsManager(
-          "weddingPlanner/github/token-readonly"
-        ),
+        oauthToken: cdk.SecretValue.secretsManager("github-token"),
       }),
       autoBranchCreation: {
         pullRequestPreview: true,

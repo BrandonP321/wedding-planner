@@ -15,6 +15,7 @@ export class CDKPipelineStack extends cdk.Stack {
       synth: new ShellStep("Synth", {
         input: CodePipelineSource.gitHub("BrandonP321/wedding-planner", "main"),
         commands: ["yarn ci", "yarn build", "yarn cdk synth"],
+        installCommands: ["yarn install"],
       }),
     });
   }
