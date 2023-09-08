@@ -2,9 +2,14 @@ import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as amplify from "@aws-cdk/aws-amplify-alpha";
 import { Construct } from "constructs";
+import { DeploymentAccountParams } from "../cdkPipeline.stack";
 
 export class WebMainStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: cdk.StackProps & DeploymentAccountParams
+  ) {
     super(scope, id, props);
 
     const amplifyApp = new amplify.App(this, "AmplifyApp", {

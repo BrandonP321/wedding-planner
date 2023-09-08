@@ -5,7 +5,11 @@ import { Cdk2Stack } from "../lib/cdk2-stack";
 import { WebMainStack } from "../lib/stacks/web/webMain.stack";
 import { Region, Stage } from "../lib/utils/types";
 import { RegionInfo } from "aws-cdk-lib/region-info";
-import { CDKPipelineStack } from "../lib/stacks/cdkPipeline.stack";
+import {
+  CDKPipelineStack,
+  defaultAccountId,
+  defaultRegion,
+} from "../lib/stacks/cdkPipeline.stack";
 
 const app = new cdk.App();
 // new Cdk2Stack(app, "Cdk2Stack", {
@@ -20,37 +24,6 @@ const app = new cdk.App();
 //   // env: { account: '123456789012', region: 'us-east-1' },
 //   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 // });
-
-const defaultRegion = Region.US_WEST_2;
-const defaultAccountId = "757269603777";
-
-type DeploymentAccountParams = {
-  stage: Stage;
-  region?: Region;
-  accountID?: string;
-};
-
-class DeploymentAccount {
-  stage: string;
-  region: string;
-  accountID: string;
-
-  constructor({
-    stage,
-    region = defaultRegion,
-    accountID = defaultAccountId,
-  }: DeploymentAccountParams) {
-    this.stage = stage;
-    this.region = region;
-    this.accountID = accountID;
-  }
-}
-
-const accounts: DeploymentAccount[] = [
-  new DeploymentAccount({ stage: Stage.PROD }),
-  new DeploymentAccount({ stage: Stage.STAGING }),
-  new DeploymentAccount({ stage: Stage.DEV }),
-];
 
 new CDKPipelineStack(app, "CDKPipelineStack", {
   env: { account: defaultAccountId, region: defaultRegion },
