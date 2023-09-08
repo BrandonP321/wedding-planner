@@ -12,11 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "paths": {},
-    "types": ["./src/@types"]
   },
   "include": [
     "src",
     "src/**/*.json",
     "public/**/*.json"
-  ]
+  ],
 }

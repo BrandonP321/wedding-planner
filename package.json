@@ -6,9 +6,11 @@
   "workspaces": [
     "packages/api/*",
     "packages/web/*",
-    "packages/shared"
+    "packages/shared",
+    "packages/cdk"
   ],
   "scripts": {
+    "cdk": "yarn workspace @wedding-planner/cdk",
     "web": "yarn workspace @wedding-planner/web-main",
     "web:dev": "yarn web start"
   },

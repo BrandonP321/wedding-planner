@@ -109,5 +109,6 @@
   "references": [
     { "path": "./packages/shared" },
     { "path": "./packages/web/main" },
+    { "path": "./packages/cdk"}
   ]
 }
