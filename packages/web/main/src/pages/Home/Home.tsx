@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Button,
@@ -25,14 +25,37 @@ import { AppHelmet } from "../../components";
 import * as Yup from "yup";
 import { FormSpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import { TempAPIFetcher } from "../../utils";
+import { useTranslation } from "react-i18next";
+import { t } from "../../i18n";
 
-const tempAPICall = (a: number) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      // resolve({ res: `your value is ${a}` });
-      reject({ msg: "This is some error msg" });
-    }, 1000);
-  });
+const lngs: { [key: string]: { nativeName: string } } = {
+  en: { nativeName: "English" },
+  de: { nativeName: "Deutsch" },
+};
+
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+
+  return (
+    <SpaceBetween vertical>
+      <SpaceBetween>
+        {Object.keys(lngs).map((lng) => (
+          <button
+            key={lng}
+            style={{
+              fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
+            }}
+            type="submit"
+            onClick={() => i18n.changeLanguage(lng)}
+          >
+            {lngs[lng].nativeName}
+          </button>
+        ))}
+      </SpaceBetween>
+
+      <h2>{t("home.title")}</h2>
+    </SpaceBetween>
+  );
 };
 
 enum TempInputField {
@@ -148,6 +171,7 @@ export function Home(props: Props) {
   return (
     <>
       <AppHelmet />
+      <LanguageSwitcher />
       <Button onClick={() => makeAPICall()}>Make API Call</Button>
       <TempForm />
       <h1>Something</h1>

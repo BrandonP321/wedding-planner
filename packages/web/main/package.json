@@ -18,7 +18,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "syncLocales": "locize sync --project-id=67fdb998-4b88-4ce0-9627-8edcc2e1ba7f --ver=latest --api-key=6e6a86b0-f83d-4386-896b-dcc26f712bc8 --path=./public/loc --dry=true"
   },
   "eslintConfig": {
     "extends": [
