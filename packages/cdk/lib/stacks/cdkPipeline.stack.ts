@@ -97,7 +97,7 @@ export class CDKPipelineStack extends cdk.Stack {
           project: new codebuild.PipelineProject(this, "WebsiteBuild", {
             projectName: "WebsiteBuild",
             buildSpec: codebuild.BuildSpec.fromObject({
-              version: 1.0,
+              version: "0.2",
               phases: {
                 install: {
                   commands: ["cd packages/web/main", "yarn install"],
