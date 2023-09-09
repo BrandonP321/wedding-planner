@@ -96,7 +96,7 @@ export class CDKPipelineStack extends cdk.Stack {
           actionName: "Website",
           project: new codebuild.PipelineProject(this, "WebsiteBuild", {
             projectName: "WebsiteBuild",
-            buildSpec: codebuild.BuildSpec.fromObject({
+            buildSpec: codebuild.BuildSpec.fromObjectToYaml({
               version: 1,
               applications: [
                 {
