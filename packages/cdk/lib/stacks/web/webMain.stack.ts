@@ -1,17 +1,13 @@
 import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
-import * as amplify from "@aws-cdk/aws-amplify-alpha";
-import * as route53 from "@aws-cdk/aws-route53";
-import * as targets from "@aws-cdk/aws-route53-targets";
-import * as s3 from "@aws-cdk/aws-s3";
-import * as deploy from "@aws-cdk/aws-s3-deployment";
-import * as acm from "@aws-cdk/aws-certificatemanager";
-import * as cloudfront from "@aws-cdk/aws-cloudfront";
-import { PipelineProject, BuildSpec } from "@aws-cdk/aws-codebuild";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as targets from "aws-cdk-lib/aws-route53-targets";
+import * as codePipeline from "aws-cdk-lib/aws-codepipeline";
 import { Construct } from "constructs";
 import { DeploymentAccountParams } from "../cdkPipeline.stack";
-import { CodePipeline } from "aws-cdk-lib/pipelines";
-import { Artifact } from "aws-cdk-lib/aws-codepipeline";
 
 export class WebMainStack extends cdk.Stack {
   constructor(
@@ -21,50 +17,6 @@ export class WebMainStack extends cdk.Stack {
   ) {
     const { region } = props;
     super(scope, id, props);
-
-    const amplifyApp = new amplify.App(this, "AmplifyApp", {
-      sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
-        owner: "BrandonP321",
-        repository: "wedding-planner",
-        oauthToken: cdk.SecretValue.secretsManager("github-token"),
-      }),
-      autoBranchCreation: {
-        pullRequestPreview: true,
-        patterns: ["feature/*", "bug/*"],
-      },
-      autoBranchDeletion: true,
-      appName: "some-app-name",
-      buildSpec: codebuild.BuildSpec.fromObjectToYaml({
-        version: 1,
-        applications: [
-          {
-            frontend: {
-              phases: {
-                preBuild: {
-                  commands: ["yarn install"],
-                },
-                build: {
-                  commands: ["yarn run build"],
-                },
-              },
-              artifacts: {
-                baseDirectory: "build",
-                files: ["**/*"],
-              },
-            },
-            appRoot: "packages/web/main",
-          },
-        ],
-      }),
-    });
-
-    const mainBranch = amplifyApp.addBranch("main");
-
-    amplifyApp.addCustomRule(
-      amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT
-    );
-
-    // ===================================================
 
     const WEB_APP_DOMAIN = "bpdev-temp.com";
 
@@ -81,8 +33,7 @@ export class WebMainStack extends cdk.Stack {
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "index.html",
       publicReadAccess: true,
-      // removalPolicy: cdk.RemovalPolicy.DESTROY,
-      // removalPolicy: cdk.RemovalPolicy,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     // site certificate
@@ -103,7 +54,8 @@ export class WebMainStack extends cdk.Stack {
       {
         // viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate({
         //   certificateArn: siteCertificate,
-        //   applyRemovalPolicy: cdk.RemovalPolicy.DESTROY,
+        //   applyRemovalPolicy: ,
+        //   // applyRemovalPolicy: cdk.RemovalPolicy.DESTROY,
         // }),
         originConfigs: [
           {
@@ -137,11 +89,8 @@ export class WebMainStack extends cdk.Stack {
     //   "repository-name"
     // );
 
-    const outputSources = new Artifact();
-    const outputWebsite = new Artifact();
-
-    const buildProject = new PipelineProject(this, "MyBuildProject", {
-      buildSpec: BuildSpec.fromObject({
+    const buildProject = new codebuild.PipelineProject(this, "MyBuildProject", {
+      buildSpec: codebuild.BuildSpec.fromObject({
         version: "0.2",
         phases: {
           install: {
@@ -170,3 +119,45 @@ export class WebMainStack extends cdk.Stack {
     // });
   }
 }
+
+// const amplifyApp = new Amplify(this, "AmplifyApp", {
+//   sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
+//     owner: "BrandonP321",
+//     repository: "wedding-planner",
+//     oauthToken: cdk.SecretValue.secretsManager("github-token"),
+//   }),
+//   autoBranchCreation: {
+//     pullRequestPreview: true,
+//     patterns: ["feature/*", "bug/*"],
+//   },
+//   autoBranchDeletion: true,
+//   appName: "some-app-name",
+//   buildSpec: codebuild.BuildSpec.fromObjectToYaml({
+//     version: 1,
+//     applications: [
+//       {
+//         frontend: {
+//           phases: {
+//             preBuild: {
+//               commands: ["yarn install"],
+//             },
+//             build: {
+//               commands: ["yarn run build"],
+//             },
+//           },
+//           artifacts: {
+//             baseDirectory: "build",
+//             files: ["**/*"],
+//           },
+//         },
+//         appRoot: "packages/web/main",
+//       },
+//     ],
+//   }),
+// });
+
+// const mainBranch = amplifyApp.addBranch("main");
+
+// amplifyApp.addCustomRule(
+//   amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT
+// );
