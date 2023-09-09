@@ -96,8 +96,8 @@ export class CDKPipelineStack extends cdk.Stack {
           actionName: "Website",
           project: new codebuild.PipelineProject(this, "WebsiteBuild", {
             projectName: "WebsiteBuild",
-            buildSpec: codebuild.BuildSpec.fromObjectToYaml({
-              version: "0.1.0",
+            buildSpec: codebuild.BuildSpec.fromObject({
+              version: 1.0,
               phases: {
                 install: {
                   commands: ["cd packages/web/main", "yarn install"],
@@ -111,6 +111,9 @@ export class CDKPipelineStack extends cdk.Stack {
                 files: ["**/*"],
               },
             }),
+            environment: {
+              buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+            },
           }),
           input: outputSources,
           outputs: [outputWebsite],
@@ -154,3 +157,21 @@ export class CDKPipelineStage extends cdk.Stage {
     const webMainStack = new WebMainStack(this, "WebMainStack", props);
   }
 }
+
+// console.log(
+//   codebuild.BuildSpec.fromObjectToYaml({
+//     version: "0.1.0",
+//     phases: {
+//       install: {
+//         commands: ["cd packages/web/main", "yarn install"],
+//       },
+//       build: {
+//         commands: ["yarn run build"],
+//       },
+//     },
+//     artifacts: {
+//       "base-directory": "packages/web/main/build",
+//       files: ["**/*"],
+//     },
+//   })
+// );
