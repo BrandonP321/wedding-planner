@@ -97,18 +97,19 @@ export class CDKPipelineStack extends cdk.Stack {
           project: new codebuild.PipelineProject(this, "WebsiteBuild", {
             projectName: "WebsiteBuild",
             buildSpec: codebuild.BuildSpec.fromObjectToYaml({
-              version: "1.0",
+              version: "0.1.0",
               phases: {
-                preBuild: {
+                install: {
                   commands: ["cd packages/web/main", "yarn install"],
                 },
                 build: {
                   commands: ["yarn run build"],
                 },
               },
-              // artifacts: {
-              //   base-directory: "packages/web/main/build",
-              // },
+              artifacts: {
+                "base-directory": "packages/web/main/build",
+                files: ["**/*"],
+              },
             }),
           }),
           input: outputSources,
