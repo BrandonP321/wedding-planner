@@ -11,11 +11,11 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
-    "paths": {},
+    "paths": {}
   },
   "include": [
     "src",
     "src/**/*.json",
     "public/**/*.json"
-  ],
+  ]
 }
