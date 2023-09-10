@@ -43,17 +43,26 @@ class CDKPipelineStage extends cdk.Stage {
   }
 }
 
+type WebStacks = { [key in Stage]: WebMainStack };
+
 export class CDKPipelineStack extends cdk.Stack {
   props: cdk.StackProps;
+  webStacks: WebStacks;
   pipeline: cdk.aws_codepipeline.Pipeline;
   outputSources = new codePipeline.Artifact();
   websiteOutput = new codePipeline.Artifact();
   cdkOutput = new codePipeline.Artifact();
 
-  constructor(scope: Construct, id: string, props: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    webStacks: WebStacks,
+    props: cdk.StackProps
+  ) {
     super(scope, id, props);
 
     this.props = props;
+    this.webStacks = webStacks;
 
     this.pipeline = new codePipeline.Pipeline(this, "WeddingPlannerPipeline", {
       pipelineName: "WeddingPlanner-CDKPipeline",
@@ -167,16 +176,28 @@ export class CDKPipelineStack extends cdk.Stack {
     //   })
     // );
 
+    const stageWebStack = this.webStacks[stage];
+    const staticAssetsBucket = s3.Bucket.fromBucketName(
+      this,
+      getUniqueResourceName(devAccount, "ImportedSiteBucket"),
+      stageWebStack.websiteBucket.bucketName
+    );
+
     const pipelineStage = this.pipeline.addStage({
       stageName: name,
       actions: [
         new CodePipelineAction.CloudFormationCreateUpdateStackAction({
-          actionName: `DeployWebsite-${stage}`,
+          actionName: `UpdateDeploymentStack-${stage}`,
           stackName: devAccount.deploymentStackName,
           templatePath: this.cdkOutput.atPath(
             `${devAccount.deploymentStackName}.template.json`
           ),
           adminPermissions: true,
+        }),
+        new CodePipelineAction.S3DeployAction({
+          actionName: getUniqueResourceName(devAccount, "DeployWebsite"),
+          input: this.websiteOutput,
+          bucket: staticAssetsBucket,
         }),
       ],
     });

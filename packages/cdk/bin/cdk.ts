@@ -8,20 +8,29 @@ import { CDKPipelineStack } from "../lib/stacks/cdkPipeline.stack";
 import { WebMainStack } from "../lib/stacks/web/webMain.stack";
 import { WebMainDeploymentApp } from "../configuration/accounts/webMainAccounts";
 import { getDeploymentStackName } from "../lib/utils/helpers";
+import { Stage } from "../lib/utils/types";
 
 const app = new cdk.App();
-
-new CDKPipelineStack(app, "WeddingPlannerCDKPipelineStack", {
-  env: { region: defaultRegion, account: defaultAccountId },
-  crossRegionReferences: true,
-});
 
 // TODO: Add stack for each account
 
 const devAccount = WebMainDeploymentApp.deploymentAccounts[0];
-new WebMainStack(app, getDeploymentStackName(devAccount), {
-  env: devAccount,
-  account: devAccount,
+const webMainStackDev = new WebMainStack(
+  app,
+  getDeploymentStackName(devAccount),
+  {
+    env: devAccount,
+    account: devAccount,
+  }
+);
+
+const WebMainStacks = {
+  dev: webMainStackDev,
+};
+
+new CDKPipelineStack(app, "WeddingPlannerCDKPipelineStack", WebMainStacks, {
+  env: { region: defaultRegion, account: defaultAccountId },
+  crossRegionReferences: true,
 });
 
 app.synth();

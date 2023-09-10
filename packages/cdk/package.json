@@ -8,7 +8,7 @@
     "test": "jest",
     "cdk": "cdk",
     "deploy:pipeline": "cdk deploy WeddingPlannerCDKPipelineStack",
-    "deploy:webMain": "cdk deploy WeddingPlannerCDKPipelineStack/WebMain-dev-WebMainStack"
+    "deploy:webMain": "cdk deploy WebMain-dev-DeploymentStack"
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",
