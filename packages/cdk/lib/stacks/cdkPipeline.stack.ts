@@ -219,7 +219,8 @@ export class CDKPipelineStack extends cdk.Stack {
           environmentVariables: {
             CLOUDFRONT_ID: { value: cfDistributionId },
           },
-          input: new codePipeline.Artifact(),
+          // Not sure what should be passed into input here since the buildspec doesn't use it
+          input: this.websiteOutput,
           runOrder: 3,
         }),
       ],

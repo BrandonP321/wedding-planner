@@ -30,18 +30,17 @@ export class WebMainStack extends cdk.Stack {
     this.deploymentAccount = account;
     this.websiteBucket = createReactWebsiteS3Bucket(this, account);
 
-    new cdk.CfnOutput(this, "WebsiteBucketName", {
-      value: this.websiteBucket.bucketName,
-    });
-
-    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
-      value: this.cfDistribution.distributionId,
-    });
-
     this.getAndStoreHostedZone();
     this.addSiteCertificate();
     this.addCloudFrontDistribution();
     this.createARecord();
+
+    new cdk.CfnOutput(this, "WebsiteBucketName", {
+      value: this.websiteBucket.bucketName,
+    });
+    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
+      value: this.cfDistribution.distributionId,
+    });
   }
 
   private getAndStoreHostedZone() {
