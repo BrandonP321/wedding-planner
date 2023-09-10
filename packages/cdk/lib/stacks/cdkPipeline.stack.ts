@@ -182,10 +182,17 @@ export class CDKPipelineStack extends cdk.Stack {
       getUniqueResourceName(devAccount, "ImportedSiteBucket"),
       stageWebStack.websiteBucket.bucketName
     );
+    const cfDistributionId = stageWebStack.cfDistribution.distributionId;
 
     const pipelineStage = this.pipeline.addStage({
       stageName: name,
       actions: [
+        new CodePipelineAction.S3DeployAction({
+          actionName: getUniqueResourceName(devAccount, "DeployWebsite"),
+          input: this.websiteOutput,
+          bucket: staticAssetsBucket,
+          runOrder: 1,
+        }),
         new CodePipelineAction.CloudFormationCreateUpdateStackAction({
           actionName: `UpdateDeploymentStack-${stage}`,
           stackName: devAccount.deploymentStackName,
@@ -193,11 +200,27 @@ export class CDKPipelineStack extends cdk.Stack {
             `${devAccount.deploymentStackName}.template.json`
           ),
           adminPermissions: true,
+          runOrder: 2,
         }),
-        new CodePipelineAction.S3DeployAction({
-          actionName: getUniqueResourceName(devAccount, "DeployWebsite"),
-          input: this.websiteOutput,
-          bucket: staticAssetsBucket,
+        new CodePipelineAction.CodeBuildAction({
+          actionName: getUniqueResourceName(devAccount, "InvalidateCFCache"),
+          project: new codebuild.PipelineProject(this, "InvalidateCFCache", {
+            buildSpec: codebuild.BuildSpec.fromObject({
+              version: "0.2",
+              phases: {
+                build: {
+                  commands: [
+                    'aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"',
+                  ],
+                },
+              },
+            }),
+          }),
+          environmentVariables: {
+            CLOUDFRONT_ID: { value: cfDistributionId },
+          },
+          input: new codePipeline.Artifact(),
+          runOrder: 3,
         }),
       ],
     });

@@ -34,6 +34,10 @@ export class WebMainStack extends cdk.Stack {
       value: this.websiteBucket.bucketName,
     });
 
+    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
+      value: this.cfDistribution.distributionId,
+    });
+
     this.getAndStoreHostedZone();
     this.addSiteCertificate();
     this.addCloudFrontDistribution();
