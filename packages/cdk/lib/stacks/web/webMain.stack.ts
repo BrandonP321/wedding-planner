@@ -1,66 +1,77 @@
 import * as cdk from "aws-cdk-lib";
-import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
-import * as codePipeline from "aws-cdk-lib/aws-codepipeline";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import { Construct } from "constructs";
-import { DeploymentAccountParams } from "../cdkPipeline.stack";
+import { DeploymentAccount } from "../../utils/accounts";
+import { createReactWebsiteS3Bucket } from "../../utils/s3ResourceHelpers";
+import { getUniqueResourceName } from "../../utils/helpers";
 
 export class WebMainStack extends cdk.Stack {
+  deploymentAccount: DeploymentAccount;
+  websiteBucket: s3.Bucket;
+  hostedZone: route53.IHostedZone;
+  siteCertificate: acm.Certificate;
+  cfDistribution: cloudfront.CloudFrontWebDistribution;
+  WEB_APP_DOMAIN = "bpdev-temp.com";
+
   constructor(
     scope: Construct,
     id: string,
-    props: cdk.StackProps & DeploymentAccountParams
+    props: cdk.StackProps & {
+      account: DeploymentAccount;
+    }
   ) {
-    const { region } = props;
     super(scope, id, props);
+    const { account } = props;
 
-    const WEB_APP_DOMAIN = "bpdev-temp.com";
+    this.deploymentAccount = account;
+    this.websiteBucket = createReactWebsiteS3Bucket(this, account);
 
-    // hosted zone
-    const hostedZone = route53.HostedZone.fromLookup(this, "Zone", {
-      domainName: WEB_APP_DOMAIN,
-    });
+    this.getAndStoreHostedZone();
+    this.addSiteCertificate();
+    this.addCloudFrontDistribution();
+    this.createARecord();
+  }
 
-    console.log(hostedZone.zoneName);
-
-    // site s3 bucket
-    const siteBucket = new s3.Bucket(this, "SiteBucket", {
-      bucketName: WEB_APP_DOMAIN,
-      websiteIndexDocument: "index.html",
-      websiteErrorDocument: "index.html",
-      publicReadAccess: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-    });
-
-    // site certificate
-    const siteCertificate = new acm.DnsValidatedCertificate(
+  private getAndStoreHostedZone() {
+    this.hostedZone = route53.HostedZone.fromLookup(
       this,
-      "SiteCertificate",
+      getUniqueResourceName(this.deploymentAccount, "HostedZone"),
       {
-        domainName: WEB_APP_DOMAIN,
-        hostedZone,
-        region,
+        domainName: this.WEB_APP_DOMAIN,
       }
-    ).certificateArn;
+    );
+  }
 
-    // CF distribution
-    const siteDistribution = new cloudfront.CloudFrontWebDistribution(
+  private addSiteCertificate() {
+    this.siteCertificate = new acm.Certificate(
       this,
-      "SiteDistribution",
+      getUniqueResourceName(this.deploymentAccount, "SiteCertificate"),
       {
-        // viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate({
-        //   certificateArn: siteCertificate,
-        //   applyRemovalPolicy: ,
-        //   // applyRemovalPolicy: cdk.RemovalPolicy.DESTROY,
-        // }),
+        domainName: this.WEB_APP_DOMAIN,
+        validation: acm.CertificateValidation.fromDns(this.hostedZone),
+      }
+    );
+  }
+
+  private addCloudFrontDistribution() {
+    this.cfDistribution = new cloudfront.CloudFrontWebDistribution(
+      this,
+      getUniqueResourceName(this.deploymentAccount, "CFDistribution"),
+      {
+        viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
+          this.siteCertificate,
+          {
+            aliases: [this.WEB_APP_DOMAIN],
+          }
+        ),
         originConfigs: [
           {
             customOriginSource: {
-              domainName: siteBucket.bucketWebsiteDomainName,
+              domainName: this.websiteBucket.bucketWebsiteDomainName,
               originProtocolPolicy: cloudfront.OriginProtocolPolicy.HTTP_ONLY,
             },
             behaviors: [
@@ -72,92 +83,19 @@ export class WebMainStack extends cdk.Stack {
         ],
       }
     );
+  }
 
-    // A Record custom domain to CF CDN
-    new route53.ARecord(this, "SiteAliasRecord", {
-      recordName: WEB_APP_DOMAIN,
-      target: route53.RecordTarget.fromAlias(
-        new targets.CloudFrontTarget(siteDistribution)
-      ),
-      zone: hostedZone,
-    });
-
-    // Build react app
-    // const repo = Repository.fromRepositoryName(
-    //   this,
-    //   "MyRepo",
-    //   "repository-name"
-    // );
-
-    const buildProject = new codebuild.PipelineProject(this, "MyBuildProject", {
-      buildSpec: codebuild.BuildSpec.fromObject({
-        version: "0.2",
-        phases: {
-          install: {
-            commands: ["npm install"],
-          },
-          build: {
-            commands: ["npm run build"],
-          },
-        },
-        artifacts: {
-          "base-directory": "build",
-          files: ["**/*"],
-        },
-      }),
-      environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-      },
-    });
-
-    // Deploy site contents to S3 bucket
-    // new deploy.BucketDeployment(this, "Deployment", {
-    //   sources: [deploy.Source.asset("../web/main/build")],
-    //   destinationBucket: siteBucket,
-    //   distribution: siteDistribution,
-    //   distributionPaths: ["/*"],
-    // });
+  private createARecord() {
+    new route53.ARecord(
+      this,
+      getUniqueResourceName(this.deploymentAccount, "SiteAliasRecord"),
+      {
+        recordName: this.WEB_APP_DOMAIN,
+        target: route53.RecordTarget.fromAlias(
+          new targets.CloudFrontTarget(this.cfDistribution)
+        ),
+        zone: this.hostedZone,
+      }
+    );
   }
 }
-
-// const amplifyApp = new Amplify(this, "AmplifyApp", {
-//   sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
-//     owner: "BrandonP321",
-//     repository: "wedding-planner",
-//     oauthToken: cdk.SecretValue.secretsManager("github-token"),
-//   }),
-//   autoBranchCreation: {
-//     pullRequestPreview: true,
-//     patterns: ["feature/*", "bug/*"],
-//   },
-//   autoBranchDeletion: true,
-//   appName: "some-app-name",
-//   buildSpec: codebuild.BuildSpec.fromObjectToYaml({
-//     version: 1,
-//     applications: [
-//       {
-//         frontend: {
-//           phases: {
-//             preBuild: {
-//               commands: ["yarn install"],
-//             },
-//             build: {
-//               commands: ["yarn run build"],
-//             },
-//           },
-//           artifacts: {
-//             baseDirectory: "build",
-//             files: ["**/*"],
-//           },
-//         },
-//         appRoot: "packages/web/main",
-//       },
-//     ],
-//   }),
-// });
-
-// const mainBranch = amplifyApp.addBranch("main");
-
-// amplifyApp.addCustomRule(
-//   amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT
-// );

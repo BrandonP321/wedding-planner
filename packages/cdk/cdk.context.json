@@ -1,0 +1,10 @@
+{
+  "hosted-zone:account=757269603777:domainName=bpdev-temp.com:region=us-west-2": {
+    "Id": "/hostedzone/Z0431428PYB69IHCKE80",
+    "Name": "bpdev-temp.com."
+  },
+  "hosted-zone:account=757269603777:domainName=bpdev-temp.com:region=us-east-1": {
+    "Id": "/hostedzone/Z0431428PYB69IHCKE80",
+    "Name": "bpdev-temp.com."
+  }
+}

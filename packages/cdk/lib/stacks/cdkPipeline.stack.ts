@@ -2,105 +2,99 @@ import * as cdk from "aws-cdk-lib";
 import * as codePipeline from "aws-cdk-lib/aws-codepipeline";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import {
-  CodePipeline,
-  CodePipelineSource,
-  ManualApprovalStep,
-  ShellStep,
-} from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
-import { Region, Stage } from "../utils/types";
-import { WebMainStack } from "./web/webMain.stack";
+import { Stage } from "../utils/types";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
+import { addSourceCheckoutPipelineStage } from "../utils/pipelineHelpers";
+import { WebMainDeploymentApp } from "../../configuration/accounts/webMainAccounts";
+import { DeploymentAccount } from "../utils/accounts";
+import { WebMainStack } from "./web/webMain.stack";
+import {
+  getDeploymentStackName,
+  getUniqueResourceName,
+} from "../utils/helpers";
 
-export const defaultRegion = Region.US_WEST_2;
-export const defaultAccountId = "757269603777";
-
-export type DeploymentAccountParams = {
-  stage: Stage;
-  region?: Region;
-  account?: string;
+type CDKPipelineStageProps = cdk.StageProps & {
+  account: DeploymentAccount;
+  websiteOutput: codePipeline.Artifact;
 };
 
-class DeploymentAccount {
-  stage: Stage;
-  region: Region;
-  account: string;
+class CDKPipelineStage extends cdk.Stage {
+  props: CDKPipelineStageProps;
+  websiteBucket: s3.Bucket;
 
-  constructor({
-    stage,
-    region = defaultRegion,
-    account = defaultAccountId,
-  }: DeploymentAccountParams) {
-    this.stage = stage;
-    this.region = region;
-    this.account = account;
+  constructor(scope: Construct, id: string, props: CDKPipelineStageProps) {
+    super(scope, id, props);
+
+    const { account, websiteOutput } = props;
+    this.props = props;
+
+    const webStack = new WebMainStack(
+      scope,
+      getUniqueResourceName(account, "WebMainStack"),
+      {
+        account,
+        // websiteOutput,
+        env: { region: account.region, account: account.account },
+      }
+    );
+
+    this.websiteBucket = webStack.websiteBucket;
   }
 }
 
-const accounts: DeploymentAccount[] = [
-  new DeploymentAccount({ stage: Stage.DEV }),
-  // new DeploymentAccount({ stage: Stage.STAGING }),
-  // new DeploymentAccount({ stage: Stage.PROD }),
-];
-
 export class CDKPipelineStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  props: cdk.StackProps;
+  pipeline: cdk.aws_codepipeline.Pipeline;
+  outputSources = new codePipeline.Artifact();
+  websiteOutput = new codePipeline.Artifact();
+  cdkOutput = new codePipeline.Artifact();
+
+  constructor(scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    const websiteBucket = new s3.Bucket(this, "Files", {
-      websiteIndexDocument: "index.html",
-      websiteErrorDocument: "index.html",
-      publicReadAccess: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ACLS,
-      accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
-    });
+    this.props = props;
 
-    const outputSources = new codePipeline.Artifact();
-    const outputWebsite = new codePipeline.Artifact();
-
-    const pipeline = new codePipeline.Pipeline(this, "Pipeline", {
-      pipelineName: "CDKPipeline",
+    this.pipeline = new codePipeline.Pipeline(this, "WeddingPlannerPipeline", {
+      pipelineName: "WeddingPlanner-CDKPipeline",
       restartExecutionOnUpdate: true,
-      // synth: new ShellStep("Synth", {
-      //   input: CodePipelineSource.gitHub("BrandonP321/wedding-planner", "main"),
-      //   commands: [
-      //     "cd packages/cdk",
-      //     "yarn install --frozen-lockfile",
-      //     "yarn build",
-      //     "yarn cdk synth",
-      //   ],
-      //   primaryOutputDirectory: "packages/cdk/cdk.out",
-      // }),
     });
 
-    pipeline.addStage({
-      stageName: "Source",
-      actions: [
-        new CodePipelineAction.GitHubSourceAction({
-          actionName: "Checkout",
-          owner: "BrandonP321",
-          repo: "wedding-planner",
-          oauthToken: cdk.SecretValue.secretsManager("github-token"),
-          output: outputSources,
-          trigger: CodePipelineAction.GitHubTrigger.WEBHOOK,
-          branch: "main",
-        }),
-      ],
-    });
+    this.addPipelineStages();
+  }
 
-    pipeline.addStage({
+  private addPipelineStages(): cdk.aws_codepipeline.IStage[] {
+    const sourceStage = this.addSourceStage();
+    const buildStage = this.addBuildStage();
+    const devStage = this.addDeployStage({ name: "Dev", stage: Stage.DEV });
+
+    return [sourceStage, buildStage, devStage];
+  }
+
+  private addSourceStage() {
+    return addSourceCheckoutPipelineStage(
+      this.pipeline,
+      this.outputSources,
+      {}
+    );
+  }
+
+  private addBuildStage() {
+    return this.pipeline.addStage({
       stageName: "Build",
       actions: [
         new CodePipelineAction.CodeBuildAction({
-          actionName: "Website",
+          actionName: "BuildWebsite",
           project: new codebuild.PipelineProject(this, "WebsiteBuild", {
             projectName: "WebsiteBuild",
             buildSpec: codebuild.BuildSpec.fromObject({
               version: "0.2",
               phases: {
                 install: {
-                  commands: ["cd packages/web/main", "yarn install"],
+                  commands: [
+                    "cd packages/web/main",
+                    "yarn install --frozen-lockfile",
+                  ],
                 },
                 build: {
                   commands: ["yarn run build"],
@@ -115,63 +109,78 @@ export class CDKPipelineStack extends cdk.Stack {
               buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
             },
           }),
-          input: outputSources,
-          outputs: [outputWebsite],
+          input: this.outputSources,
+          outputs: [this.websiteOutput],
+        }),
+        new CodePipelineAction.CodeBuildAction({
+          actionName: "BuildCDK",
+          project: new codebuild.PipelineProject(this, "CDKBuild", {
+            projectName: "CDKBuild",
+            buildSpec: codebuild.BuildSpec.fromObject({
+              version: "0.2",
+              phases: {
+                install: {
+                  commands: [
+                    "cd packages/cdk",
+                    "yarn install --frozen-lockfile",
+                  ],
+                },
+                build: {
+                  commands: ["yarn cdk synth"],
+                },
+              },
+              artifacts: {
+                "base-directory": "packages/cdk/cdk.out",
+                files: ["**/*"],
+              },
+            }),
+            environment: {
+              buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+            },
+          }),
+          input: this.outputSources,
+          outputs: [this.cdkOutput],
+        }),
+      ],
+    });
+  }
+
+  private addDeployStage(params: { stage: Stage; name: string }) {
+    const { name, stage } = params;
+
+    // TEMP
+    const devAccount = WebMainDeploymentApp.deploymentAccounts[0];
+
+    // const cdkStage = new CDKPipelineStage(this, name, {
+    //   ...this.props,
+    //   account,
+    //   websiteOutput: this.websiteOutput,
+    // });
+
+    // const pipelineStage = this.pipeline.addStage(cdkStage);
+
+    // pipelineStage.addAction(
+    //   new CodePipelineAction.S3DeployAction({
+    //     actionName: getUniqueResourceName(account, "DeployWebsite"),
+    //     input: this.websiteOutput,
+    //     bucket: cdkStage.websiteBucket,
+    //   })
+    // );
+
+    const pipelineStage = this.pipeline.addStage({
+      stageName: name,
+      actions: [
+        new CodePipelineAction.CloudFormationCreateUpdateStackAction({
+          actionName: `DeployWebsite-${stage}`,
+          stackName: devAccount.deploymentStackName,
+          templatePath: this.cdkOutput.atPath(
+            `${devAccount.deploymentStackName}.template.json`
+          ),
+          adminPermissions: true,
         }),
       ],
     });
 
-    accounts.forEach((account) => {
-      pipeline.addStage({
-        stageName: "Deploy",
-        actions: [
-          new CodePipelineAction.S3DeployAction({
-            actionName: "Website",
-            input: outputWebsite,
-            bucket: websiteBucket,
-          }),
-        ],
-      });
-
-      // const pipelineStage = pipeline.addStage(
-      //   new CDKPipelineStage(this, account.stage, {
-      //     ...props,
-      //     env: { ...account },
-      //     ...account,
-      //   })
-      // );
-
-      // pipelineStage.addPost(new ManualApprovalStep("approval"));
-    });
+    return pipelineStage;
   }
 }
-
-export class CDKPipelineStage extends cdk.Stage {
-  constructor(
-    scope: Construct,
-    id: string,
-    props: cdk.StageProps & Required<DeploymentAccountParams>
-  ) {
-    super(scope, id, props);
-
-    const webMainStack = new WebMainStack(this, "WebMainStack", props);
-  }
-}
-
-// console.log(
-//   codebuild.BuildSpec.fromObjectToYaml({
-//     version: "0.1.0",
-//     phases: {
-//       install: {
-//         commands: ["cd packages/web/main", "yarn install"],
-//       },
-//       build: {
-//         commands: ["yarn run build"],
-//       },
-//     },
-//     artifacts: {
-//       "base-directory": "packages/web/main/build",
-//       files: ["**/*"],
-//     },
-//   })
-// );
