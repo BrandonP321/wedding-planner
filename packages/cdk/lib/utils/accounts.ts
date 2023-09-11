@@ -5,6 +5,12 @@ import { Region, Stage } from "./types";
 export const defaultRegion = Region.US_EAST_1;
 export const defaultAccountId = "757269603777";
 
+const StageNameMap: { [key in Stage]: string } = {
+  dev: "Dev",
+  prod: "Prod",
+  staging: "Staging",
+};
+
 export type DeploymentAccountParams = {
   stage: Stage;
   region?: Region;
@@ -19,6 +25,10 @@ export class DeploymentAccount {
 
   get deploymentStackName() {
     return getDeploymentStackName(this);
+  }
+
+  get stageName() {
+    return StageNameMap[this.stage];
   }
 
   constructor({
