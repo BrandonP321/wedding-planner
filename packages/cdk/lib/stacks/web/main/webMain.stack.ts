@@ -5,10 +5,10 @@ import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import { Construct } from "constructs";
-import { DeploymentAccount } from "../../utils/accounts";
-import { createReactWebsiteS3Bucket } from "../../utils/s3ResourceHelpers";
-import { getUniqueResourceName } from "../../utils/helpers";
-import { Stage } from "../../utils/types";
+import { DeploymentAccount } from "../../../utils/accounts";
+import { createReactWebsiteS3Bucket } from "../../../utils/s3ResourceHelpers";
+import { getUniqueResourceName } from "../../../utils/helpers";
+import { Stage } from "../../../utils/types";
 
 const SubDomainMap = {
   [Stage.DEV]: "dev",

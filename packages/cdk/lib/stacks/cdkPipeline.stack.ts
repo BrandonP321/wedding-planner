@@ -8,19 +8,37 @@ import { Construct } from "constructs";
 import { Stage } from "../utils/types";
 import { addSourceCheckoutPipelineStage } from "../utils/pipelineHelpers";
 import { WebMainDeploymentApp } from "../../configuration/accounts/webMainAccounts";
-import { WebMainStack } from "./web/webMain.stack";
-import { getUniqueResourceName } from "../utils/helpers";
+import { WebMainStack } from "./web/main/webMain.stack";
+import { getStageResoureName, getUniqueResourceName } from "../utils/helpers";
 import { getDistributionArn } from "../utils/cfHelpers";
 import { DeploymentAccount } from "../utils/accounts";
+import { getWebMainEnvVars } from "./web/main/webMainEnv";
 
 export type WebStacks = { [key in Stage]: WebMainStack };
+type BuildOutputs = { [key in Stage]: codePipeline.Artifact };
+
+export const mapValueToStages = <T>(
+  getValue: () => T,
+  accounts: DeploymentAccount[]
+) => {
+  const stageMap: { [key in Stage]: T } = {} as { [key in Stage]: T };
+
+  accounts.forEach((account) => {
+    stageMap[account.stage] = getValue();
+  });
+
+  return stageMap;
+};
 
 export class CDKPipelineStack extends cdk.Stack {
   props: cdk.StackProps;
   webStacks: WebStacks;
   pipeline: cdk.aws_codepipeline.Pipeline;
   outputSources = new codePipeline.Artifact();
-  websiteOutput = new codePipeline.Artifact();
+  websiteOutputs: BuildOutputs = mapValueToStages(
+    () => new codePipeline.Artifact(),
+    WebMainDeploymentApp.deploymentAccounts
+  );
   cdkOutput = new codePipeline.Artifact();
 
   constructor(
@@ -73,35 +91,9 @@ export class CDKPipelineStack extends cdk.Stack {
     return this.pipeline.addStage({
       stageName: "Build",
       actions: [
-        new CodePipelineAction.CodeBuildAction({
-          actionName: "BuildWebsite",
-          project: new codebuild.PipelineProject(this, "WebsiteBuild", {
-            projectName: "WebsiteBuild",
-            buildSpec: codebuild.BuildSpec.fromObject({
-              version: "0.2",
-              phases: {
-                install: {
-                  commands: [
-                    "cd packages/web/main",
-                    "yarn install --frozen-lockfile",
-                  ],
-                },
-                build: {
-                  commands: ["yarn run build"],
-                },
-              },
-              artifacts: {
-                "base-directory": "packages/web/main/build",
-                files: ["**/*"],
-              },
-            }),
-            environment: {
-              buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-            },
-          }),
-          input: this.outputSources,
-          outputs: [this.websiteOutput],
-        }),
+        this.getReactAppBuildAction(Stage.DEV),
+        this.getReactAppBuildAction(Stage.STAGING),
+        this.getReactAppBuildAction(Stage.PROD),
         new CodePipelineAction.CodeBuildAction({
           actionName: "BuildCDK",
           project: new codebuild.PipelineProject(this, "CDKBuild", {
@@ -132,6 +124,43 @@ export class CDKPipelineStack extends cdk.Stack {
           outputs: [this.cdkOutput],
         }),
       ],
+    });
+  }
+
+  private getReactAppBuildAction(stage: Stage) {
+    return new CodePipelineAction.CodeBuildAction({
+      actionName: getStageResoureName(stage, "BuildWebsite"),
+      project: new codebuild.PipelineProject(
+        this,
+        getStageResoureName(stage, "WebsiteBuild"),
+        {
+          projectName: getStageResoureName(stage, "WebsiteBuild"),
+          buildSpec: codebuild.BuildSpec.fromObject({
+            version: "0.2",
+            phases: {
+              install: {
+                commands: [
+                  "cd packages/web/main",
+                  "yarn install --frozen-lockfile",
+                ],
+              },
+              build: {
+                commands: ["yarn run build"],
+              },
+            },
+            artifacts: {
+              "base-directory": "packages/web/main/build",
+              files: ["**/*"],
+            },
+          }),
+          environment: {
+            buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+          },
+          environmentVariables: getWebMainEnvVars(stage),
+        }
+      ),
+      input: this.outputSources,
+      outputs: [this.websiteOutputs[stage]],
     });
   }
 
@@ -187,7 +216,7 @@ export class CDKPipelineStack extends cdk.Stack {
         }),
         new CodePipelineAction.S3DeployAction({
           actionName: getUniqueResourceName(account, "DeployWebsite"),
-          input: this.websiteOutput,
+          input: this.websiteOutputs[account.stage],
           bucket: staticAssetsBucket,
           runOrder: 2,
         }),
@@ -198,7 +227,7 @@ export class CDKPipelineStack extends cdk.Stack {
             CLOUDFRONT_ID: { value: cfDistributionId },
           },
           // Not sure what should be passed into `input` here since the buildspec doesn't use it
-          input: this.websiteOutput,
+          input: this.websiteOutputs[account.stage],
           runOrder: 3,
         }),
       ],

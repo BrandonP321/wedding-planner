@@ -3,7 +3,7 @@ import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { defaultAccountId, defaultRegion } from "../lib/utils/accounts";
 import { CDKPipelineStack, WebStacks } from "../lib/stacks/cdkPipeline.stack";
-import { WebMainStack } from "../lib/stacks/web/webMain.stack";
+import { WebMainStack } from "../lib/stacks/web/main/webMain.stack";
 import { WebMainDeploymentApp } from "../configuration/accounts/webMainAccounts";
 import { getDeploymentStackName } from "../lib/utils/helpers";
 

@@ -171,6 +171,7 @@ export function Home(props: Props) {
   return (
     <>
       <AppHelmet />
+      <h1>Stage: {process.env.REACT_APP_STAGE}</h1>
       <LanguageSwitcher />
       <Button onClick={() => makeAPICall()}>Make API Call</Button>
       <TempForm />

@@ -4015,6 +4015,7 @@ __metadata:
     "@aws-cdk/aws-amplify-alpha": ^2.95.0-alpha.0
     "@types/jest": ^29.5.4
     "@types/node": 20.5.9
+    "@wedding-planner/shared": 1.0.0
     aws-cdk: 2.95.0
     aws-cdk-lib: 2.95.0
     constructs: ^10.2.70
