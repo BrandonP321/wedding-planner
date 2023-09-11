@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import * as codePipeline from "aws-cdk-lib/aws-codepipeline";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as iam from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { Stage } from "../utils/types";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
@@ -9,39 +10,8 @@ import { addSourceCheckoutPipelineStage } from "../utils/pipelineHelpers";
 import { WebMainDeploymentApp } from "../../configuration/accounts/webMainAccounts";
 import { DeploymentAccount } from "../utils/accounts";
 import { WebMainStack } from "./web/webMain.stack";
-import {
-  getDeploymentStackName,
-  getUniqueResourceName,
-} from "../utils/helpers";
-
-type CDKPipelineStageProps = cdk.StageProps & {
-  account: DeploymentAccount;
-  websiteOutput: codePipeline.Artifact;
-};
-
-class CDKPipelineStage extends cdk.Stage {
-  props: CDKPipelineStageProps;
-  websiteBucket: s3.Bucket;
-
-  constructor(scope: Construct, id: string, props: CDKPipelineStageProps) {
-    super(scope, id, props);
-
-    const { account, websiteOutput } = props;
-    this.props = props;
-
-    const webStack = new WebMainStack(
-      scope,
-      getUniqueResourceName(account, "WebMainStack"),
-      {
-        account,
-        // websiteOutput,
-        env: { region: account.region, account: account.account },
-      }
-    );
-
-    this.websiteBucket = webStack.websiteBucket;
-  }
-}
+import { getUniqueResourceName } from "../utils/helpers";
+import { getDistributionArn } from "../utils/cfHelpers";
 
 type WebStacks = { [key in Stage]: WebMainStack };
 
@@ -157,24 +127,7 @@ export class CDKPipelineStack extends cdk.Stack {
   private addDeployStage(params: { stage: Stage; name: string }) {
     const { name, stage } = params;
 
-    // TEMP
     const devAccount = WebMainDeploymentApp.deploymentAccounts[0];
-
-    // const cdkStage = new CDKPipelineStage(this, name, {
-    //   ...this.props,
-    //   account,
-    //   websiteOutput: this.websiteOutput,
-    // });
-
-    // const pipelineStage = this.pipeline.addStage(cdkStage);
-
-    // pipelineStage.addAction(
-    //   new CodePipelineAction.S3DeployAction({
-    //     actionName: getUniqueResourceName(account, "DeployWebsite"),
-    //     input: this.websiteOutput,
-    //     bucket: cdkStage.websiteBucket,
-    //   })
-    // );
 
     const stageWebStack = this.webStacks[stage];
     const staticAssetsBucket = s3.Bucket.fromBucketName(
@@ -184,15 +137,33 @@ export class CDKPipelineStack extends cdk.Stack {
     );
     const cfDistributionId = stageWebStack.cfDistribution.distributionId;
 
+    const cfInvalidationProject = new codebuild.PipelineProject(
+      this,
+      "InvalidateCFCache",
+      {
+        buildSpec: codebuild.BuildSpec.fromObject({
+          version: "0.2",
+          phases: {
+            build: {
+              commands: [
+                'aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"',
+              ],
+            },
+          },
+        }),
+      }
+    );
+
+    cfInvalidationProject.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ["cloudfront:CreateInvalidation"],
+        resources: [getDistributionArn(cfDistributionId, devAccount)],
+      })
+    );
+
     const pipelineStage = this.pipeline.addStage({
       stageName: name,
       actions: [
-        new CodePipelineAction.S3DeployAction({
-          actionName: getUniqueResourceName(devAccount, "DeployWebsite"),
-          input: this.websiteOutput,
-          bucket: staticAssetsBucket,
-          runOrder: 1,
-        }),
         new CodePipelineAction.CloudFormationCreateUpdateStackAction({
           actionName: `UpdateDeploymentStack-${stage}`,
           stackName: devAccount.deploymentStackName,
@@ -202,24 +173,19 @@ export class CDKPipelineStack extends cdk.Stack {
           adminPermissions: true,
           runOrder: 2,
         }),
+        new CodePipelineAction.S3DeployAction({
+          actionName: getUniqueResourceName(devAccount, "DeployWebsite"),
+          input: this.websiteOutput,
+          bucket: staticAssetsBucket,
+          runOrder: 1,
+        }),
         new CodePipelineAction.CodeBuildAction({
           actionName: getUniqueResourceName(devAccount, "InvalidateCFCache"),
-          project: new codebuild.PipelineProject(this, "InvalidateCFCache", {
-            buildSpec: codebuild.BuildSpec.fromObject({
-              version: "0.2",
-              phases: {
-                build: {
-                  commands: [
-                    'aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"',
-                  ],
-                },
-              },
-            }),
-          }),
+          project: cfInvalidationProject,
           environmentVariables: {
             CLOUDFRONT_ID: { value: cfDistributionId },
           },
-          // Not sure what should be passed into input here since the buildspec doesn't use it
+          // Not sure what should be passed into `input` here since the buildspec doesn't use it
           input: this.websiteOutput,
           runOrder: 3,
         }),
