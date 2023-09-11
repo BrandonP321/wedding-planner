@@ -47,8 +47,14 @@ export class CDKPipelineStack extends cdk.Stack {
     const buildStage = this.addBuildStage();
 
     const deployStages = WebMainDeploymentApp.deploymentAccounts.map(
-      (account) => {
-        return this.addDeployStage({ stage: Stage.DEV, account });
+      (account, i) => {
+        const isLastStage =
+          i === WebMainDeploymentApp.deploymentAccounts.length - 1;
+
+        return this.addDeployStage({
+          account,
+          includeManualApproval: !isLastStage,
+        });
       }
     );
 
@@ -129,10 +135,13 @@ export class CDKPipelineStack extends cdk.Stack {
     });
   }
 
-  private addDeployStage(params: { stage: Stage; account: DeploymentAccount }) {
-    const { stage, account } = params;
+  private addDeployStage(params: {
+    account: DeploymentAccount;
+    includeManualApproval?: boolean;
+  }) {
+    const { account, includeManualApproval = true } = params;
 
-    const stageWebStack = this.webStacks[stage];
+    const stageWebStack = this.webStacks[account.stage];
     const staticAssetsBucket = s3.Bucket.fromBucketName(
       this,
       getUniqueResourceName(account, "ImportedSiteBucket"),
@@ -174,13 +183,13 @@ export class CDKPipelineStack extends cdk.Stack {
             `${account.deploymentStackName}.template.json`
           ),
           adminPermissions: true,
-          runOrder: 2,
+          runOrder: 1,
         }),
         new CodePipelineAction.S3DeployAction({
           actionName: getUniqueResourceName(account, "DeployWebsite"),
           input: this.websiteOutput,
           bucket: staticAssetsBucket,
-          runOrder: 1,
+          runOrder: 2,
         }),
         new CodePipelineAction.CodeBuildAction({
           actionName: getUniqueResourceName(account, "InvalidateCFCache"),
@@ -195,6 +204,22 @@ export class CDKPipelineStack extends cdk.Stack {
       ],
     });
 
+    if (includeManualApproval) {
+      pipelineStage.addAction(
+        this.createManualApprovalAction(account, { runOrder: 4 })
+      );
+    }
+
     return pipelineStage;
+  }
+
+  private createManualApprovalAction(
+    account: DeploymentAccount,
+    params: { runOrder?: number }
+  ) {
+    return new CodePipelineAction.ManualApprovalAction({
+      actionName: getUniqueResourceName(account, "ApproveDeployment"),
+      runOrder: params.runOrder,
+    });
   }
 }

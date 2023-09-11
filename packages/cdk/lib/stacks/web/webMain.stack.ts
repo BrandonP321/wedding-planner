@@ -8,6 +8,13 @@ import { Construct } from "constructs";
 import { DeploymentAccount } from "../../utils/accounts";
 import { createReactWebsiteS3Bucket } from "../../utils/s3ResourceHelpers";
 import { getUniqueResourceName } from "../../utils/helpers";
+import { Stage } from "../../utils/types";
+
+const SubDomainMap = {
+  [Stage.DEV]: "dev",
+  [Stage.STAGING]: "staging",
+  [Stage.PROD]: "",
+};
 
 export class WebMainStack extends cdk.Stack {
   deploymentAccount: DeploymentAccount;
@@ -16,6 +23,8 @@ export class WebMainStack extends cdk.Stack {
   siteCertificate: acm.Certificate;
   cfDistribution: cloudfront.CloudFrontWebDistribution;
   WEB_APP_DOMAIN = "bpdev-temp.com";
+  appUrl: string;
+  isProd: boolean;
 
   constructor(
     scope: Construct,
@@ -27,13 +36,19 @@ export class WebMainStack extends cdk.Stack {
     super(scope, id, props);
     const { account } = props;
 
+    const subDomain = SubDomainMap[account.stage];
+
+    this.appUrl = subDomain
+      ? `${subDomain}.${this.WEB_APP_DOMAIN}`
+      : this.WEB_APP_DOMAIN;
+
     this.deploymentAccount = account;
     this.websiteBucket = createReactWebsiteS3Bucket(this, account);
 
     this.getAndStoreHostedZone();
     this.addSiteCertificate();
     this.addCloudFrontDistribution();
-    this.createARecord();
+    this.createRecords();
 
     new cdk.CfnOutput(this, "WebsiteBucketName", {
       value: this.websiteBucket.bucketName,
@@ -58,7 +73,8 @@ export class WebMainStack extends cdk.Stack {
       this,
       getUniqueResourceName(this.deploymentAccount, "SiteCertificate"),
       {
-        domainName: this.WEB_APP_DOMAIN,
+        domainName: this.appUrl,
+        subjectAlternativeNames: [`www.${this.appUrl}`],
         validation: acm.CertificateValidation.fromDns(this.hostedZone),
       }
     );
@@ -72,7 +88,7 @@ export class WebMainStack extends cdk.Stack {
         viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
           this.siteCertificate,
           {
-            aliases: [this.WEB_APP_DOMAIN],
+            aliases: [this.appUrl, `www.${this.appUrl}`],
           }
         ),
         originConfigs: [
@@ -92,15 +108,25 @@ export class WebMainStack extends cdk.Stack {
     );
   }
 
-  private createARecord() {
+  private createRecords() {
     new route53.ARecord(
       this,
       getUniqueResourceName(this.deploymentAccount, "SiteAliasRecord"),
       {
-        recordName: this.WEB_APP_DOMAIN,
+        recordName: this.appUrl,
         target: route53.RecordTarget.fromAlias(
           new targets.CloudFrontTarget(this.cfDistribution)
         ),
+        zone: this.hostedZone,
+      }
+    );
+
+    new route53.CnameRecord(
+      this,
+      getUniqueResourceName(this.deploymentAccount, "SiteCNAMERecord"),
+      {
+        recordName: `www.${this.appUrl}`,
+        domainName: this.cfDistribution.distributionDomainName,
         zone: this.hostedZone,
       }
     );

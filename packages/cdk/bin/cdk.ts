@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { Cdk2Stack } from "../lib/cdk2-stack";
-
 import { defaultAccountId, defaultRegion } from "../lib/utils/accounts";
 import { CDKPipelineStack, WebStacks } from "../lib/stacks/cdkPipeline.stack";
 import { WebMainStack } from "../lib/stacks/web/webMain.stack";
