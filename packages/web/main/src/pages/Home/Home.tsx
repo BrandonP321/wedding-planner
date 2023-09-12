@@ -161,8 +161,6 @@ export function Home(props: Props) {
     }
   );
 
-  console.log({ response, errMsg, isLoading });
-
   return (
     <>
       <AppHelmet />

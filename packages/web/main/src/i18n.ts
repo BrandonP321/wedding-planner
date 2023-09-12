@@ -2,7 +2,7 @@ import i18n from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as enTranslations from "./loc/en";
-import deHome from "./loc/de/Home.json";
+import * as deTranslations from "./loc/de";
 import { i18nextPlugin } from "translation-check";
 import Backend from "i18next-locize-backend";
 
@@ -15,6 +15,7 @@ const locizeOptions = {
 export const defaultNS = "translation";
 export const resources = {
   en: { translation: enTranslations },
+  de: { translation: deTranslations },
 };
 
 i18n
