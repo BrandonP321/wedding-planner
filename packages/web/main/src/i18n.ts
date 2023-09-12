@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
-import { initReactI18next } from "react-i18next";
-import enHome from "./loc/en/Home.json";
+import { initReactI18next, useTranslation } from "react-i18next";
+import * as enTranslations from "./loc/en";
 import deHome from "./loc/de/Home.json";
 import { i18nextPlugin } from "translation-check";
 import Backend from "i18next-locize-backend";
@@ -14,16 +14,7 @@ const locizeOptions = {
 
 export const defaultNS = "translation";
 export const resources = {
-  en: {
-    translation: {
-      home: enHome,
-    },
-  },
-  de: {
-    translation: {
-      home: deHome,
-    },
-  },
+  en: { translation: enTranslations },
 };
 
 i18n
@@ -40,5 +31,26 @@ i18n
   });
 
 export const t = i18n.t;
+
+const lngs: { [key in LngCode]: { nativeName: string } } = {
+  en: { nativeName: "English" },
+  de: { nativeName: "Deutsch" },
+};
+
+type LngCode = "en" | "de";
+
+export const lngCodes = Object.keys(lngs) as LngCode[];
+
+export const useI18Languages = () => {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: LngCode) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const resolvedLanguage = i18n.resolvedLanguage as LngCode;
+
+  return { lngs, lngCodes, changeLanguage, resolvedLanguage };
+};
 
 export default i18n;

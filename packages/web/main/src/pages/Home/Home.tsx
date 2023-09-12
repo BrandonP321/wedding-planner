@@ -25,35 +25,30 @@ import { AppHelmet } from "../../components";
 import * as Yup from "yup";
 import { FormSpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import { TempAPIFetcher } from "../../utils";
-import { useTranslation } from "react-i18next";
-import { t } from "../../i18n";
-
-const lngs: { [key: string]: { nativeName: string } } = {
-  en: { nativeName: "English" },
-  de: { nativeName: "Deutsch" },
-};
+import { t, useI18Languages } from "../../i18n";
 
 const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
+  const { lngCodes, lngs, resolvedLanguage, changeLanguage } =
+    useI18Languages();
 
   return (
     <SpaceBetween vertical>
       <SpaceBetween>
-        {Object.keys(lngs).map((lng) => (
+        {lngCodes.map((lng) => (
           <button
             key={lng}
             style={{
-              fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
+              fontWeight: resolvedLanguage === lng ? "bold" : "normal",
             }}
             type="submit"
-            onClick={() => i18n.changeLanguage(lng)}
+            onClick={() => changeLanguage(lng)}
           >
             {lngs[lng].nativeName}
           </button>
         ))}
       </SpaceBetween>
 
-      <h2>{t("home.title")}</h2>
+      <h2>{t("Home.title")}</h2>
     </SpaceBetween>
   );
 };
