@@ -52,8 +52,19 @@ export class CDKPipelineStack extends cdk.Stack {
     this.props = props;
     this.webStacks = webStacks;
 
+    // Bucket for storing pipeline artifacts
+    const artifactBucket = new s3.Bucket(this, "CDKPipelineArtifacts", {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      versioned: false,
+      // TODO: Consider extending expiration and transitioning objects
+      lifecycleRules: [{ expiration: cdk.Duration.days(7) }],
+    });
+
+    // Create pipeline
     this.pipeline = new codePipeline.Pipeline(this, "WeddingPlannerPipeline", {
       pipelineName: "WeddingPlanner-CDKPipeline",
+      artifactBucket,
       restartExecutionOnUpdate: true,
     });
 
