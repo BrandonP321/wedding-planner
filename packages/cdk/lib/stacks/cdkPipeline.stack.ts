@@ -77,12 +77,9 @@ export class CDKPipelineStack extends cdk.Stack {
 
     const deployStages = WebMainDeploymentApp.deploymentAccounts.map(
       (account, i) => {
-        const isLastStage =
-          i === WebMainDeploymentApp.deploymentAccounts.length - 1;
-
         return this.addDeployStage({
           account,
-          includeManualApproval: !isLastStage,
+          includeManualApproval: account.stage === Stage.STAGING,
         });
       }
     );
