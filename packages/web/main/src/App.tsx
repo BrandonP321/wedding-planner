@@ -23,6 +23,7 @@ function App() {
           <Routes>
             <Route element={<AppLayout />}>
               <Route path={RouteHelper.Home()} element={<Home />} />
+
               <Route
                 path={RouteHelper.UserProfile()}
                 element={<TempParamPage />}
