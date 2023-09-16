@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { store, storeHelpers } from "./store";
 import { Provider } from "react-redux";
-import { Home, PrivacyPolicy } from "./pages";
+import { Home, PrivacyPolicy, VendorPricing } from "./pages";
 import { AppLayout } from "./components";
 import { HelmetProvider } from "react-helmet-async";
 import { FormSpaceBetween } from "./components/SpaceBetween/SpaceBetween";
@@ -23,6 +23,11 @@ function App() {
           <Routes>
             <Route element={<AppLayout />}>
               <Route path={RouteHelper.Home()} element={<Home />} />
+
+              <Route
+                path={RouteHelper.VendorPricing()}
+                element={<VendorPricing />}
+              />
 
               <Route
                 path={RouteHelper.UserProfile()}

@@ -26,6 +26,7 @@ import * as Yup from "yup";
 import { FormSpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import { TempAPIFetcher } from "../../utils";
 import { t, useI18Languages } from "../../i18n";
+import { RouteHelper } from "../../utils/RouteHelper";
 
 const LanguageSwitcher = () => {
   const { lngCodes, lngs, resolvedLanguage, changeLanguage } =
@@ -195,8 +196,8 @@ export function Home(props: Props) {
       <SpaceBetween size="s" vertical>
         <Button onClick={() => setShowModal(true)}>Show Modal</Button>
         <Button>asdf</Button>
-        <ButtonLink to="/asdf" rightIcon={faArrowUpRight}>
-          asdf
+        <ButtonLink to={RouteHelper.VendorPricing()} rightIcon={faArrowUpRight}>
+          Vendor pricing
         </ButtonLink>
         <p>
           This is a <ExternalLink to={"/"}>Link</ExternalLink>

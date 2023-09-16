@@ -13,6 +13,8 @@ export class WebMainRouteHelper extends RouteHelperInternal {
   public static VendorResetPassword = () =>
     this.CreateRoute(`/vendor/reset-password`);
 
+  public static VendorPricing = this.CreateRoute(`/vendor/pricing`);
+
   public static UserProfileParams: "userId";
   public static UserProfile =
     this.CreateRoute<typeof this.UserProfileParams>("/user/:userId");

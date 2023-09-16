@@ -9,3 +9,4 @@ export * from "./BasicPage/BasicPage";
 export * from "./UnifiedAppHelmet/UnifiedAppHelmet";
 export * from "./UnifiedToast/UnifiedToast";
 export * from "./FormikForm/FormikForm";
+export * from "./Tabs/Tabs";

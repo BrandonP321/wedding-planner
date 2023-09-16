@@ -1,0 +1,29 @@
+@import "../../styles/webSharedStyles.scss";
+
+.tabs {
+}
+
+.header {
+  padding-bottom: $sizeS;
+
+  @include mobileVW() {
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+}
+
+.tabBtn {
+  padding: $sizeS $sizeS;
+  border-radius: $sizeL;
+  border: 1px solid $baseColorSilver;
+  transition: $transition;
+  white-space: nowrap;
+
+  &.selected,
+  &:hover {
+    background-color: $baseColorSilver;
+  }
+}
+
+.content {
+}
