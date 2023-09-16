@@ -26,4 +26,7 @@
 }
 
 .content {
+  &.hidden {
+    display: none;
+  }
 }

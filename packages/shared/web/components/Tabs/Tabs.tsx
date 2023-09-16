@@ -13,10 +13,9 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const tabBtns = useRef<{ [index: number]: HTMLButtonElement | null }>({});
 
-  const selectedTab = useMemo(
-    () => tabs[selectedTabIndex],
-    [selectedTabIndex, tabs]
-  );
+  const tabContents = useMemo(() => {
+    return tabs.map((t) => t.content);
+  }, [tabs]);
 
   useEffect(() => {
     const selectedTabBtn = tabBtns.current[selectedTabIndex];
@@ -56,7 +55,17 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
         })}
       </SpaceBetween>
       <div className={classNames(styles.content, classes?.content)}>
-        {selectedTab?.content}
+        {tabContents?.map((c, i) => (
+          <div
+            key={i}
+            className={classNames(
+              styles.content,
+              i !== selectedTabIndex && styles.hidden
+            )}
+          >
+            {c}
+          </div>
+        ))}
       </div>
     </div>
   );
