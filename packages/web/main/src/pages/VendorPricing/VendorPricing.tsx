@@ -30,28 +30,40 @@ export const VendorPricing = (props: VendorPricingProps) => {
 
 type TabContentProps = VendorMainChoice;
 
-const TabContent = ({ name, addOns, subChoices }: TabContentProps) => {
+const TabContent = ({ name, id, price, subChoices }: TabContentProps) => {
   return (
     <FormikForm initialValues={{}} onSubmit={() => {}}>
       <Form>
         <h1>{name}</h1>
 
         <FormSpaceBetween>
-          <RadioFormField label="Packages" name="sub-choice">
-            {subChoices.map((s, i) => (
-              <RadioField key={i} value={s.name} label={s.name} />
-            ))}
-          </RadioFormField>
-
-          <CheckboxFormField label="Add-ons" name="add-ons">
-            {addOns.map((a, i) => (
-              <CheckboxField
-                key={i}
-                value={a.name}
-                label={`${a.name}: $${a.additionalPrice}`}
-              />
-            ))}
-          </CheckboxFormField>
+          {subChoices.map(({ id, name, choices, multipleChoice }, i) => {
+            if (multipleChoice) {
+              return (
+                <CheckboxFormField key={i} label={name} name={id}>
+                  {choices.map((c, i) => (
+                    <CheckboxField
+                      key={i}
+                      value={c.name}
+                      label={`${c.label}: $${c.price}`}
+                    />
+                  ))}
+                </CheckboxFormField>
+              );
+            } else {
+              return (
+                <RadioFormField key={i} label={name} name={id}>
+                  {choices.map((c, i) => (
+                    <RadioField
+                      key={i}
+                      value={c.name}
+                      label={`${c.label}: $${c.price}`}
+                    />
+                  ))}
+                </RadioFormField>
+              );
+            }
+          })}
         </FormSpaceBetween>
       </Form>
     </FormikForm>

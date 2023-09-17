@@ -23,7 +23,7 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
       selectedTabBtn.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
-        inline: "start",
+        inline: "center",
       });
     }
   }, [selectedTabIndex]);

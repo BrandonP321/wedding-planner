@@ -1,21 +1,5 @@
 export type VendorType = "venue" | "caterer" | "photographer";
 
-export type VendorMainChoice = {
-  id: string;
-  name: string;
-  basePrice: number;
-  peakDatesPrice: number;
-  subChoices: VendorSubChoice[];
-  addOns: VendorAddOn[];
-};
-
-export type VendorSubChoice = {
-  id: string;
-  name: string;
-  additionalPrice: number;
-  peakDatesAdditionalPrice: number;
-};
-
 export type VendorAddOn = {
   id: string;
   name: string;
@@ -44,6 +28,26 @@ type VendorDetailsMap = {
 export type VendorSpecificDetails<Type extends VendorType> = {
   [key in `${Type}Details`]: VendorDetailsMap[Type];
 } & { type: Type };
+
+type VendorMainChoice = {
+  id: string;
+  name: string;
+  price: number;
+  subChoices: VendorSubChoice[];
+};
+
+export type VendorSubChoice = {
+  id: string;
+  name: string;
+  multipleChoice: boolean;
+  choices: VendorChoice[];
+};
+
+type VendorChoice = {
+  name: string;
+  label: string;
+  price: number;
+};
 
 export type VendorResponse =
   | {
