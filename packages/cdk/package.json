@@ -10,7 +10,8 @@
     "deploy:pipeline": "cdk deploy WeddingPlannerCDKPipelineStack",
     "deploy:webMain:dev": "cdk deploy WebMain-dev-DeploymentStack",
     "deploy:webMain:staging": "cdk deploy WebMain-staging-DeploymentStack",
-    "deploy:webMain:prod": "cdk deploy WebMain-prod-DeploymentStack"
+    "deploy:webMain:prod": "cdk deploy WebMain-prod-DeploymentStack",
+    "deploy:api": "cdk deploy WeddingPlannerAPICDKStack"
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",

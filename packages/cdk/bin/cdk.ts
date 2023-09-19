@@ -6,6 +6,7 @@ import { CDKPipelineStack, WebStacks } from "../lib/stacks/cdkPipeline.stack";
 import { WebMainStack } from "../lib/stacks/web/main/webMain.stack";
 import { WebMainDeploymentApp } from "../configuration/accounts/webMainAccounts";
 import { getDeploymentStackName } from "../lib/utils/helpers";
+import { APICDKStack } from "../lib/stacks/api/api.stack";
 
 const app = new cdk.App();
 
@@ -25,6 +26,10 @@ WebMainDeploymentApp.deploymentAccounts.forEach((account) => {
 new CDKPipelineStack(app, "WeddingPlannerCDKPipelineStack", WebMainStacks, {
   env: { region: defaultRegion, account: defaultAccountId },
   crossRegionReferences: true,
+});
+
+new APICDKStack(app, "WeddingPlannerAPICDKStack", {
+  env: { region: defaultRegion, account: defaultAccountId },
 });
 
 app.synth();

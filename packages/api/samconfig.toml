@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "WeddingPlannerAPI-Local"
+resolve_s3 = true
+s3_prefix = "WeddingPlannerAPI-Local"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "BootstrapVersion=\"/cdk-bootstrap/hnb659fds/version\""
+image_repositories = []
