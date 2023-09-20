@@ -13,6 +13,8 @@ import { APIDeploymentApp } from "../../../configuration/accounts/apiAccounts";
 
 export type APIStacks = Record<Stage, APICDKStack>;
 
+const getPipelineResourceName = (name: string) => `APIPipeline-${name}`;
+
 export class APIPipelineStack extends cdk.Stack {
   props;
   pipeline;
@@ -31,12 +33,16 @@ export class APIPipelineStack extends cdk.Stack {
     this.apiStacks = apiStacks;
     this.props = props;
 
-    const artifactBucket = new s3.Bucket(this, "APIPipelineArtifacts", {
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      versioned: false,
-      lifecycleRules: [{ expiration: cdk.Duration.days(7) }],
-    });
+    const artifactBucket = new s3.Bucket(
+      this,
+      getPipelineResourceName("ArtifactBuket"),
+      {
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        versioned: false,
+        lifecycleRules: [{ expiration: cdk.Duration.days(7) }],
+      }
+    );
 
     this.pipeline = new codepipeline.Pipeline(
       this,
@@ -75,30 +81,34 @@ export class APIPipelineStack extends cdk.Stack {
       actions: [
         new CodePipelineAction.CodeBuildAction({
           actionName: "BuildCDK",
-          project: new codebuild.PipelineProject(this, "CDKBuild", {
-            projectName: "CDKBuild",
-            buildSpec: codebuild.BuildSpec.fromObject({
-              version: "0.2",
-              phases: {
-                install: {
-                  commands: [
-                    "cd packages/cdk",
-                    "yarn install --frozen-lockfile",
-                  ],
+          project: new codebuild.PipelineProject(
+            this,
+            getPipelineResourceName("CDKBuild"),
+            {
+              projectName: getPipelineResourceName("CDKBuild"),
+              buildSpec: codebuild.BuildSpec.fromObject({
+                version: "0.2",
+                phases: {
+                  install: {
+                    commands: [
+                      "cd packages/cdk",
+                      "yarn install --frozen-lockfile",
+                    ],
+                  },
+                  build: {
+                    commands: ["yarn cdk synth"],
+                  },
                 },
-                build: {
-                  commands: ["yarn cdk synth"],
+                artifacts: {
+                  "base-directory": "packages/cdk/cdk.out",
+                  files: ["**/*"],
                 },
+              }),
+              environment: {
+                buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
               },
-              artifacts: {
-                "base-directory": "packages/cdk/cdk.out",
-                files: ["**/*"],
-              },
-            }),
-            environment: {
-              buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-            },
-          }),
+            }
+          ),
           input: this.sourceOutput,
           outputs: [this.cdkOutput],
         }),
