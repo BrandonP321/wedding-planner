@@ -6,13 +6,13 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
 import { Construct } from "constructs";
 import { Stage } from "../utils/types";
-import { addSourceCheckoutPipelineStage } from "../utils/pipelineHelpers";
 import { WebMainDeploymentApp } from "../../configuration/accounts/webMainAccounts";
 import { WebMainStack } from "./web/main/webMain.stack";
 import { getStageResoureName, getUniqueResourceName } from "../utils/helpers";
 import { getDistributionArn } from "../utils/cfHelpers";
 import { DeploymentAccount } from "../utils/accounts";
 import { getWebMainEnvVars } from "./web/main/webMainEnv";
+import { PipelineStack } from "./pipeline.stack";
 
 export type WebStacks = { [key in Stage]: WebMainStack };
 type BuildOutputs = { [key in Stage]: codePipeline.Artifact };
@@ -30,16 +30,12 @@ export const mapValueToStages = <T>(
   return stageMap;
 };
 
-export class CDKPipelineStack extends cdk.Stack {
-  props: cdk.StackProps;
+export class CDKPipelineStack extends PipelineStack {
   webStacks: WebStacks;
-  pipeline: cdk.aws_codepipeline.Pipeline;
-  outputSources = new codePipeline.Artifact();
   websiteOutputs: BuildOutputs = mapValueToStages(
     () => new codePipeline.Artifact(),
     WebMainDeploymentApp.deploymentAccounts
   );
-  cdkOutput = new codePipeline.Artifact();
 
   constructor(
     scope: Construct,
@@ -47,26 +43,9 @@ export class CDKPipelineStack extends cdk.Stack {
     webStacks: WebStacks,
     props: cdk.StackProps
   ) {
-    super(scope, id, props);
+    super(scope, id, { ...props, pipelineName: "WeddingPlannerPipeline" });
 
-    this.props = props;
     this.webStacks = webStacks;
-
-    // Bucket for storing pipeline artifacts
-    const artifactBucket = new s3.Bucket(this, "CDKPipelineArtifacts", {
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      versioned: false,
-      // TODO: Consider extending expiration and transitioning objects
-      lifecycleRules: [{ expiration: cdk.Duration.days(7) }],
-    });
-
-    // Create pipeline
-    this.pipeline = new codePipeline.Pipeline(this, "WeddingPlannerPipeline", {
-      pipelineName: "WeddingPlanner-CDKPipeline",
-      artifactBucket,
-      restartExecutionOnUpdate: true,
-    });
 
     this.addPipelineStages();
   }
@@ -87,52 +66,12 @@ export class CDKPipelineStack extends cdk.Stack {
     return [sourceStage, buildStage, ...deployStages];
   }
 
-  private addSourceStage() {
-    return addSourceCheckoutPipelineStage(
-      this.pipeline,
-      this.outputSources,
-      {}
-    );
-  }
-
-  private addBuildStage() {
-    return this.pipeline.addStage({
-      stageName: "Build",
-      actions: [
-        this.getReactAppBuildAction(Stage.DEV),
-        this.getReactAppBuildAction(Stage.STAGING),
-        this.getReactAppBuildAction(Stage.PROD),
-        new CodePipelineAction.CodeBuildAction({
-          actionName: "BuildCDK",
-          project: new codebuild.PipelineProject(this, "CDKBuild", {
-            projectName: "CDKBuild",
-            buildSpec: codebuild.BuildSpec.fromObject({
-              version: "0.2",
-              phases: {
-                install: {
-                  commands: [
-                    "cd packages/cdk",
-                    "yarn install --frozen-lockfile",
-                  ],
-                },
-                build: {
-                  commands: ["yarn cdk synth"],
-                },
-              },
-              artifacts: {
-                "base-directory": "packages/cdk/cdk.out",
-                files: ["**/*"],
-              },
-            }),
-            environment: {
-              buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-            },
-          }),
-          input: this.outputSources,
-          outputs: [this.cdkOutput],
-        }),
-      ],
-    });
+  protected getBuildStagePreActions() {
+    return [
+      this.getReactAppBuildAction(Stage.DEV),
+      this.getReactAppBuildAction(Stage.STAGING),
+      this.getReactAppBuildAction(Stage.PROD),
+    ];
   }
 
   private getReactAppBuildAction(stage: Stage) {
@@ -167,7 +106,7 @@ export class CDKPipelineStack extends cdk.Stack {
           environmentVariables: getWebMainEnvVars(stage),
         }
       ),
-      input: this.outputSources,
+      input: this.sourceOutput,
       outputs: [this.websiteOutputs[stage]],
     });
   }
@@ -213,15 +152,7 @@ export class CDKPipelineStack extends cdk.Stack {
     const pipelineStage = this.pipeline.addStage({
       stageName: account.stageName,
       actions: [
-        new CodePipelineAction.CloudFormationCreateUpdateStackAction({
-          actionName: getUniqueResourceName(account, "UpdateDeploymentStack"),
-          stackName: account.deploymentStackName,
-          templatePath: this.cdkOutput.atPath(
-            `${account.deploymentStackName}.template.json`
-          ),
-          adminPermissions: true,
-          runOrder: 1,
-        }),
+        this.getStackUpdateAction(account, { runOrder: 1 }),
         new CodePipelineAction.S3DeployAction({
           actionName: getUniqueResourceName(account, "DeployWebsite"),
           input: this.websiteOutputs[account.stage],
@@ -242,21 +173,9 @@ export class CDKPipelineStack extends cdk.Stack {
     });
 
     if (includeManualApproval) {
-      pipelineStage.addAction(
-        this.createManualApprovalAction(account, { runOrder: 4 })
-      );
+      this.addManualApprovalAction(pipelineStage, { runOrder: 4, account });
     }
 
     return pipelineStage;
-  }
-
-  private createManualApprovalAction(
-    account: DeploymentAccount,
-    params: { runOrder?: number }
-  ) {
-    return new CodePipelineAction.ManualApprovalAction({
-      actionName: getUniqueResourceName(account, "ApproveDeployment"),
-      runOrder: params.runOrder,
-    });
   }
 }

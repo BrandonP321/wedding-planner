@@ -7,10 +7,7 @@ import { WebMainStack } from "../lib/stacks/web/main/webMain.stack";
 import { WebMainDeploymentApp } from "../configuration/accounts/webMainAccounts";
 import { getDeploymentStackName } from "../lib/utils/helpers";
 import { APICDKStack } from "../lib/stacks/api/api.stack";
-import {
-  APIPipelineStack,
-  APIStacks,
-} from "../lib/stacks/api/apiPipeline.stack";
+import { APIPipelineStack } from "../lib/stacks/api/apiPipeline.stack";
 import { APIDeploymentApp } from "../configuration/accounts/apiAccounts";
 
 const app = new cdk.App();
@@ -37,16 +34,14 @@ new CDKPipelineStack(app, "WeddingPlannerCDKPipelineStack", WebMainStacks, {
 
 // API
 
-const APIStacks = {} as APIStacks;
-
 APIDeploymentApp.deploymentAccounts.forEach((a) => {
-  APIStacks[a.stage] = new APICDKStack(app, getDeploymentStackName(a), {
+  new APICDKStack(app, getDeploymentStackName(a), {
     env: a,
     account: a,
   });
 });
 
-new APIPipelineStack(app, "WeddingPlanner-API-Pipeline", APIStacks, {
+new APIPipelineStack(app, "WeddingPlanner-API-Pipeline", {
   env: { region: defaultRegion, account: defaultAccountId },
   crossRegionReferences: true,
 });
