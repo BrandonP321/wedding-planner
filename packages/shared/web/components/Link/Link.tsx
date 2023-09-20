@@ -9,7 +9,7 @@ import {
 } from "../Button/Button";
 import classNames from "classnames";
 import { ClassesProp } from "../../utils";
-import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
+// import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 
 export type ExternalLinkProps = Omit<
   LinkProps & React.RefAttributes<HTMLAnchorElement>,
@@ -21,7 +21,8 @@ export type ExternalLinkProps = Omit<
 
 export const ExternalLink = ({
   classes,
-  rightIcon = faArrowUpRight,
+  // rightIcon = faArrowUpRight,
+  rightIcon,
   ...props
 }: ExternalLinkProps) => {
   return (

@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./Modal.module.scss";
 import { ClassesProp } from "../../utils";
 import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/pro-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faX } from "@fortawesome/pro-solid-svg-icons";
 
 export type ModalProps = React.PropsWithChildren<{
   show: boolean;
@@ -29,7 +29,7 @@ export const Modal = ({ show, toggleShow, classes, children }: ModalProps) => {
           className={classNames(styles.exitBtn, classes?.exitIcon)}
           onClick={toggleShow}
         >
-          <FontAwesomeIcon icon={faX} className={classNames(styles.icon)} />
+          {/* <FontAwesomeIcon icon={faX} className={classNames(styles.icon)} /> */}
         </button>
         <div>{children}</div>
       </div>

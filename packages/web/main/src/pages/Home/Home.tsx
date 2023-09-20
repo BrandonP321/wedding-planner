@@ -18,7 +18,7 @@ import {
   ToggleField,
   getEmptyInitialValues,
 } from "@wedding-planner/shared/web";
-import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
+// import { faArrowUpRight } from "@fortawesome/pro-solid-svg-icons";
 import { Form, Formik } from "formik";
 import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
@@ -196,9 +196,7 @@ export function Home(props: Props) {
       <SpaceBetween size="s" vertical>
         <Button onClick={() => setShowModal(true)}>Show Modal</Button>
         <Button>asdf</Button>
-        <ButtonLink to={RouteHelper.VendorPricing()} rightIcon={faArrowUpRight}>
-          Vendor pricing
-        </ButtonLink>
+        <ButtonLink to={RouteHelper.VendorPricing()}>Vendor pricing</ButtonLink>
         <p>
           This is a <ExternalLink to={"/"}>Link</ExternalLink>
         </p>
