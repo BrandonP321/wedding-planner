@@ -7,11 +7,14 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy:pipeline": "cdk deploy WeddingPlannerCDKPipelineStack",
+    "deploy:webMain:pipeline": "cdk deploy WeddingPlannerCDKPipelineStack",
     "deploy:webMain:dev": "cdk deploy WebMain-dev-DeploymentStack",
     "deploy:webMain:staging": "cdk deploy WebMain-staging-DeploymentStack",
     "deploy:webMain:prod": "cdk deploy WebMain-prod-DeploymentStack",
-    "deploy:api": "cdk deploy WeddingPlannerAPICDKStack"
+    "deploy:api:pipeline": "cdk deploy WeddingPlanner-API-Pipeline",
+    "deploy:api:dev": "cdk deploy API-dev-DeploymentStack",
+    "deploy:api:staging": "cdk deploy API-stagin-DeploymentStack",
+    "deploy:api:prod": "cdk deploy API-prod-DeploymentStack"
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",

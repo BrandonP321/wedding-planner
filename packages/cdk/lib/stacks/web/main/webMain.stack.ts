@@ -9,6 +9,7 @@ import { DeploymentAccount } from "../../../utils/accounts";
 import { createReactWebsiteS3Bucket } from "../../../utils/s3ResourceHelpers";
 import { getUniqueResourceName } from "../../../utils/helpers";
 import { Stage } from "../../../utils/types";
+import { WEB_APP_DOMAIN } from "../../../utils/constants";
 
 const SubDomainMap = {
   [Stage.DEV]: "dev",
@@ -22,7 +23,6 @@ export class WebMainStack extends cdk.Stack {
   hostedZone: route53.IHostedZone;
   siteCertificate: acm.Certificate;
   cfDistribution: cloudfront.CloudFrontWebDistribution;
-  WEB_APP_DOMAIN = "bpdev-temp.com";
   appUrl: string;
   isProd: boolean;
 
@@ -38,9 +38,7 @@ export class WebMainStack extends cdk.Stack {
 
     const subDomain = SubDomainMap[account.stage];
 
-    this.appUrl = subDomain
-      ? `${subDomain}.${this.WEB_APP_DOMAIN}`
-      : this.WEB_APP_DOMAIN;
+    this.appUrl = subDomain ? `${subDomain}.${WEB_APP_DOMAIN}` : WEB_APP_DOMAIN;
 
     this.deploymentAccount = account;
     this.websiteBucket = createReactWebsiteS3Bucket(this, account);
@@ -63,7 +61,7 @@ export class WebMainStack extends cdk.Stack {
       this,
       getUniqueResourceName(this.deploymentAccount, "HostedZone"),
       {
-        domainName: this.WEB_APP_DOMAIN,
+        domainName: WEB_APP_DOMAIN,
       }
     );
   }
