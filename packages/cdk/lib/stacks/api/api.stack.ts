@@ -6,11 +6,11 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import { Construct } from "constructs";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { handlers } from "@wedding-planner/api/src/handlers";
 import { DeploymentAccount } from "../../utils/accounts";
 import { getUniqueResourceName } from "../../utils/helpers";
 import { WEB_APP_DOMAIN } from "../../utils/constants";
 import { Stage } from "../../utils/types";
+import { handlers } from "../../../configuration/api/handlers";
 
 const subdomainMap = {
   [Stage.DEV]: "api-dev",
