@@ -68,7 +68,7 @@ export class APICDKStack extends cdk.Stack {
         domainName: {
           domainName: this.apiUrl,
           certificate: this.getACMCertificate(),
-          endpointType: apigateway.EndpointType.REGIONAL,
+          endpointType: apigateway.EndpointType.EDGE,
         },
         handler: this.handlers[0].function,
         proxy: false,
