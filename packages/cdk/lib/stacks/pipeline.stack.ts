@@ -13,8 +13,8 @@ type PipelineStackProps = cdk.StackProps & {
 };
 
 export class PipelineStack extends cdk.Stack {
-  protected pipeline;
-  protected props;
+  protected pipeline: codepipeline.Pipeline;
+  protected props: PipelineStackProps;
   protected sourceOutput = new codepipeline.Artifact();
   protected cdkOutput = new codepipeline.Artifact();
 
