@@ -15,6 +15,7 @@ const SubDomainMap = {
   [Stage.DEV]: "dev",
   [Stage.STAGING]: "staging",
   [Stage.PROD]: "",
+  [Stage.LOCAL]: "local",
 };
 
 export class WebMainStack extends cdk.Stack {
