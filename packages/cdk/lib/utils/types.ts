@@ -1,5 +1,5 @@
 export enum Stage {
-  // LOCAL = "local",
+  LOCAL = "local",
   DEV = "dev",
   STAGING = "staging",
   PROD = "prod",

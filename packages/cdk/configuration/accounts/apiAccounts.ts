@@ -9,3 +9,8 @@ export const APIDeploymentApp = new DeploymentApp({
     new DeploymentAccount({ stage: Stage.PROD }),
   ],
 });
+
+export const APILocalApp = new DeploymentApp({
+  appName: "API",
+  deploymentAccounts: [new DeploymentAccount({ stage: Stage.LOCAL })],
+});

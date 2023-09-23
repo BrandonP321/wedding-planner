@@ -9,6 +9,7 @@ const StageNameMap: { [key in Stage]: string } = {
   dev: "Dev",
   prod: "Prod",
   staging: "Staging",
+  local: "Local",
 };
 
 export type DeploymentAccountParams = {

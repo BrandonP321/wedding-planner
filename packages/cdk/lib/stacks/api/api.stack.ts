@@ -16,6 +16,7 @@ const subdomainMap = {
   [Stage.DEV]: "api-dev",
   [Stage.STAGING]: "api-staging",
   [Stage.PROD]: "api",
+  [Stage.LOCAL]: "api-local",
 };
 
 export class APICDKStack extends cdk.Stack {
@@ -52,6 +53,9 @@ export class APICDKStack extends cdk.Stack {
           entry:
             __dirname + `/../../../../api/src/handlers/${h.dirName}/index.ts`,
           handler: "handler",
+          bundling: {
+            assetHash: `WP-Lambda-Fuction-${h.dirName}`,
+          },
         }
       ),
     }));

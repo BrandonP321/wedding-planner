@@ -14,7 +14,8 @@
     "deploy:api:pipeline": "cdk deploy WeddingPlanner-API-Pipeline",
     "deploy:api:dev": "cdk deploy API-dev-DeploymentStack",
     "deploy:api:staging": "cdk deploy API-stagin-DeploymentStack",
-    "deploy:api:prod": "cdk deploy API-prod-DeploymentStack"
+    "deploy:api:prod": "cdk deploy API-prod-DeploymentStack",
+    "synth:api:local": "cdk synth --app \"ts-node bin/cdk.local.ts\""
   },
   "devDependencies": {
     "aws-cdk": "2.95.0",
