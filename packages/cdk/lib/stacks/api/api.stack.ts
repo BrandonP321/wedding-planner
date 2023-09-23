@@ -10,7 +10,10 @@ import { DeploymentAccount } from "../../utils/accounts";
 import { getUniqueResourceName } from "../../utils/helpers";
 import { WEB_APP_DOMAIN } from "../../utils/constants";
 import { Stage } from "../../utils/types";
-import { handlers } from "../../../configuration/api/handlers";
+import {
+  APIGatewayResource,
+  APIHandlers,
+} from "@wedding-planner/shared/api/handlers";
 
 const subdomainMap = {
   [Stage.DEV]: "api-dev",
@@ -20,10 +23,9 @@ const subdomainMap = {
 };
 
 export class APICDKStack extends cdk.Stack {
-  api;
-  handlers;
-  deploymentAccount;
-  apiUrl;
+  api: apigateway.LambdaRestApi;
+  deploymentAccount: DeploymentAccount;
+  apiUrl: string;
   hostedZone: route53.IHostedZone;
 
   constructor(
@@ -41,24 +43,7 @@ export class APICDKStack extends cdk.Stack {
     const subDomain = subdomainMap[account.stage];
     this.apiUrl = `${subDomain}.${WEB_APP_DOMAIN}`;
 
-    this.handlers = handlers.map((h) => ({
-      ...h,
-      function: new NodejsFunction(
-        this,
-        getUniqueResourceName(
-          account,
-          `${h.dirName.charAt(0).toUpperCase()}${h.dirName.slice(1)}Function`
-        ),
-        {
-          entry:
-            __dirname + `/../../../../api/src/handlers/${h.dirName}/index.ts`,
-          handler: "handler",
-          bundling: {
-            assetHash: `WP-Lambda-Fuction-${h.dirName}`,
-          },
-        }
-      ),
-    }));
+    const defaultHandler = this.createLambdaFunction("default");
 
     this.getHostedZone();
 
@@ -74,22 +59,22 @@ export class APICDKStack extends cdk.Stack {
           certificate: this.getACMCertificate(),
           endpointType: apigateway.EndpointType.EDGE,
         },
-        handler: this.handlers[0].function,
+        handler: defaultHandler,
         proxy: false,
       }
     );
 
-    this.integrateHandlersWithGateway();
+    Object.entries(APIHandlers).forEach(([pathPart, resource]) => {
+      this.createAPIGatewayResources(
+        pathPart,
+        this.api.root,
+        resource.nestedHandlers,
+        resource.handlerDirName
+      );
+    });
+
     this.createHostedZoneRecords();
   }
-
-  integrateHandlersWithGateway = () => {
-    this.handlers.forEach((h) => {
-      const resource = this.api.root.addResource(h.path);
-      const resourceIntegration = new apigateway.LambdaIntegration(h.function);
-      resource.addMethod("ANY", resourceIntegration);
-    });
-  };
 
   private getHostedZone() {
     this.hostedZone = route53.HostedZone.fromLookup(
@@ -125,4 +110,68 @@ export class APICDKStack extends cdk.Stack {
       }
     );
   }
+
+  private createLambdaFunction = (dirName: string) =>
+    new NodejsFunction(
+      this,
+      getUniqueResourceName(
+        this.deploymentAccount,
+        `${dirName.charAt(0).toUpperCase()}${dirName.slice(1)}Function`
+      ),
+      {
+        entry: __dirname + `/../../../../api/src/handlers/${dirName}/index.ts`,
+        handler: "handler",
+        bundling: {
+          assetHash: `WP-Lambda-Fuction-${dirName}`,
+        },
+      }
+    );
+
+  private createAPIGatewayResource = (
+    pathPart: string,
+    parentResource: apigateway.IResource,
+    func?: lambda.IFunction
+  ) => {
+    const apiGatewayResource = parentResource.addResource(pathPart);
+
+    if (func) {
+      const resourceIntegration = new apigateway.LambdaIntegration(func);
+      apiGatewayResource.addMethod("ANY", resourceIntegration);
+    }
+
+    return apiGatewayResource;
+  };
+
+  private createAPIGatewayResources = (
+    pathPart: string,
+    parentResource: apigateway.IResource,
+    nestedHandlers: Record<string, APIGatewayResource> | undefined,
+    dirName: string | undefined
+  ): void => {
+    const hasHandler = !!dirName;
+
+    const lambdaHandler = !hasHandler
+      ? undefined
+      : this.createLambdaFunction(dirName);
+
+    const apiGatewayResource = this.createAPIGatewayResource(
+      pathPart,
+      parentResource,
+      lambdaHandler
+    );
+
+    if (nestedHandlers) {
+      return Object.entries(nestedHandlers).forEach(
+        ([nestedPathPart, nestedResource]) =>
+          this.createAPIGatewayResources(
+            nestedPathPart,
+            apiGatewayResource,
+            nestedResource.nestedHandlers,
+            nestedResource.handlerDirName
+          )
+      );
+    } else {
+      return;
+    }
+  };
 }

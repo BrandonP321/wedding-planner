@@ -3534,6 +3534,7 @@ __metadata:
   resolution: "@wedding-planner/cdk@workspace:packages/cdk"
   dependencies:
     "@aws-cdk/aws-amplify-alpha": ^2.95.0-alpha.0
+    "@wedding-planner/shared": 1.0.0
     aws-cdk: 2.95.0
     aws-cdk-lib: 2.95.0
     constructs: ^10.2.70

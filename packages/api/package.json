@@ -6,7 +6,7 @@
   "scripts": {
     "pause": "node -e \"setTimeout(() => {}, 5000)\"",
     "build": "sam build -t ../cdk/cdk.out/API-local-DeploymentStack.template.json --skip-pull-image",
-    "dev:start-api": "sam local start-api --warm-containers EAGER --skip-pull-image",
+    "dev:start-api": "sam local start-api --warm-containers EAGER --skip-pull-image -p 8000  2>&1 | tr \"\\r\" \"\\n\"",
     "dev": "yarn build && yarn concurrently --kill-others-on-fail \"yarn dev:start-api\" \"yarn pause && npx nodemon\""
   },
   "dependencies": {
