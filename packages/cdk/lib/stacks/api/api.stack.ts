@@ -64,7 +64,10 @@ export class APICDKStack extends cdk.Stack {
       }
     );
 
-    Object.entries(APIHandlers).forEach(([pathPart, resource]) => {
+    Object.entries(APIHandlers).forEach((entry) => {
+      const pathPart = entry[0];
+      const resource = entry[1] as APIGatewayResource;
+
       this.createAPIGatewayResources(
         pathPart,
         this.api.root,
