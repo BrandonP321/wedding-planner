@@ -61,8 +61,9 @@ type APIFetcherBaseParams = {
 
 export class APIFetcherBase {
   protected apiDomain: string = "";
+  protected withCredentials = false;
   protected defaultConfig: AxiosRequestConfig = {
-    withCredentials: true,
+    withCredentials: this.withCredentials,
   };
   protected handleAuthFail: (() => void) | undefined;
 

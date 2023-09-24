@@ -6,11 +6,12 @@
   "scripts": {
     "pause": "node -e \"setTimeout(() => {}, 5000)\"",
     "build": "sam build -t ../cdk/cdk.out/API-local-DeploymentStack.template.json --skip-pull-image",
-    "dev:start-api": "sam local start-api --warm-containers EAGER --skip-pull-image -p 8000  2>&1 | tr \"\\r\" \"\\n\"",
-    "dev": "yarn build && yarn concurrently --kill-others-on-fail \"yarn dev:start-api\" \"yarn pause && npx nodemon\""
+    "dev:start-api": "sam local start-api --warm-containers LAZY --skip-pull-image -p 8000 2>&1 | tr \"\\r\" \"\\n\"",
+    "dev": "yarn cdk:synth:api:local && yarn build && npx nodemon"
   },
   "dependencies": {
     "@types/express": "^4.17.13",
+    "@wedding-planner/shared": "1.0.0",
     "concurrently": "^8.2.1",
     "express": "^4.17.1",
     "nodemon": "^2.0.12",

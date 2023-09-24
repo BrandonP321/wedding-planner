@@ -1,4 +1,4 @@
-export const handler = async () => {
+export const lambdaHandler = async () => {
   return {
     statusCode: 201,
     body: JSON.stringify({

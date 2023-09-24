@@ -16,4 +16,11 @@ export const APIHandlers = getTypedLambdaResources({
       },
     },
   },
+  maps: {
+    nestedHandlers: {
+      citySuggestions: {
+        handlerDirName: "getCitySuggestions",
+      },
+    },
+  },
 });
