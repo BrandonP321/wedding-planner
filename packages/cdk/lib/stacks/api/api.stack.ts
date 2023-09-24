@@ -125,7 +125,9 @@ export class APICDKStack extends cdk.Stack {
         entry: __dirname + `/../../../../api/src/handlers/${dirName}/index.ts`,
         handler: "lambdaHandler",
         bundling: {
-          assetHash: `WP-Lambda-Fuction-${dirName}`,
+          assetHash: this.deploymentAccount.isLocalStage
+            ? `WP-Lambda-Fuction-${dirName}`
+            : undefined,
           environment: {},
         },
       }

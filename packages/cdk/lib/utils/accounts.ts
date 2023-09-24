@@ -24,6 +24,19 @@ export class DeploymentAccount {
   account: string;
   appName: string;
 
+  get isLocalStage() {
+    return this.stage === Stage.LOCAL;
+  }
+  get isDevStage() {
+    return this.stage === Stage.DEV;
+  }
+  get isStagingStage() {
+    return this.stage === Stage.STAGING;
+  }
+  get isProdStage() {
+    return this.stage === Stage.PROD;
+  }
+
   get deploymentStackName() {
     return getDeploymentStackName(this);
   }
