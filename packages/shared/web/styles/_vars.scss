@@ -3,7 +3,7 @@
 // ======================================================================================================
 // XXL
 $sizeXXLVar: --size-xxl;
-$sizeXXLarge: var(#{$sizeXXLVar});
+$sizeXXL: var(#{$sizeXXLVar});
 @include SetRootValue($sizeXXLVar, 3rem);
 // XL
 $sizeXLVar: --size-xl;
@@ -31,7 +31,7 @@ $sizeXXS: var(#{$sizeXXSVar});
 @include SetRootValue($sizeXXSVar, 0.25rem);
 
 $sizeMap: (
-  "xxl": $sizeXXLarge,
+  "xxl": $sizeXXL,
   "xl": $sizeXL,
   "l": $sizeL,
   "m": $sizeM,

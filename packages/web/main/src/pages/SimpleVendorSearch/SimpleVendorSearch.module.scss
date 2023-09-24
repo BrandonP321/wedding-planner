@@ -1,0 +1,21 @@
+@import "../../styles/uiBase.scss";
+
+.searchPage {
+  padding-top: 8rem;
+
+  .mainContent {
+    align-items: center;
+  }
+}
+
+.inputWrapper {
+  width: 100%;
+  max-width: $maxWidthL;
+
+  .searchBarFormField {
+    max-width: none;
+  }
+
+  .searchBar {
+  }
+}
