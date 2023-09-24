@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { HttpStatusCode } from "../../api/requests";
+import { Stage } from "../types/environment";
 
 // TODO: Move this to a separate file
 // ==============================
@@ -57,18 +58,33 @@ export namespace DefaultErrors {
 
 type APIFetcherBaseParams = {
   handleAuthFail?: () => void;
+  apiStage?: Stage;
 };
 
 export class APIFetcherBase {
-  protected apiDomain: string = "";
+  protected apiStage: Stage;
+  protected apiDomainMap: Record<Stage, string> = {
+    [Stage.LOCAL]: "http://localhost:8000",
+    [Stage.DEV]: "https://api-dev.bpdev-temp.com",
+    [Stage.STAGING]: "https://api-staging.bpdev-temp.com",
+    [Stage.PROD]: "https://api.bpdev-temp.com",
+  };
+  protected get apiDomain() {
+    return this.apiDomainMap[this.apiStage] ?? this.apiDomainMap[Stage.PROD];
+  }
+
   protected withCredentials = false;
   protected defaultConfig: AxiosRequestConfig = {
-    withCredentials: this.withCredentials,
+    // withCredentials: this.withCredentials,
   };
   protected handleAuthFail: (() => void) | undefined;
 
   constructor(params: APIFetcherBaseParams) {
-    this.handleAuthFail = params.handleAuthFail;
+    const { apiStage, handleAuthFail } = params;
+
+    this.handleAuthFail = handleAuthFail;
+
+    this.apiStage = apiStage || Stage.PROD;
   }
 
   private fetchDefaultHandler<Response extends {}>(
@@ -141,23 +157,4 @@ export class APIFetcherBase {
       )
     );
   }
-}
-
-type TempPost = {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-};
-
-export class TempAPIFetcherInternal extends APIFetcherBase {
-  protected apiDomain = "https://jsonplaceholder.typicode.com";
-
-  public getPosts = () => {
-    return this.get<TempPost>("/todos/1");
-  };
-
-  public tempFail = () => {
-    return this.get<TempPost>("/asdf");
-  };
 }

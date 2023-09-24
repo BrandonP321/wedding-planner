@@ -5,7 +5,7 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
 import { Construct } from "constructs";
-import { Stage } from "../utils/types";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 import { WebMainDeploymentApp } from "../../configuration/accounts/webMainAccounts";
 import { WebMainStack } from "./web/main/webMain.stack";
 import { getStageResoureName, getUniqueResourceName } from "../utils/helpers";

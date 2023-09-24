@@ -21,7 +21,12 @@ type LambdaResponse = {
 
 export class LambdaHandler<ReqBody, ResBody> {
   public statusCode = 200;
-  public headers: LambdaHeaders = {};
+  public headers: LambdaHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Content-Type, Authorization, X-Requested-With, Accept",
+  };
 
   public response(body: ResBody): LambdaResponse {
     return {
@@ -43,6 +48,7 @@ export class LambdaHandler<ReqBody, ResBody> {
   ) {
     return async (event: LambdaRawEvent) => {
       try {
+        console.log(event);
         let body: ReqBody;
         if (
           event.headers["Content-Type"] === "application/x-www-form-urlencoded"
@@ -51,6 +57,7 @@ export class LambdaHandler<ReqBody, ResBody> {
         } else {
           body = JSON.parse(event.body) as ReqBody;
         }
+        console.log(body);
 
         const parsedEvent: LambdaEvent<ReqBody> = {
           body,

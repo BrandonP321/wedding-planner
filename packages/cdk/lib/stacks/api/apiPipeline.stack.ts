@@ -1,7 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
 import { Construct } from "constructs";
-import { Stage } from "../../utils/types";
 import { APICDKStack } from "./api.stack";
 import { DeploymentAccount } from "../../utils/accounts";
 import { APIDeploymentApp } from "../../../configuration/accounts/apiAccounts";
@@ -21,7 +20,7 @@ export class APIPipelineStack extends PipelineStack {
     const deployStages = APIDeploymentApp.deploymentAccounts.map((account) => {
       return this.addDeployStage({
         account,
-        includeManualApproval: account.stage !== Stage.PROD,
+        includeManualApproval: account.isProdStage,
       });
     });
 

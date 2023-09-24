@@ -1,5 +1,7 @@
-import { APIFetcherBase } from "./APIFetcher";
+import { Stage } from "../types/environment";
+import { APIFetcherBase } from "./APIFetcherBase";
 
+// TODO: Invalidate API key and store new key in env variable
 const API_KEY = "AIzaSyDlhQKdtBRYVgwNle7wP4ZQuG1gWaaWtwY";
 
 type GoogleMapsPlacePrediction = {
@@ -11,6 +13,12 @@ type MapsPlaceAutoCompleteResponse = {
 };
 
 class MapsAPIFetcherInternal extends APIFetcherBase {
+  protected apiDomainMap = {
+    [Stage.LOCAL]: "",
+    [Stage.DEV]: "",
+    [Stage.STAGING]: "",
+    [Stage.PROD]: "",
+  };
   protected withCredentials = false;
 
   public getCityAutocomplete = (city: string) => {

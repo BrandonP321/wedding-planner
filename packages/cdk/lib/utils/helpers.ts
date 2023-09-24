@@ -1,5 +1,5 @@
 import { DeploymentAccount } from "./accounts";
-import { Stage } from "./types";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 
 export const getUniqueResourceName = (
   account: DeploymentAccount,

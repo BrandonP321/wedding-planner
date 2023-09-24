@@ -1,6 +1,7 @@
 import { getStageGroupedAccounts } from "../../configuration/accounts";
 import { getDeploymentStackName } from "./helpers";
-import { Region, Stage } from "./types";
+import { Region } from "./types";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 
 export const defaultRegion = Region.US_EAST_1;
 export const defaultAccountId = "757269603777";

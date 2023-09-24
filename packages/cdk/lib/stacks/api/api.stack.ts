@@ -9,11 +9,11 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { DeploymentAccount } from "../../utils/accounts";
 import { getUniqueResourceName } from "../../utils/helpers";
 import { WEB_APP_DOMAIN } from "../../utils/constants";
-import { Stage } from "../../utils/types";
 import {
   APIGatewayResource,
   APIHandlers,
 } from "@wedding-planner/shared/api/handlers";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 
 const subdomainMap = {
   [Stage.DEV]: "api-dev",
@@ -54,6 +54,7 @@ export class APICDKStack extends cdk.Stack {
         restApiName: getUniqueResourceName(account, "APIGateway"),
         deploy: true,
         deployOptions: {},
+
         domainName: {
           domainName: this.apiUrl,
           certificate: this.getACMCertificate(),
@@ -143,6 +144,11 @@ export class APICDKStack extends cdk.Stack {
     if (func) {
       const resourceIntegration = new apigateway.LambdaIntegration(func);
       apiGatewayResource.addMethod("ANY", resourceIntegration);
+      apiGatewayResource.addCorsPreflight({
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+      });
     }
 
     return apiGatewayResource;

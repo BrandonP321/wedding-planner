@@ -8,7 +8,7 @@ import { Construct } from "constructs";
 import { DeploymentAccount } from "../../../utils/accounts";
 import { createReactWebsiteS3Bucket } from "../../../utils/s3ResourceHelpers";
 import { getUniqueResourceName } from "../../../utils/helpers";
-import { Stage } from "../../../utils/types";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 import { WEB_APP_DOMAIN } from "../../../utils/constants";
 
 const SubDomainMap = {

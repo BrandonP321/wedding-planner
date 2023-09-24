@@ -1,5 +1,5 @@
 import { DeploymentAccount, DeploymentApp } from "../../lib/utils/accounts";
-import { Stage } from "../../lib/utils/types";
+import { Stage } from "@wedding-planner/shared/common/types/environment";
 
 export const APIDeploymentApp = new DeploymentApp({
   appName: "API",
