@@ -1,7 +1,12 @@
 @import "../../styles/webSharedStyles.scss";
 
+.outerWrapper {
+  max-width: $maxWidthS;
+}
+
 .input,
 .textarea {
+  width: 100%;
   padding: $sizeXS;
   border: 2px solid black;
 }

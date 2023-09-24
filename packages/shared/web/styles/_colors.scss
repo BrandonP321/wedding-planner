@@ -3,6 +3,7 @@
 // Base colors
 // =============================================================================
 $baseColorSoftBlue: #89abe3;
+$baseColorUltraSoftBlue: #e6e7eb;
 $baseColorMediumLavender: #d8bfd8;
 $baseColorRichLavender: #9966cc;
 $baseColorRoseGold: #b76e79;
@@ -25,7 +26,8 @@ $baseColorSoftGreen: #4caf50;
 // Background
 $colorBackgroundVar: --color-background;
 $colorBackground: var(#{$colorBackgroundVar});
-@include SetRootValue($colorBackgroundVar, $baseColorWhite);
+// @include SetRootValue($colorBackgroundVar, $baseColorWhite);
+@include SetRootValue($colorBackgroundVar, $baseColorUltraSoftBlue);
 
 // Primary
 $colorPrimaryVar: --color-primary;

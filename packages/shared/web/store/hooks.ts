@@ -36,18 +36,22 @@ export const useFetch = <T extends (...params: any[]) => any>(
   apiCall: T,
   { fetchOnMount, overrideDefaultErrorHandling }: UseFetchOptions
 ) => {
-  const [response, setResponse] = useState<ReturnType<T> | null>(null);
+  const [response, setResponse] = useState<Awaited<ReturnType<T>> | null>(null);
   const [isLoading, setIsLoading] = useState(!!fetchOnMount);
   const [errMsg, setErrMsg] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
   const makeAPICall = async (...params: Parameters<T>) => {
+    console.log("makeAPICall");
     setIsLoading(true);
     setErrMsg(null);
 
     apiCall(...params)
-      .then(setResponse)
+      ?.then((res: Awaited<ReturnType<T>>) => {
+        console.log("set res");
+        setResponse(res);
+      })
       .catch((err: { msg: string }) => {
         setErrMsg(err.msg);
 

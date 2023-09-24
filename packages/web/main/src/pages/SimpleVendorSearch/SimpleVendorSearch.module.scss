@@ -1,0 +1,45 @@
+@import "../../styles/uiBase.scss";
+
+.searchPage {
+  padding-top: 8rem;
+
+  .mainContent {
+    align-items: center;
+  }
+}
+
+.inputWrapper {
+  width: 100%;
+  max-width: $maxWidthL;
+
+  .searchBarFormField {
+    max-width: none;
+    width: 100%;
+  }
+
+  .searchBar {
+  }
+}
+
+.suggestions {
+  width: 100%;
+  box-shadow: 0 0 $sizeM $baseColorWhite;
+
+  &,
+  a {
+    border-radius: $sizeXS;
+  }
+
+  a {
+    display: block;
+    padding: $sizeXS;
+    color: $baseColorBlack;
+    transition: $transition;
+
+    &:hover,
+    &:focus {
+      background-color: $baseColorSilver;
+      text-decoration: none;
+    }
+  }
+}

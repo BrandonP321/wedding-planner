@@ -47,12 +47,14 @@ export const FormField = (props: FormFieldProps) => {
         className={classNames(styles.formFieldWrapper, error && styles.error)}
       >
         <SpaceBetween size="xxs" vertical>
-          <label
-            className={classNames(styles.fieldLabel, classes?.label)}
-            htmlFor={disableLabel ? undefined : inputId}
-          >
-            {label}
-          </label>
+          {label && (
+            <label
+              className={classNames(styles.fieldLabel, classes?.label)}
+              htmlFor={disableLabel ? undefined : inputId}
+            >
+              {label}
+            </label>
+          )}
 
           <FormFieldContext.Provider value={{ name, id: inputId }}>
             {children}

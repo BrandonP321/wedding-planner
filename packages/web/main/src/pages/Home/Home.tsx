@@ -24,7 +24,7 @@ import { useFetch } from "../../store";
 import { AppHelmet } from "../../components";
 import * as Yup from "yup";
 import { FormSpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
-import { TempAPIFetcher } from "../../utils";
+// import { TempAPIFetcher } from "../../utils";
 import { t, useI18Languages } from "../../i18n";
 import { RouteHelper } from "../../utils/RouteHelper";
 
@@ -154,20 +154,20 @@ type Props = {};
 
 export function Home(props: Props) {
   const [showModal, setShowModal] = useState(false);
-  const { errMsg, isLoading, response, makeAPICall } = useFetch(
-    TempAPIFetcher.getPosts,
-    {
-      fetchOnMount: true,
-      // overrideDefaultErrorHandling: true,
-    }
-  );
+  // const { errMsg, isLoading, response, makeAPICall } = useFetch(
+  //   TempAPIFetcher.getPosts,
+  //   {
+  //     fetchOnMount: true,
+  //     // overrideDefaultErrorHandling: true,
+  //   }
+  // );
 
   return (
     <>
       <AppHelmet />
       <h1>Stage: {process.env.REACT_APP_STAGE}</h1>
       <LanguageSwitcher />
-      <Button onClick={() => makeAPICall()}>Make API Call</Button>
+      {/* <Button onClick={() => makeAPICall()}>Make API Call</Button> */}
       <TempForm />
       <h1>Something</h1>
       <h2>Something</h2>

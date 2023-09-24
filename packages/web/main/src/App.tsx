@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { store, storeHelpers } from "./store";
 import { Provider } from "react-redux";
-import { Home, PrivacyPolicy, VendorPricing } from "./pages";
+import {
+  Home,
+  PrivacyPolicy,
+  SimpleVendorSearch,
+  VendorPricing,
+} from "./pages";
 import { AppLayout } from "./components";
 import { HelmetProvider } from "react-helmet-async";
 import { FormSpaceBetween } from "./components/SpaceBetween/SpaceBetween";
 import { useParams } from "react-router-dom";
 import { RouteHelper } from "./utils/RouteHelper";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   useEffect(() => {
@@ -17,31 +25,37 @@ function App() {
   }, []);
 
   return (
-    <HelmetProvider>
-      <Provider store={store}>
-        <Router>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path={RouteHelper.Home()} element={<Home />} />
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <Provider store={store}>
+          <Router>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route
+                  path={RouteHelper.Home()}
+                  element={<SimpleVendorSearch />}
+                />
+                <Route path={"/test"} element={<Home />} />
 
-              <Route
-                path={RouteHelper.VendorPricing()}
-                element={<VendorPricing />}
-              />
+                <Route
+                  path={RouteHelper.VendorPricing()}
+                  element={<VendorPricing />}
+                />
 
-              <Route
-                path={RouteHelper.UserProfile()}
-                element={<TempParamPage />}
-              />
+                <Route
+                  path={RouteHelper.UserProfile()}
+                  element={<TempParamPage />}
+                />
 
-              <Route path="/legal">
-                <Route path="/legal/privacy" element={<PrivacyPolicy />} />R
+                <Route path="/legal">
+                  <Route path="/legal/privacy" element={<PrivacyPolicy />} />R
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </Router>
-      </Provider>
-    </HelmetProvider>
+            </Routes>
+          </Router>
+        </Provider>
+      </HelmetProvider>
+    </QueryClientProvider>
   );
 }
 

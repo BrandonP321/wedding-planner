@@ -1,7 +1,5 @@
-import { TempAPIFetcherInternal } from "@wedding-planner/shared/common/utils";
+import { APIFetcherInternal } from "@wedding-planner/shared/common/api/fetchers";
 
-export const TempAPIFetcher = new TempAPIFetcherInternal({
-  handleAuthFail: () => {
-    console.log("handleAuthFail");
-  },
+export const APIFetcher = new APIFetcherInternal({
+  apiStage: process.env.REACT_APP_API_STAGE,
 });
