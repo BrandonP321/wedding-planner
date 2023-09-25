@@ -14,6 +14,8 @@ const APIStageMap: Record<Stage, Stage> = {
   [Stage.PROD]: Stage.PROD,
 };
 
+// Pipeline stack needs to be redeployed
+// after making changes to env vars
 export const getWebMainEnvVars = (
   stage: Stage
 ): CDKEnvVars<WebMainProcessEnv> => ({
