@@ -7,20 +7,9 @@ import {
   FormikForm,
 } from "@wedding-planner/shared/web/components";
 import { useFormikContext } from "formik";
-import { debounce, throttle } from "lodash";
-import { MapsAPIFetcher } from "@wedding-planner/shared";
+import { throttle } from "lodash";
 import { APIFetcher } from "utils";
-import { useFetch } from "@wedding-planner/shared/web/store";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  useInfiniteQuery,
-} from "react-query";
-import {
-  GetCitySuggestionsReq,
-  MapReq,
-} from "@wedding-planner/shared/common/api/requests/maps.requests";
+import { MapReq } from "@wedding-planner/shared/common/api/requests/maps.requests";
 import { Link } from "react-router-dom";
 
 export type SimpleVendorSearchProps = {};
@@ -38,36 +27,20 @@ export const SimpleVendorSearch = (props: SimpleVendorSearchProps) => {
   );
 };
 
-const fetchCities = async (input: string) => {
-  console.log("searching for", input);
-
-  return APIFetcher.getCitySuggestions({ query: input })
-    .then((res) => res.predictions)
-    .catch(() => []);
-};
-
 const SimpleVendorSearchInput = () => {
   const {
     values: { vendorSearch },
   } = useFormikContext<{ vendorSearch: string }>();
 
-  const latestCitiesRequest = useRef<Symbol | null>(null);
   const [cities, setCities] = useState<MapReq.PlaceSuggestion[] | null>(null);
 
   const getCities = useCallback(
     throttle(
       (query: string) => {
-        const requestSymbol = Symbol();
-        latestCitiesRequest.current = requestSymbol;
-
         APIFetcher.getCitySuggestions({ query: query })
           .then((res) => res.predictions)
           .catch(() => [])
-          .then((res) => {
-            if (latestCitiesRequest.current === requestSymbol) {
-              setCities(res);
-            }
-          });
+          .then(setCities);
       },
       // TODO: Look at increasing throttle wait to decrease total API calls and cost
       500,
@@ -79,6 +52,8 @@ const SimpleVendorSearchInput = () => {
   useEffect(() => {
     if (vendorSearch) {
       getCities(vendorSearch);
+    } else {
+      setCities([]);
     }
   }, [vendorSearch, getCities]);
 
