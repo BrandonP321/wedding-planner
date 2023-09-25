@@ -23,7 +23,7 @@ class MapsAPIFetcherInternal extends APIFetcherBase {
 
   public getCityAutocomplete = (city: string) => {
     return this.get<MapsPlaceAutoCompleteResponse>(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${city}&types=(cities)&key=${API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${city}&types=(cities)&key=${API_KEY}&components=country:us`
     );
   };
 }

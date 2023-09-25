@@ -69,6 +69,7 @@ const SimpleVendorSearchInput = () => {
             }
           });
       },
+      // TODO: Look at increasing throttle wait to decrease total API calls and cost
       500,
       { trailing: true }
     ),
