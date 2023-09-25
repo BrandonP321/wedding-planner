@@ -12,7 +12,7 @@ import { AppLayout } from "./components";
 import { HelmetProvider } from "react-helmet-async";
 import { FormSpaceBetween } from "./components/SpaceBetween/SpaceBetween";
 import { useParams } from "react-router-dom";
-import { RouteHelper } from "./utils/RouteHelper";
+import { RouteHelper, WebMainRouteHelper } from "./utils/RouteHelper";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
@@ -60,7 +60,7 @@ function App() {
 }
 
 const TempParamPage = () => {
-  const { userId } = useParams<typeof RouteHelper.UserProfileParams>();
+  const { userId } = useParams<WebMainRouteHelper.UserProfile.UrlParams>();
 
   return (
     <FormSpaceBetween>

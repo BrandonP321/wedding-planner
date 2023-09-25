@@ -4,3 +4,4 @@ export * from "./EnumUtils";
 export * from "./RouteHelper";
 export * from "./APIFetcherBase";
 export * from "./MapsAPIFetcher";
+export * from "./UrlUtils";

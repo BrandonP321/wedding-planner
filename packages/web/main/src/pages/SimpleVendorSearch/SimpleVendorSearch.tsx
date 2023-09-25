@@ -11,6 +11,7 @@ import { throttle } from "lodash";
 import { APIFetcher } from "utils";
 import { MapReq } from "@wedding-planner/shared/common/api/requests/maps.requests";
 import { Link } from "react-router-dom";
+import { RouteHelper } from "utils/RouteHelper";
 
 export type SimpleVendorSearchProps = {};
 
@@ -88,7 +89,7 @@ const SeachResult = ({ description, input }: SearchResultProps) => {
 
   return (
     <Link
-      to={`/temp-result?city=${encodeURIComponent(description)}`}
+      to={RouteHelper.VendorSearch(undefined, { city: description })}
       dangerouslySetInnerHTML={{ __html: modifiedCityName }}
     />
   );
