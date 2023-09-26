@@ -7,6 +7,8 @@ import {
   useResponsive,
 } from "../../store";
 import { SpaceBetween } from "@wedding-planner/shared/web/components";
+import { Link } from "react-router-dom";
+import { RouteHelper } from "utils/RouteHelper";
 
 export type MainNavProps = {};
 
@@ -17,7 +19,9 @@ export const MainNav = (props: MainNavProps) => {
 
   return (
     <SpaceBetween classes={{ root: styles.header }} size="m">
-      <p className={styles.temp}>Logo</p>
+      <Link to={RouteHelper.Home()} className={styles.temp}>
+        Logo
+      </Link>
 
       {medium && (
         <button onClick={() => dispatch(Actions.AppLayout.toggleMobileNav())}>
