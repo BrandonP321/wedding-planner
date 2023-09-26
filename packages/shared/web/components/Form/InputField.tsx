@@ -7,13 +7,21 @@ import classNames from "classnames";
 
 type MapOfStrings = { [key: string]: string };
 
-export type InputFieldProps = {};
+export type InputFieldProps = {
+  autoComplete?: boolean;
+};
 
-export const InputField = (props: InputFieldProps) => {
+export const InputField = ({ autoComplete = true }: InputFieldProps) => {
   const context = useFormFieldContext();
   const {} = useFormikContext<{ [key: string]: string }>();
 
-  return <Field {...context} className={styles.input} />;
+  return (
+    <Field
+      {...context}
+      className={styles.input}
+      autoComplete={autoComplete ? "on" : "off"}
+    />
+  );
 };
 
 export type RadioFieldProps = {

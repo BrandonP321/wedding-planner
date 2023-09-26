@@ -64,7 +64,7 @@ const SimpleVendorSearchInput = () => {
         name="vendorSearch"
         classes={{ root: styles.searchBarFormField }}
       >
-        <InputField />
+        <InputField autoComplete={false} />
       </FormField>
 
       <div className={styles.suggestions}>

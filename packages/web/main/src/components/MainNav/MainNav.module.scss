@@ -3,11 +3,12 @@
 .header {
   justify-content: space-between;
   padding: $sizeS $sizeM;
-  background-color: $baseColorDarkGrey;
+  background-color: $colorBackground;
+  box-shadow: 0 0 1rem rgba(black, 0.5);
+  z-index: $zIndexHeader;
 
   // TEMP
   button {
-    color: white;
   }
 }
 
@@ -15,5 +16,4 @@
   font-size: $fontSizeL;
   font-weight: bold;
   line-height: initial;
-  color: white;
 }

@@ -54,7 +54,11 @@ function App() {
                 />
 
                 <Route path="/legal">
-                  <Route path="/legal/privacy" element={<PrivacyPolicy />} />R
+                  <Route
+                    path={RouteHelper.PrivacyPolicy()}
+                    element={<PrivacyPolicy />}
+                  />
+                  R
                 </Route>
               </Route>
             </Routes>

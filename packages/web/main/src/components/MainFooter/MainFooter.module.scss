@@ -1,10 +1,21 @@
 @import "../../styles/uiBase.scss";
 
 .footer {
-  padding: $sizeL $sizeS $sizeS $sizeS;
-  background-color: $baseColorDarkGrey;
+  padding: $sizeL $sizeXL $sizeXL $sizeXL;
+  justify-content: space-between;
 
-  h2 {
-    color: white;
+  @include mobileVW() {
+    padding: $sizeS;
+    justify-content: center;
+  }
+
+  a {
+    color: rgba(black, 0.5);
+    transition: $transition;
+
+    &:hover {
+      color: rgba(black, 0.9);
+      text-decoration: none;
+    }
   }
 }

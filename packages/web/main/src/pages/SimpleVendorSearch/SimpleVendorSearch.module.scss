@@ -23,16 +23,18 @@
 
 .suggestions {
   width: 100%;
-  box-shadow: 0 0 $sizeM $baseColorWhite;
+  background-color: #dddfe6;
+  box-shadow: -1rem -1rem $sizeL rgba($baseColorWhite, 0.5),
+    1rem 1rem $sizeL rgba(black, 0.25);
 
   &,
   a {
-    border-radius: $sizeXS;
+    border-radius: $borderRadiusM;
   }
 
   a {
     display: block;
-    padding: $sizeXS;
+    padding: $sizeS;
     color: $baseColorBlack;
 
     &:hover,

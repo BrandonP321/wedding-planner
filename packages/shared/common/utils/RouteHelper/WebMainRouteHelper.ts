@@ -29,6 +29,8 @@ export class WebMainRouteHelper extends RouteHelperInternal {
 
   public UserProfile =
     this.CreateRoute<WebMainRouteHelper.UserProfile.UrlParams>("/user/:userId");
+
+  public PrivacyPolicy = this.CreateRoute(`/legal/privacy`);
 }
 
 export default WebMainRouteHelper;

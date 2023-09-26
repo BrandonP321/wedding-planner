@@ -17,7 +17,7 @@ export const MainNav = (props: MainNavProps) => {
 
   return (
     <SpaceBetween classes={{ root: styles.header }} size="m">
-      <p className={styles.temp}>Main nav</p>
+      <p className={styles.temp}>Logo</p>
 
       {medium && (
         <button onClick={() => dispatch(Actions.AppLayout.toggleMobileNav())}>
