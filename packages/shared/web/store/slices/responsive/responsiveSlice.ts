@@ -1,14 +1,8 @@
 import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { createExportedSlice } from "../sliceHelpers";
+import { ResponsiveBreakpoint } from "../../../types/repsonsive";
 
-export interface ResponsiveState {
-  max: boolean;
-  large: boolean;
-  medium: boolean;
-  mobile: boolean;
-  tiny: boolean;
-  pico: boolean;
-}
+export type ResponsiveState = Record<ResponsiveBreakpoint, boolean>;
 
 const initialState: ResponsiveState = {
   max: false,

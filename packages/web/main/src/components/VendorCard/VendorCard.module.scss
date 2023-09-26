@@ -1,0 +1,17 @@
+@import "../../styles/uiBase.scss";
+
+.card {
+  display: block;
+  border: 2px solid gray;
+  border-radius: $borderRadiusM;
+  overflow: hidden;
+  color: $baseColorBlack;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vendorInfo {
+  padding: $sizeS;
+}

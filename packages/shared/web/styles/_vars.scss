@@ -123,3 +123,19 @@ $transitionSlow: var(#{$transitionSlowVar});
 $transitionLinearVar: --transition-linear;
 $transitionLinear: var(#{$transitionLinearVar});
 @include SetRootValue($transitionLinearVar, all 0.15s linear);
+
+// ======================================================================================================
+// Aspect ratio
+// ======================================================================================================
+$aspectRatioPadding1080: 56.25%;
+
+// ======================================================================================================
+// Spacing
+// ======================================================================================================
+$listCardsPerRowVar: --list-cards-per-row;
+$listCardsPerRow: var(#{$listCardsPerRowVar});
+@include SetRootValue($listCardsPerRowVar, 4);
+
+$listFlexGapVar: --list-flex-gap;
+$listFlexGap: var(#{$listFlexGapVar});
+@include SetRootValue($listFlexGapVar, $sizeL);

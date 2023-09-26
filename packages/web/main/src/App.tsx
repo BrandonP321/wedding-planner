@@ -7,6 +7,7 @@ import {
   PrivacyPolicy,
   SimpleVendorSearch,
   VendorPricing,
+  VendorSearch,
 } from "./pages";
 import { AppLayout } from "./components";
 import { HelmetProvider } from "react-helmet-async";
@@ -36,6 +37,11 @@ function App() {
                   element={<SimpleVendorSearch />}
                 />
                 <Route path={"/test"} element={<Home />} />
+
+                <Route
+                  path={RouteHelper.VendorSearch()}
+                  element={<VendorSearch />}
+                />
 
                 <Route
                   path={RouteHelper.VendorPricing()}

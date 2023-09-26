@@ -12,3 +12,24 @@
     align-items: flex-start;
   }
 }
+
+$maxItemsPerRow: 10;
+
+.listSpaceBetween {
+  gap: $listFlexGap;
+
+  @for $i from 1 through $maxItemsPerRow {
+    &.items-#{$i} {
+      #{$listCardsPerRowVar}: $i;
+    }
+  }
+
+  @include generateSizeClassNamesForProperty($listFlexGapVar);
+}
+
+.listItem {
+  width: calc(
+    (100% - ($listFlexGap * ($listCardsPerRow - 1))) / $listCardsPerRow
+  );
+  flex-shrink: 0;
+}
