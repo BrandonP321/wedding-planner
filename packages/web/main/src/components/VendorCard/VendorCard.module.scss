@@ -15,3 +15,8 @@
 .vendorInfo {
   padding: $sizeS;
 }
+
+.name {
+  font-weight: bold;
+  @include FontSizeM();
+}

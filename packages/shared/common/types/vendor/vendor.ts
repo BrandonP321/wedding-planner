@@ -6,7 +6,9 @@ export namespace Vendor {
   };
 
   /** Slim vendor JSON */
-  export type SlimVendor = Pick<Vendor, "city" | "name" | "thumbnail">;
+  export type SearchResult = Pick<Vendor, "city" | "name" | "thumbnail"> & {
+    price: string;
+  };
 
-  export type VendorList = SlimVendor[];
+  export type VendorList = SearchResult[];
 }

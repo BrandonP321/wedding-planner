@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./VendorSearch.module.scss";
 import { getMockVendorList } from "mockData/mockVendorList";
 import {
@@ -17,8 +16,8 @@ export const VendorSearch = (props: VendorSearchProps) => {
       <ListSpaceBetween
         size="l"
         responsiveSize={{ mobile: "l" }}
-        itemsPerRow={3}
-        responsiveItemsPerRow={{ large: 2, mobile: 1 }}
+        itemsPerRow={4}
+        responsiveItemsPerRow={{ max: 3, large: 2, mobile: 1 }}
         classes={{ root: styles.vendors }}
       >
         {mockVendors?.map((v, i) => (
