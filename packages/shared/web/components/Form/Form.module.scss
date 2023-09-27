@@ -4,6 +4,16 @@
   max-width: $maxWidthS;
 }
 
+.inputWrapper {
+  width: 100%;
+  position: relative;
+
+  .input {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 .input,
 .textarea {
   width: 100%;

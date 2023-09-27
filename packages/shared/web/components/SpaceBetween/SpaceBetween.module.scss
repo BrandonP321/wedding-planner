@@ -12,8 +12,26 @@
     align-items: flex-start;
   }
 
-  &.noAlign {
+  &.align-start {
+    align-items: flex-start;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-n {
     align-items: initial;
+  }
+
+  &.stretchChildren {
+    & > * {
+      width: 100%;
+    }
   }
 }
 

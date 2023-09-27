@@ -5,6 +5,7 @@ import {
   FormikForm,
   FormikSubmit,
   InputField,
+  InputSuggestions,
   SpaceBetween,
   SubmitButton,
   getEmptyInitialValues,
@@ -18,7 +19,13 @@ import {
   catererInitialValues,
 } from "./FilterForms/CatererFilterForm";
 import { Vendor } from "@wedding-planner/shared/common/types";
-import { Form } from "formik";
+import { Form, useFormikContext } from "formik";
+import {
+  TextUtils,
+  UrlUtils,
+  useCitySuggestions,
+} from "@wedding-planner/shared";
+import { useMemo, useState } from "react";
 
 const VendorFilterFormMap: Vendor.VendorTypeMap<() => JSX.Element> = {
   [Vendor.VendorType.PHOTOGRAPHER]: PhotographerFilterForm,
@@ -53,11 +60,17 @@ type VendorSearchFilterContentProps = {
 const VendorSearchFilterContent = ({
   handleSubmit,
 }: VendorSearchFilterContentProps) => {
+  const prefilledCity = useMemo(
+    () => UrlUtils.getParam(FilterField.CITY) ?? "",
+    []
+  );
+
   return (
     <FormikForm
       initialValues={{
         ...initialValues,
-        vendorType: Vendor.VendorType.PHOTOGRAPHER,
+        [FilterField.VENDOR_TYPE]: Vendor.VendorType.PHOTOGRAPHER,
+        [FilterField.CITY]: prefilledCity,
       }}
       onSubmit={handleSubmit}
     >
@@ -70,7 +83,7 @@ const VendorSearchFilterContent = ({
               classes={{ root: styles.content }}
               size="l"
               vertical
-              noAlign
+              align="n"
             >
               <FormField name={FilterField.VENDOR_TYPE} label="Vendor type">
                 <Dropdown
@@ -81,9 +94,7 @@ const VendorSearchFilterContent = ({
                 />
               </FormField>
 
-              <FormField name={FilterField.CITY} label="City">
-                <InputField />
-              </FormField>
+              <VendorCityFilter />
 
               <FilterForm />
 
@@ -93,6 +104,43 @@ const VendorSearchFilterContent = ({
         );
       }}
     </FormikForm>
+  );
+};
+
+const VendorCityFilter = () => {
+  const [isSuggestionFocused, setIsSuggestionFocused] = useState(false);
+
+  const { values, setValues } = useFormikContext<VendorFilterValues>();
+  const { citySuggestions, clearSuggestions } = useCitySuggestions(values.city);
+
+  return (
+    <FormField name={FilterField.CITY} label="City">
+      <InputField
+        autoComplete={false}
+        isSuggestionFocused={isSuggestionFocused}
+        suggestions={
+          <InputSuggestions
+            suggestions={citySuggestions}
+            setIsFocused={setIsSuggestionFocused}
+            onSuggestionClick={({ description }) => {
+              setValues({ ...values, city: description });
+              clearSuggestions();
+            }}
+          >
+            {(s) => {
+              const modifiedCityName = TextUtils.getBoldenedMatchedText(
+                s.description,
+                values.city
+              );
+
+              return (
+                <span dangerouslySetInnerHTML={{ __html: modifiedCityName }} />
+              );
+            }}
+          </InputSuggestions>
+        }
+      />
+    </FormField>
   );
 };
 

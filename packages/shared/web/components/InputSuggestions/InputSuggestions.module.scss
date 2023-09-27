@@ -1,0 +1,34 @@
+@import "../../styles/webSharedStyles.scss";
+
+.suggestions,
+.suggestion {
+  border-radius: $borderRadiusM;
+}
+
+.suggestions {
+  width: 100%;
+  background-color: #dddfe6;
+  box-shadow: $raisedBoxShadow;
+
+  &.fixed {
+    width: initial;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+  }
+}
+
+.suggestion {
+  width: 100%;
+  display: block;
+  padding: $sizeS;
+  color: $baseColorBlack;
+
+  &:hover,
+  &button:focus {
+    background-color: $baseColorSilver;
+    text-decoration: none;
+  }
+}

@@ -5,12 +5,15 @@ import classnames from "classnames";
 import { ResponsiveBreakpoint } from "../../types/repsonsive";
 import { useResponsive } from "../../store";
 
+type SpaceBetweenAlign = "start" | "center" | "end" | "n";
+
 export type SpaceBetweenProps = React.PropsWithChildren<{
   size?: Size;
   responsiveSize?: Partial<Record<ResponsiveBreakpoint, Size>>;
   vertical?: boolean;
-  noAlign?: boolean;
   classes?: ClassesProp<"root">;
+  stretchChildren?: boolean;
+  align?: SpaceBetweenAlign;
 }>;
 
 export const SpaceBetween = ({
@@ -18,8 +21,9 @@ export const SpaceBetween = ({
   size = "s",
   vertical,
   classes,
+  align,
   responsiveSize,
-  noAlign = false,
+  stretchChildren = false,
 }: SpaceBetweenProps) => {
   const responsive = useResponsive();
 
@@ -35,7 +39,8 @@ export const SpaceBetween = ({
         styles.spaceBetween,
         classes?.root,
         vertical && styles.vertical,
-        noAlign && styles.noAlign,
+        align && styles[`align-${align}`],
+        stretchChildren && styles.stretchChildren,
         styles[sizeToRender]
       )}
     >

@@ -18,7 +18,6 @@ const mockVendors = getMockVendorList(50);
 
 export const VendorSearch = (props: VendorSearchProps) => {
   const handleSubmit: FormikSubmit<VendorFilterValues> = async (v, f) => {
-    console.log(v);
     f.resetForm({ values: v });
   };
 

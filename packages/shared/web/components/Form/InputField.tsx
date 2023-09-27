@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { useEffect, useId, useState } from "react";
 import styles from "./Form.module.scss";
 import { useFormFieldContext } from "./FormField";
 import { Field, useFormikContext } from "formik";
@@ -9,18 +9,31 @@ type MapOfStrings = { [key: string]: string };
 
 export type InputFieldProps = {
   autoComplete?: boolean;
+  suggestions?: JSX.Element;
+  isSuggestionFocused?: boolean;
 };
 
-export const InputField = ({ autoComplete = true }: InputFieldProps) => {
+export const InputField = ({
+  autoComplete = true,
+  suggestions,
+  isSuggestionFocused,
+}: InputFieldProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   const context = useFormFieldContext();
   const {} = useFormikContext<{ [key: string]: string }>();
 
   return (
-    <Field
-      {...context}
-      className={styles.input}
-      autoComplete={autoComplete ? "on" : "off"}
-    />
+    <div className={styles.inputWrapper}>
+      <Field
+        {...context}
+        className={styles.input}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => requestAnimationFrame(() => setIsFocused(false))}
+        autoComplete={autoComplete ? "on" : "off"}
+      />
+      {(isFocused || isSuggestionFocused) && suggestions}
+    </div>
   );
 };
 

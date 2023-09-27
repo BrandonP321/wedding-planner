@@ -4,13 +4,14 @@
   padding-top: 8rem;
 
   .mainContent {
-    align-items: center;
+    h1 {
+      text-align: center;
+    }
   }
 }
 
 .inputWrapper {
   width: 100%;
-  max-width: $maxWidthL;
 
   .searchBarFormField {
     max-width: none;
@@ -19,6 +20,10 @@
 
   .searchBar {
   }
+}
+
+.searchForm {
+  max-width: $maxWidthL;
 }
 
 .suggestions {
