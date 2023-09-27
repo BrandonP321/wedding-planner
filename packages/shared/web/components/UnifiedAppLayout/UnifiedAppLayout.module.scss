@@ -18,10 +18,11 @@
 
 .main {
   position: relative;
-  padding: $sizeS $sizeM;
+  padding: $pageVerticalPadding $pageHorizontalPadding;
 
   @include mobileVW() {
-    padding: $sizeS;
+    #{$pageVerticalPaddingVar}: $sizeS;
+    #{$pageHorizontalPaddingVar}: $sizeS;
   }
 }
 

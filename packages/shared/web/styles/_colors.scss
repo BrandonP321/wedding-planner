@@ -1,4 +1,5 @@
 @import "mixins";
+@import "vars";
 // =============================================================================
 // Base colors
 // =============================================================================
@@ -83,6 +84,14 @@ $darkOverlay: var(#{$darkOverlayVar});
 $darkBoxShadowVar: --dark-box-shadow;
 $darkBoxShadow: var(#{$darkBoxShadowVar});
 @include SetRootValue($darkBoxShadowVar, #{0 0 3rem BaseColorBlackFaded(0.25)});
+
+$raisedBoxShadowVar: --raised-box-shadow;
+$raisedBoxShadow: var(#{$raisedBoxShadowVar});
+@include SetRootValue(
+  $raisedBoxShadowVar,
+  #{-1rem -1rem $sizeL rgba($baseColorWhite, 0.5),
+  1rem 1rem $sizeL rgba(black, 0.25)}
+);
 
 // Oher
 $colorDarkFadeVar: --color-dark-fade;

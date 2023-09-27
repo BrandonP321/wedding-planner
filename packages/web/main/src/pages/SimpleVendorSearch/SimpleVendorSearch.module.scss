@@ -24,8 +24,7 @@
 .suggestions {
   width: 100%;
   background-color: #dddfe6;
-  box-shadow: -1rem -1rem $sizeL rgba($baseColorWhite, 0.5),
-    1rem 1rem $sizeL rgba(black, 0.25);
+  box-shadow: $raisedBoxShadow;
 
   &,
   a {

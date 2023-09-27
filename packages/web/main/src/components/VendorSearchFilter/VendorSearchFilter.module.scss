@@ -1,0 +1,15 @@
+@import "../../styles/uiBase.scss";
+
+.content {
+}
+
+.sidebar {
+  width: 20rem;
+  flex-shrink: 0;
+  padding: 2rem;
+  border-radius: 1rem;
+  position: sticky;
+  top: $pageVerticalPadding;
+  background-color: #dddfe6;
+  box-shadow: $raisedBoxShadow;
+}

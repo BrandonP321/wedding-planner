@@ -2,10 +2,8 @@ import React from "react";
 import styles from "./Button.module.scss";
 import classNames from "classnames";
 import { ClassesProp, HTMLButtonProps } from "../../utils";
-import { Link, LinkProps } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { useFormikContext } from "formik";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -31,27 +29,6 @@ export const Button = ({
     >
       <ButtonContent {...props} />
     </button>
-  );
-};
-
-export const SubmitButton = ({
-  type,
-  variant = "primary",
-  children = "Submit",
-  disabled,
-  ...props
-}: ButtonProps) => {
-  const { dirty } = useFormikContext();
-
-  return (
-    <Button
-      {...props}
-      type="submit"
-      variant={variant}
-      disabled={disabled ?? !dirty}
-    >
-      {children}
-    </Button>
   );
 };
 

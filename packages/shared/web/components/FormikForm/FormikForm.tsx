@@ -58,51 +58,66 @@ export const FormikForm = <Values extends {}>({
 };
 
 export const getEmptyInitialValues = <
-  Inputs extends {},
-  Toggles extends {},
-  Checkboxes extends { [key: string]: {} },
-  Radios extends { [key: string]: {} }
+  Inputs extends Record<string, {}>,
+  Toggles extends Record<string, {}>,
+  Checkboxes extends Record<string, {}>,
+  Radios extends Record<string, {}>,
+  Selects extends Record<string, {}>
 >({
   inputFields,
   checkboxFields,
   radioFields,
   toggleFields,
+  selectFields,
 }: {
-  inputFields?: Inputs;
-  toggleFields?: Toggles;
-  checkboxFields?: Checkboxes;
-  radioFields?: Radios;
+  inputFields: Inputs;
+  toggleFields: Toggles;
+  checkboxFields: Checkboxes;
+  radioFields: Radios;
+  selectFields: Selects;
 }) => {
-  const emptyInputs = inputFields
-    ? EnumUtils.invertWithNewValues(inputFields, "")
-    : ({} as InvertedEnum<Inputs, string>);
+  const emptyInputs = EnumUtils.invertWithNewValues(inputFields, "");
 
-  type EmptyCheckboxes = {
-    [key in keyof Checkboxes]: EnumValue<Checkboxes[key]>[];
-  };
+  type EmptyCheckboxes = Record<
+    keyof Checkboxes,
+    EnumValue<Checkboxes[keyof Checkboxes]>[]
+  >;
 
   const emptyCheckboxes = {} as EmptyCheckboxes;
-  forEach(checkboxFields, (value, key: keyof Checkboxes) => {
-    emptyCheckboxes[key] = [] as EnumValue<Checkboxes[keyof Checkboxes]>[];
-  });
+  checkboxFields &&
+    forEach(checkboxFields, (value, key: keyof NonNullable<Checkboxes>) => {
+      emptyCheckboxes[key] = [] as EnumValue<
+        NonNullable<Checkboxes>[keyof NonNullable<Checkboxes>]
+      >[];
+    });
 
-  type EmptyRadios = {
-    [key in keyof Radios]: EnumValue<Radios[key]>;
-  };
+  type EmptyRadios = Record<keyof Radios, EnumValue<Radios[keyof Radios]>>;
 
   const emptyRadios = {} as EmptyRadios;
-  forEach(radioFields, (value, key: keyof Radios) => {
-    emptyRadios[key] = "" as EnumValue<Radios[keyof Radios]>;
+  forEach(radioFields, (value, key: keyof NonNullable<Radios>) => {
+    emptyRadios[key] = "" as EnumValue<
+      NonNullable<Radios>[keyof NonNullable<Radios>]
+    >;
   });
 
-  const emptyToggles = toggleFields
-    ? EnumUtils.invertWithNewValues(toggleFields, false)
-    : ({} as InvertedEnum<Toggles, boolean>);
+  type EmptySelects = {
+    [key in keyof NonNullable<Selects>]: EnumValue<NonNullable<Selects>[key]>;
+  };
+
+  const emptySelects = {} as EmptySelects;
+  forEach(selectFields, (value, key: keyof NonNullable<Selects>) => {
+    emptySelects[key] = "" as EnumValue<
+      NonNullable<Selects>[keyof NonNullable<Selects>]
+    >;
+  });
+
+  const emptyToggles = EnumUtils.invertWithNewValues(toggleFields, false);
 
   return {
     ...emptyInputs,
     ...emptyCheckboxes,
     ...emptyRadios,
     ...emptyToggles,
+    ...emptySelects,
   };
 };

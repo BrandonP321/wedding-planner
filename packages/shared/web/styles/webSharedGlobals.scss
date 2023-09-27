@@ -23,7 +23,8 @@ li,
 input,
 textarea,
 label,
-button {
+button,
+select {
   @include FontSizeS();
 }
 

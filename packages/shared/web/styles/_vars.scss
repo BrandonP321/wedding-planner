@@ -139,3 +139,11 @@ $listCardsPerRow: var(#{$listCardsPerRowVar});
 $listFlexGapVar: --list-flex-gap;
 $listFlexGap: var(#{$listFlexGapVar});
 @include SetRootValue($listFlexGapVar, $sizeL);
+
+$pageVerticalPaddingVar: --page-vertical-padding;
+$pageVerticalPadding: var(#{$pageVerticalPaddingVar});
+@include SetRootValue($pageVerticalPaddingVar, $sizeL);
+
+$pageHorizontalPaddingVar: --page-horizontal-padding;
+$pageHorizontalPadding: var(#{$pageHorizontalPaddingVar});
+@include SetRootValue($pageHorizontalPaddingVar, $sizeL);

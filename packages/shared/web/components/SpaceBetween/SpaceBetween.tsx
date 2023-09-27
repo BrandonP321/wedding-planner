@@ -9,6 +9,7 @@ export type SpaceBetweenProps = React.PropsWithChildren<{
   size?: Size;
   responsiveSize?: Partial<Record<ResponsiveBreakpoint, Size>>;
   vertical?: boolean;
+  noAlign?: boolean;
   classes?: ClassesProp<"root">;
 }>;
 
@@ -18,6 +19,7 @@ export const SpaceBetween = ({
   vertical,
   classes,
   responsiveSize,
+  noAlign = false,
 }: SpaceBetweenProps) => {
   const responsive = useResponsive();
 
@@ -33,6 +35,7 @@ export const SpaceBetween = ({
         styles.spaceBetween,
         classes?.root,
         vertical && styles.vertical,
+        noAlign && styles.noAlign,
         styles[sizeToRender]
       )}
     >

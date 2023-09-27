@@ -108,6 +108,7 @@ const initial = getEmptyInitialValues({
     [TempRadioField.RadioOne]: TempRadioOneValue,
     [TempRadioField.RadioTwo]: TempRadioTwoValue,
   },
+  selectFields: {},
 });
 
 type TempFormValues = typeof initial;

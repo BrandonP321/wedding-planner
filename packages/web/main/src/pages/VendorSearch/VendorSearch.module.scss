@@ -1,4 +1,11 @@
 @import "../../styles/uiBase.scss";
 
+.searchPage {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  position: relative;
+}
+
 .vendors {
+  position: relative;
 }

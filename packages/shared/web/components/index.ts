@@ -1,4 +1,4 @@
-export * from "./Button/Button";
+export * from "./Button";
 export * from "./SpaceBetween/SpaceBetween";
 export * from "./SpaceBetween/ListSpaceBetween";
 export * from "./Link/Link";

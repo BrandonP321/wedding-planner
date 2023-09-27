@@ -11,4 +11,11 @@ export namespace Vendor {
   };
 
   export type VendorList = SearchResult[];
+
+  export enum VendorType {
+    PHOTOGRAPHER = "photographer",
+    CATERER = "caterer",
+  }
+
+  export type VendorTypeMap<T> = Record<VendorType, T>;
 }
