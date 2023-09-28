@@ -3,9 +3,18 @@
 .searchPage {
   padding-top: 8rem;
 
+  @include mobileVW() {
+    padding-top: 2rem;
+  }
+
   .mainContent {
     h1 {
       text-align: center;
+
+      @include mobileVW() {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
     }
   }
 }
