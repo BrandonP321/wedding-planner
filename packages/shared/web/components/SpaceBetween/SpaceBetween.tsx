@@ -11,8 +11,10 @@ export type SpaceBetweenProps = React.PropsWithChildren<{
   size?: Size;
   responsiveSize?: Partial<Record<ResponsiveBreakpoint, Size>>;
   vertical?: boolean;
+  responsiveVertical?: Partial<Record<ResponsiveBreakpoint, boolean>>;
   classes?: ClassesProp<"root">;
   stretchChildren?: boolean;
+  responsiveStretchChildren?: Partial<Record<ResponsiveBreakpoint, boolean>>;
   align?: SpaceBetweenAlign;
 }>;
 
@@ -23,6 +25,8 @@ export const SpaceBetween = ({
   classes,
   align,
   responsiveSize,
+  responsiveVertical,
+  responsiveStretchChildren,
   stretchChildren = false,
 }: SpaceBetweenProps) => {
   const responsive = useResponsive();
@@ -33,14 +37,26 @@ export const SpaceBetween = ({
     size
   );
 
+  const isVertical = ResponsiveUtils.getMostSpecificFromMap(
+    responsive,
+    responsiveVertical ?? {},
+    vertical
+  );
+
+  const isStretchChildren = ResponsiveUtils.getMostSpecificFromMap(
+    responsive,
+    responsiveStretchChildren ?? {},
+    stretchChildren
+  );
+
   return (
     <div
       className={classnames(
         styles.spaceBetween,
         classes?.root,
-        vertical && styles.vertical,
+        isVertical && styles.vertical,
         align && styles[`align-${align}`],
-        stretchChildren && styles.stretchChildren,
+        isStretchChildren && styles.stretchChildren,
         styles[sizeToRender]
       )}
     >

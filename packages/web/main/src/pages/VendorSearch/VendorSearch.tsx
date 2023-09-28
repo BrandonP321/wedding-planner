@@ -9,8 +9,9 @@ import {
 import { VendorCard } from "components";
 import {
   VendorFilterValues,
+  VendorSearchFilterMobile,
   VendorSearchFilterSideBar,
-} from "components/VendorSearchFilter/VendorSearchFilter";
+} from "components/VendorSearchFilter";
 
 export type VendorSearchProps = {};
 
@@ -22,12 +23,18 @@ export const VendorSearch = (props: VendorSearchProps) => {
   };
 
   return (
-    <SpaceBetween classes={{ root: styles.searchPage }} size="l">
+    <SpaceBetween
+      classes={{ root: styles.searchPage }}
+      size="l"
+      responsiveVertical={{ medium: true }}
+      responsiveStretchChildren={{ mobile: true }}
+    >
       <VendorSearchFilterSideBar handleSubmit={handleSubmit} />
+      <VendorSearchFilterMobile handleSubmit={handleSubmit} />
       <ListSpaceBetween
         size="l"
-        itemsPerRow={4}
-        responsiveItemsPerRow={{ max: 3, large: 2, medium: 1 }}
+        itemsPerRow={3}
+        responsiveItemsPerRow={{ max: 2, large: 1, medium: 2, mobile: 1 }}
         classes={{ root: styles.vendors }}
       >
         {mockVendors?.map((v, i) => (

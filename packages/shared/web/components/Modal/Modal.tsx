@@ -9,9 +9,16 @@ export type ModalProps = React.PropsWithChildren<{
   show: boolean;
   toggleShow: () => void;
   classes?: ClassesProp<"root" | "overaly" | "content" | "exitIcon">;
+  footer?: JSX.Element;
 }>;
 
-export const Modal = ({ show, toggleShow, classes, children }: ModalProps) => {
+export const Modal = ({
+  show,
+  toggleShow,
+  classes,
+  children,
+  footer,
+}: ModalProps) => {
   return (
     <div
       className={classNames(
@@ -30,8 +37,10 @@ export const Modal = ({ show, toggleShow, classes, children }: ModalProps) => {
           onClick={toggleShow}
         >
           {/* <FontAwesomeIcon icon={faX} className={classNames(styles.icon)} /> */}
+          X
         </button>
-        <div>{children}</div>
+        <div className={styles.children}>{children}</div>
+        {footer && <div className={styles.footer}>{footer}</div>}
       </div>
     </div>
   );

@@ -1,0 +1,15 @@
+@import "../../styles/webSharedStyles.scss";
+
+.scrollable {
+  position: relative;
+  flex-wrap: nowrap;
+
+  .content {
+    overflow: auto;
+  }
+
+  .footer {
+    position: sticky;
+    bottom: 0;
+  }
+}

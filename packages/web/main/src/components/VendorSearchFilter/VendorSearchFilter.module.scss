@@ -1,15 +1,48 @@
 @import "../../styles/uiBase.scss";
 
 .content {
+  flex-wrap: nowrap;
+}
+
+.sidebarContent,
+.sidebarFooter {
+  padding: 2rem;
+}
+
+.sidebarFooter {
+  padding-top: 0;
 }
 
 .sidebar {
-  width: 20rem;
+  width: $maxWidthM;
   flex-shrink: 0;
-  padding: 2rem;
-  border-radius: 1rem;
-  position: sticky;
+  border-radius: $borderRadiusM;
+  position: sticky !important;
   top: $pageVerticalPadding;
-  background-color: #dddfe6;
+  #{$colorBackgroundVar}: #dddfe6;
+  background-color: $colorBackground;
   box-shadow: $raisedBoxShadow;
+  overflow: auto;
+  max-height: 75vh;
+
+  @include maxVW() {
+    width: $maxWidthS;
+  }
+
+  @include mediumVW() {
+    display: none;
+  }
+}
+
+.mobileFilterBar {
+  height: 4rem;
+  background-color: gainsboro;
+
+  @include notMobileVW() {
+    display: none;
+  }
+}
+
+.saveBtn {
+  width: 100%;
 }
