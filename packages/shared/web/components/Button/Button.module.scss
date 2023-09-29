@@ -5,8 +5,10 @@
   border-radius: $borderRadiusS;
   text-align: center;
 
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: none;
+    background-color: $colorAccentSilver;
   }
 
   &.primary {

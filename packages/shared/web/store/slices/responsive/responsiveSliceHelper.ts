@@ -1,5 +1,6 @@
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { responsiveSlice, ResponsiveState } from "./responsiveSlice";
+import { BrowserUtils } from "../../../utils/BrowserUtils";
 
 const {
   actions: { breakpointHit },
@@ -106,6 +107,7 @@ export class ResponsiveSliceHelperInternal<TStore extends ToolkitStore> {
     breakpoint: keyof ResponsiveState;
     matches: boolean;
   }) => {
+    BrowserUtils.setTouchStatusHTMLClass();
     this.store.dispatch(breakpointHit({ breakpoint, matches }));
   };
 

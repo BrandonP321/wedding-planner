@@ -1,7 +1,7 @@
 @import "./webSharedStyles.scss";
 
 * {
-  @include nonTouchDevice() {
+  @include nonMobileNonTouchDevice() {
     @include ScrollbarWidth();
     @include ScrollbarThumb();
     @include ScrollbarTrack();

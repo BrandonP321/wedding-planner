@@ -48,13 +48,33 @@ $picoVW: 350px;
 }
 
 @mixin touchDevice() {
-  @media (hover: none) {
+  :global(html.touch) & {
     @content;
   }
 }
 
+@mixin mobileTouchDevice() {
+  :global(html.touch.mobile) & {
+    @include mobileVW() {
+      @content;
+    }
+  }
+}
+
+@mixin nonMobileNonTouchDevice() {
+  @include notMobileVW() {
+    @content;
+  }
+
+  @include mobileVW() {
+    @include nonTouchDevice() {
+      @content;
+    }
+  }
+}
+
 @mixin nonTouchDevice() {
-  @media (hover: hover) {
+  :global(html.no-touch) & {
     @content;
   }
 }

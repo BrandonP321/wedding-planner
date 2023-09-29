@@ -49,8 +49,9 @@ $topSpacer: 1px;
   color: $baseColorBlack;
 
   &:hover,
-  &button:focus {
+  &:focus {
     background-color: $baseColorSilver;
     text-decoration: none;
+    outline: none;
   }
 }
