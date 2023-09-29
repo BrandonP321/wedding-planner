@@ -8,6 +8,8 @@
   }
 
   .mainContent {
+    max-width: $maxWidthL;
+
     h1 {
       text-align: center;
 
@@ -20,40 +22,7 @@
 }
 
 .inputWrapper {
-  width: 100%;
-
   .searchBarFormField {
-    max-width: none;
     width: 100%;
-  }
-
-  .searchBar {
-  }
-}
-
-.searchForm {
-  max-width: $maxWidthL;
-}
-
-.suggestions {
-  width: 100%;
-  background-color: #dddfe6;
-  box-shadow: $raisedBoxShadow;
-
-  &,
-  a {
-    border-radius: $borderRadiusM;
-  }
-
-  a {
-    display: block;
-    padding: $sizeS;
-    color: $baseColorBlack;
-
-    &:hover,
-    &:focus {
-      background-color: $baseColorSilver;
-      text-decoration: none;
-    }
   }
 }

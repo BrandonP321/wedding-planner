@@ -21,12 +21,17 @@ export const SimpleVendorSearch = (props: SimpleVendorSearchProps) => {
   };
 
   return (
-    <div className={styles.searchPage}>
+    <SpaceBetween
+      classes={{ root: styles.searchPage }}
+      align="center"
+      vertical
+      stretchChildren
+    >
       <SpaceBetween
         classes={{ root: styles.mainContent }}
         align="center"
-        vertical
         stretchChildren
+        vertical
       >
         <h1>Some App Logo</h1>
 
@@ -39,7 +44,7 @@ export const SimpleVendorSearch = (props: SimpleVendorSearchProps) => {
           </Form>
         </FormikForm>
       </SpaceBetween>
-    </div>
+    </SpaceBetween>
   );
 };
 

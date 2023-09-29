@@ -42,30 +42,32 @@ export const FormField = (props: FormFieldProps) => {
   const inputId = id ?? name;
 
   return (
-    <div className={classNames(styles.outerWrapper, classes?.root)}>
-      <div
-        className={classNames(styles.formFieldWrapper, error && styles.error)}
-      >
-        <SpaceBetween size="xxs" vertical>
-          {label && (
-            <label
-              className={classNames(styles.fieldLabel, classes?.label)}
-              htmlFor={disableLabel ? undefined : inputId}
-            >
-              {label}
-            </label>
-          )}
-
-          <FormFieldContext.Provider value={{ name, id: inputId }}>
-            {children}
-          </FormFieldContext.Provider>
-        </SpaceBetween>
-
-        {(error ?? errorText) && (
-          <p className={styles.errorMsg}>{errorText ?? error}</p>
+    <div
+      className={classNames(
+        styles.formFieldWrapper,
+        classes?.root,
+        error && styles.error
+      )}
+    >
+      <SpaceBetween size="xxs" vertical>
+        {label && (
+          <label
+            className={classNames(styles.fieldLabel, classes?.label)}
+            htmlFor={disableLabel ? undefined : inputId}
+          >
+            {label}
+          </label>
         )}
-        {hintText && <small className={styles.hintText}>{hintText}</small>}
-      </div>
+
+        <FormFieldContext.Provider value={{ name, id: inputId }}>
+          {children}
+        </FormFieldContext.Provider>
+      </SpaceBetween>
+
+      {(error ?? errorText) && (
+        <p className={styles.errorMsg}>{errorText ?? error}</p>
+      )}
+      {hintText && <small className={styles.hintText}>{hintText}</small>}
     </div>
   );
 };
