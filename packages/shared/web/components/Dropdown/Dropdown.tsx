@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Dropdown.module.scss";
 import { Button } from "../Button";
 import { DropdownList } from "../DropdownList/DropdownList";
@@ -20,7 +20,12 @@ export const Dropdown = <V extends string>({
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
-  const toggleDropdown = () => setShowOptions(!showOptions);
+  useEffect(() => {
+    document.addEventListener("click", () => setShowOptions(false));
+  }, []);
+
+  const toggleDropdown = () =>
+    requestAnimationFrame(() => setShowOptions(!showOptions));
 
   const handleOptionClick = (option: DropdownOption<V>) => {
     setShowOptions(false);
