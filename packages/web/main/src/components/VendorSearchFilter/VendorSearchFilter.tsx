@@ -1,7 +1,7 @@
 import styles from "./VendorSearchFilter.module.scss";
 import {
-  Dropdown,
   FormField,
+  Select,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
 import { PhotographerFilterForm } from "./FilterForms/PhotographerFilterForm";
@@ -40,7 +40,7 @@ export const VendorSearchFilterContent = (
         align="n"
       >
         <FormField name={FilterField.VENDOR_TYPE} label="Vendor type">
-          <Dropdown
+          <Select
             options={[
               {
                 label: "Photographer",

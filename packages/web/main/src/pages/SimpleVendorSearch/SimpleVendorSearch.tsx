@@ -73,6 +73,7 @@ const SimpleVendorSearchInput = () => {
         getOptionHref={(s) =>
           RouteHelper.VendorSearch(undefined, { city: s.description })
         }
+        variant="raised"
         staticPosition
       >
         {(s) => {

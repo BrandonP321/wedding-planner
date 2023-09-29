@@ -6,6 +6,8 @@
 }
 
 .dropdown {
+  position: relative;
+  z-index: 11;
   width: 100%;
   text-align: start;
   padding: $sizeXS;
@@ -13,6 +15,7 @@
   width: 100%;
   border-radius: $borderRadiusS;
   cursor: pointer;
+  background-color: $colorBackground;
 }
 
 .options {

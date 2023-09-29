@@ -1,37 +1,32 @@
-import React, { useId, useState } from "react";
+import { useState } from "react";
 import styles from "./Dropdown.module.scss";
-import { useFormFieldContext } from "./FormField";
-import { Field, useFormikContext } from "formik";
-import { MapOfStrings } from "../../../common/utils";
 import { Button } from "../Button";
 import { DropdownList } from "../DropdownList/DropdownList";
 
-export type DropdownOption<Value extends string> = {
+export type DropdownOption<Value> = {
   label: string;
   value: Value;
 };
 
 export type DropdownProps<Value extends string> = {
   options: DropdownOption<Value>[];
+  onOptionClick: (option: DropdownOption<Value>) => void;
 };
 
-export const Dropdown = <V extends string>(props: DropdownProps<V>) => {
-  const { options } = props;
-
+export const Dropdown = <V extends string>({
+  onOptionClick,
+  options,
+}: DropdownProps<V>) => {
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const [showOptions, setShowOptions] = useState(false);
-
-  const { name } = useFormFieldContext();
-  const { values, setFieldValue } = useFormikContext<MapOfStrings>();
 
   const toggleDropdown = () => setShowOptions(!showOptions);
 
-  const handleOptionClick = (value: string) => {
-    setFieldValue(name, value);
+  const handleOptionClick = (option: DropdownOption<V>) => {
     setShowOptions(false);
+    setSelectedOption(option);
+    onOptionClick?.(option);
   };
-
-  const selectedOption =
-    options.find((o) => o.value === values[name]) ?? options[0];
 
   return (
     <div className={styles.wrapper}>
@@ -41,7 +36,8 @@ export const Dropdown = <V extends string>(props: DropdownProps<V>) => {
       {showOptions && (
         <DropdownList
           options={options}
-          onOptionClick={(o) => handleOptionClick(o.value)}
+          onOptionClick={handleOptionClick}
+          staticPosition
         >
           {(option) => option.label}
         </DropdownList>

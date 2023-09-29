@@ -22,7 +22,7 @@
   }
 }
 
-@mixin ScrollbarTrack($bgColor: $colorBackground) {
+@mixin ScrollbarTrack($bgColor: transparent) {
   &::-webkit-scrollbar-track {
     background-color: $bgColor;
     @content;

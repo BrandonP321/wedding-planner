@@ -3,6 +3,8 @@ import styles from "./DropdownList.module.scss";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
+type DropdowListVariant = "normal" | "raised";
+
 export type DropdownListProps<T> = {
   options: T[] | null;
   onOptionClick?: (option: T) => void;
@@ -12,6 +14,7 @@ export type DropdownListProps<T> = {
   staticPosition?: boolean;
   setIsFocused?: (status: boolean) => void;
   clearOptions?: () => void;
+  variant?: DropdowListVariant;
 };
 
 export const DropdownList = <T extends object>({
@@ -22,7 +25,7 @@ export const DropdownList = <T extends object>({
   staticPosition = false,
   setIsFocused,
   clearOptions,
-  ...props
+  variant = "normal",
 }: DropdownListProps<T>) => {
   const focusedItemsCount = useRef(0);
 
@@ -45,11 +48,15 @@ export const DropdownList = <T extends object>({
 
   return (
     <div
-      className={classNames(styles.options, !staticPosition && styles.fixed)}
+      className={classNames(
+        styles.options,
+        styles[variant],
+        !options?.length && styles.empty,
+        !staticPosition && styles.fixed
+      )}
     >
       {options?.map((s, i) => {
         const sharedProps: OptionProps = {
-          ...props,
           onClick: () => handleClick(s),
           handleBlur,
           handleFocus: () => {

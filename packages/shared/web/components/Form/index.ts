@@ -1,3 +1,3 @@
 export * from "./InputField";
 export * from "./FormField";
-export * from "./Dropdown";
+export * from "./Select";

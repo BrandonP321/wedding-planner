@@ -14,3 +14,4 @@ export * from "./Tabs/Tabs";
 export * from "./AspectRatioImage/AspectRatioImage";
 export * from "./DropdownList/DropdownList";
 export * from "./Scrollable/Scrollable";
+export * from "./Dropdown/Dropdown";

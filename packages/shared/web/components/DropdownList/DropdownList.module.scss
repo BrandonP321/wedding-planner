@@ -1,5 +1,7 @@
 @import "../../styles/webSharedStyles.scss";
 
+$topSpacer: 1px;
+
 .options,
 .option {
   border-radius: $borderRadiusM;
@@ -7,17 +9,36 @@
 
 .options {
   width: 100%;
-  background-color: #dddfe6;
-  box-shadow: $raisedBoxShadow;
   z-index: 10;
+  overflow: auto;
+  max-height: 40vh;
 
   &.fixed {
     width: initial;
     position: absolute;
-    bottom: 0;
+    bottom: calc($topSpacer * -1);
     left: 0;
     right: 0;
     transform: translateY(100%);
+  }
+
+  &.empty {
+    display: none;
+  }
+
+  &:not(.fixed) {
+    margin-top: $topSpacer;
+  }
+
+  &.normal {
+    background-color: $colorBackground;
+    border: 2px solid black;
+    box-shadow: $darkBoxShadow;
+  }
+
+  &.raised {
+    background-color: #dddfe6;
+    box-shadow: $raisedBoxShadow;
   }
 }
 
