@@ -1,34 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./InputSuggestions.module.scss";
-import { MapReq } from "../../../common/api/requests/maps.requests";
+import styles from "./DropdownList.module.scss";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
-export type InputSuggestionsProps<T> = {
-  suggestions: T[] | null;
-  onSuggestionClick?: (suggestion: T) => void;
-  /** If provided, will render suggestion as a link */
-  getSuggestionHref?: (suggestion: T) => string;
-  children: (suggestion: T) => React.ReactNode;
+export type DropdownListProps<T> = {
+  options: T[] | null;
+  onOptionClick?: (option: T) => void;
+  /** If provided, will render option as a link */
+  getOptionHref?: (option: T) => string;
+  children: (option: T) => React.ReactNode;
   staticPosition?: boolean;
   setIsFocused?: (status: boolean) => void;
-  clearSuggestions?: () => void;
+  clearOptions?: () => void;
 };
 
-export const InputSuggestions = <T extends object>({
+export const DropdownList = <T extends object>({
   children,
-  getSuggestionHref,
-  onSuggestionClick,
-  suggestions,
+  getOptionHref,
+  onOptionClick,
+  options,
   staticPosition = false,
   setIsFocused,
-  clearSuggestions,
+  clearOptions,
   ...props
-}: InputSuggestionsProps<T>) => {
+}: DropdownListProps<T>) => {
   const focusedItemsCount = useRef(0);
 
-  const handleClick = (s: T) => {
-    onSuggestionClick && onSuggestionClick(s);
+  const handleClick = (o: T) => {
+    onOptionClick && onOptionClick(o);
   };
 
   const handleBlur = () => {
@@ -42,17 +41,14 @@ export const InputSuggestions = <T extends object>({
 
   useEffect(() => {
     focusedItemsCount.current = 0;
-  }, [suggestions]);
+  }, [options]);
 
   return (
     <div
-      className={classNames(
-        styles.suggestions,
-        !staticPosition && styles.fixed
-      )}
+      className={classNames(styles.options, !staticPosition && styles.fixed)}
     >
-      {suggestions?.map((s, i) => {
-        const sharedProps: SuggestionProps = {
+      {options?.map((s, i) => {
+        const sharedProps: OptionProps = {
           ...props,
           onClick: () => handleClick(s),
           handleBlur,
@@ -62,21 +58,17 @@ export const InputSuggestions = <T extends object>({
           },
         };
 
-        if (getSuggestionHref) {
+        if (getOptionHref) {
           return (
-            <SuggestionLink
-              {...sharedProps}
-              key={i}
-              href={getSuggestionHref(s)}
-            >
+            <OptionLink {...sharedProps} key={i} href={getOptionHref(s)}>
               {children(s)}
-            </SuggestionLink>
+            </OptionLink>
           );
         } else {
           return (
-            <SuggestionButton {...sharedProps} key={i}>
+            <OptionButton {...sharedProps} key={i}>
               {children(s)}
-            </SuggestionButton>
+            </OptionButton>
           );
         }
       })}
@@ -84,51 +76,51 @@ export const InputSuggestions = <T extends object>({
   );
 };
 
-type SuggestionProps = React.PropsWithChildren<{
+type OptionProps = React.PropsWithChildren<{
   onClick?: () => void;
   handleBlur: () => void;
   handleFocus: () => void;
 }>;
 
-type SuggestionLinkProps = SuggestionProps &
+type OptionLinkProps = OptionProps &
   React.PropsWithChildren<{
     href: string;
   }>;
 
-const SuggestionLink = ({
+const OptionLink = ({
   href,
   onClick,
   children,
   handleBlur,
   handleFocus,
-}: SuggestionLinkProps) => {
+}: OptionLinkProps) => {
   return (
     <Link
       to={href}
       onClick={onClick}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      className={styles.suggestion}
+      className={styles.option}
     >
       {children}
     </Link>
   );
 };
 
-type SuggestionButtonProps = SuggestionProps & React.PropsWithChildren<{}>;
+type OptionButtonProps = OptionProps & React.PropsWithChildren<{}>;
 
-const SuggestionButton = ({
+const OptionButton = ({
   handleBlur,
   handleFocus,
   children,
   onClick,
-}: SuggestionButtonProps) => {
+}: OptionButtonProps) => {
   return (
     <button
       onClick={onClick}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      className={styles.suggestion}
+      className={styles.option}
       type="button"
     >
       {children}

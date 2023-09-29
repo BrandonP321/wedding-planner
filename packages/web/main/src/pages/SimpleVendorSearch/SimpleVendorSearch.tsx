@@ -4,7 +4,7 @@ import {
   FormField,
   SpaceBetween,
   FormikForm,
-  InputSuggestions,
+  DropdownList,
 } from "@wedding-planner/shared/web/components";
 import { Form, useFormikContext } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -68,9 +68,9 @@ const SimpleVendorSearchInput = () => {
         <InputField autoComplete={false} />
       </FormField>
 
-      <InputSuggestions
-        suggestions={citySuggestions}
-        getSuggestionHref={(s) =>
+      <DropdownList
+        options={citySuggestions}
+        getOptionHref={(s) =>
           RouteHelper.VendorSearch(undefined, { city: s.description })
         }
         staticPosition
@@ -85,7 +85,7 @@ const SimpleVendorSearchInput = () => {
             <span dangerouslySetInnerHTML={{ __html: modifiedCityName }} />
           );
         }}
-      </InputSuggestions>
+      </DropdownList>
     </SpaceBetween>
   );
 };

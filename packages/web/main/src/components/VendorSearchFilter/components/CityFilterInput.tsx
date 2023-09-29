@@ -2,7 +2,7 @@ import {
   useCitySuggestions,
   FormField,
   InputField,
-  InputSuggestions,
+  DropdownList,
   TextUtils,
 } from "@wedding-planner/shared";
 import { useFormikContext } from "formik";
@@ -21,10 +21,10 @@ export const VendorCityFilter = () => {
         autoComplete={false}
         isSuggestionFocused={isSuggestionFocused}
         suggestions={
-          <InputSuggestions
-            suggestions={citySuggestions}
+          <DropdownList
+            options={citySuggestions}
             setIsFocused={setIsSuggestionFocused}
-            onSuggestionClick={({ description }) => {
+            onOptionClick={({ description }) => {
               setValues({ ...values, city: description });
               clearSuggestions();
             }}
@@ -39,7 +39,7 @@ export const VendorCityFilter = () => {
                 <span dangerouslySetInnerHTML={{ __html: modifiedCityName }} />
               );
             }}
-          </InputSuggestions>
+          </DropdownList>
         }
       />
     </FormField>

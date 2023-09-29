@@ -1,6 +1,13 @@
 @import "../../styles/webSharedStyles.scss";
 
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
 .dropdown {
+  width: 100%;
+  text-align: start;
   padding: $sizeXS;
   border: 2px solid black;
   width: 100%;

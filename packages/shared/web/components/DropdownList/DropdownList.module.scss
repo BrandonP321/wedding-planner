@@ -1,14 +1,15 @@
 @import "../../styles/webSharedStyles.scss";
 
-.suggestions,
-.suggestion {
+.options,
+.option {
   border-radius: $borderRadiusM;
 }
 
-.suggestions {
+.options {
   width: 100%;
   background-color: #dddfe6;
   box-shadow: $raisedBoxShadow;
+  z-index: 10;
 
   &.fixed {
     width: initial;
@@ -20,7 +21,7 @@
   }
 }
 
-.suggestion {
+.option {
   width: 100%;
   display: block;
   padding: $sizeS;

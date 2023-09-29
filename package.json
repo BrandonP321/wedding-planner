@@ -13,7 +13,7 @@
     "cdk": "yarn workspace @wedding-planner/cdk",
     "cdk:synth:api:local": "yarn cdk synth:api:local",
     "web": "yarn workspace @wedding-planner/web-main",
-    "web:dev": "yarn web start"
+    "web:dev": "ts-node scripts/updateEnvVars.ts && yarn web start"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
@@ -44,6 +44,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.197",
     "@types/node": "^20.5.6",
-    "esbuild": "^0.19.3"
+    "@types/qrcode-terminal": "^0.12.0",
+    "esbuild": "^0.19.3",
+    "qrcode-terminal": "^0.12.0"
   }
 }
