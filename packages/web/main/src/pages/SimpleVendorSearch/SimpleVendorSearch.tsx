@@ -5,6 +5,7 @@ import {
   SpaceBetween,
   FormikForm,
   DropdownList,
+  PageContent,
 } from "@wedding-planner/shared/web/components";
 import { Form, useFormikContext } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -21,30 +22,32 @@ export const SimpleVendorSearch = (props: SimpleVendorSearchProps) => {
   };
 
   return (
-    <SpaceBetween
-      classes={{ root: styles.searchPage }}
-      align="center"
-      vertical
-      stretchChildren
-    >
+    <PageContent verticalPadding horizontalPadding>
       <SpaceBetween
-        classes={{ root: styles.mainContent }}
+        classes={{ root: styles.searchPage }}
         align="center"
-        stretchChildren
         vertical
+        stretchChildren
       >
-        <h1>Some App Logo</h1>
-
-        <FormikForm
-          initialValues={{ vendorSearch: "" }}
-          onSubmit={(v) => goToVendorSearch(v.vendorSearch)}
+        <SpaceBetween
+          classes={{ root: styles.mainContent }}
+          align="center"
+          stretchChildren
+          vertical
         >
-          <Form className={styles.searchForm}>
-            <SimpleVendorSearchInput />
-          </Form>
-        </FormikForm>
+          <h1>Some App Logo</h1>
+
+          <FormikForm
+            initialValues={{ vendorSearch: "" }}
+            onSubmit={(v) => goToVendorSearch(v.vendorSearch)}
+          >
+            <Form className={styles.searchForm}>
+              <SimpleVendorSearchInput />
+            </Form>
+          </FormikForm>
+        </SpaceBetween>
       </SpaceBetween>
-    </SpaceBetween>
+    </PageContent>
   );
 };
 

@@ -4,7 +4,7 @@
 }
 
 .header {
-  padding-bottom: $sizeS;
+  padding: 0 $pageHorizontalPadding $sizeS $pageHorizontalPadding;
 
   @include mobileVW() {
     overflow: auto;

@@ -1,0 +1,21 @@
+@import "../../styles/webSharedStyles.scss";
+
+.content {
+  position: relative;
+
+  &.topPadding {
+    padding-top: $pageVerticalPadding;
+  }
+
+  &.bottomPadding {
+    padding-bottom: $pageVerticalPadding;
+  }
+
+  &.leftPadding {
+    padding-left: $pageHorizontalPadding;
+  }
+
+  &.rightPadding {
+    padding-right: $pageHorizontalPadding;
+  }
+}

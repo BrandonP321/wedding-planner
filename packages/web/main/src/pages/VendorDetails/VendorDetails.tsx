@@ -6,6 +6,7 @@ import { WebMainRouteHelper } from "@wedding-planner/shared";
 import {
   Carousel,
   CarouselPagination,
+  PageContent,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
 import { VendorPricing } from "components";
@@ -18,22 +19,26 @@ export const VendorDetails = (props: VendorDetailsProps) => {
   const p = mockPhotographer;
 
   return (
-    <div>
+    <PageContent verticalPadding>
       <SpaceBetween size="xxl" vertical stretchChildren>
-        <SpaceBetween vertical>
-          <h1>{p.name}</h1>
-          <p>{p.description}</p>
-        </SpaceBetween>
+        <PageContent horizontalPadding>
+          <SpaceBetween vertical>
+            <h1>{p.name}</h1>
+            <p>{p.description}</p>
+          </SpaceBetween>
+        </PageContent>
 
         <Carousel slides={[{}, {}, {}, {}]} slide={() => <div />}>
           <CarouselPagination />
         </Carousel>
 
         <SpaceBetween size="s" vertical>
-          <h2>Pricing</h2>
+          <PageContent horizontalPadding>
+            <h2>Pricing</h2>
+          </PageContent>
           <VendorPricing />
         </SpaceBetween>
       </SpaceBetween>
-    </div>
+    </PageContent>
   );
 };

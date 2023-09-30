@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import styles from "./SpaceBetween.module.scss";
-import { ClassesProp, ResponsiveUtils, Size } from "../../utils";
+import {
+  ClassesProp,
+  ResponsiveProps,
+  ResponsiveUtils,
+  Size,
+} from "../../utils";
 import classnames from "classnames";
-import { ResponsiveBreakpoint } from "../../types/repsonsive";
 import { useResponsive } from "../../store";
 
 type SpaceBetweenAlign = "start" | "center" | "end" | "n";
@@ -11,23 +15,11 @@ type SpaceBetweenJustify = "start" | "center" | "end" | "n";
 export type SpaceBetweenProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root">;
   style?: React.CSSProperties;
-  // Size
-  size?: Size;
-  responsiveSize?: Partial<Record<ResponsiveBreakpoint, Size>>;
-  // Vertical
-  vertical?: boolean;
-  responsiveVertical?: Partial<Record<ResponsiveBreakpoint, boolean>>;
-  // Stretch children
-  stretchChildren?: boolean;
-  responsiveStretchChildren?: Partial<Record<ResponsiveBreakpoint, boolean>>;
-  // Align
   align?: SpaceBetweenAlign;
-  // Justify
-  justify?: SpaceBetweenAlign;
-  // Wrap
-  wrap?: boolean;
-  responsiveWrap?: Partial<Record<ResponsiveBreakpoint, boolean>>;
-}>;
+  justify?: SpaceBetweenJustify;
+}> &
+  ResponsiveProps<"size", Size> &
+  ResponsiveProps<"vertical" | "stretchChildren" | "wrap", boolean>;
 
 export const SpaceBetween = ({
   children,
@@ -46,28 +38,29 @@ export const SpaceBetween = ({
 }: SpaceBetweenProps) => {
   const responsive = useResponsive();
 
-  const sizeToRender = ResponsiveUtils.getMostSpecificFromMap(
-    responsive,
-    responsiveSize ?? {},
-    size
+  const getMostSpecific = useCallback(
+    ResponsiveUtils.createMostSpecificGetter(responsive),
+    [responsive]
   );
 
-  const isVertical = ResponsiveUtils.getMostSpecificFromMap(
-    responsive,
-    responsiveVertical ?? {},
-    vertical
+  const sizeToRender = useMemo(
+    () => getMostSpecific(responsiveSize, size),
+    [responsiveSize, size, getMostSpecific]
   );
 
-  const isStretchChildren = ResponsiveUtils.getMostSpecificFromMap(
-    responsive,
-    responsiveStretchChildren ?? {},
-    stretchChildren
+  const isVertical = useMemo(
+    () => getMostSpecific(responsiveVertical, vertical),
+    [responsiveVertical, vertical, getMostSpecific]
   );
 
-  const isWrap = ResponsiveUtils.getMostSpecificFromMap(
-    responsive,
-    responsiveWrap ?? {},
-    wrap
+  const isStretchChildren = useMemo(
+    () => getMostSpecific(responsiveStretchChildren, stretchChildren),
+    [responsiveStretchChildren, stretchChildren, getMostSpecific]
+  );
+
+  const isWrap = useMemo(
+    () => getMostSpecific(responsiveWrap, wrap),
+    [responsiveWrap, wrap, getMostSpecific]
   );
 
   return (

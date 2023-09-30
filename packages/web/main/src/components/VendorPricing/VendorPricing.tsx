@@ -4,6 +4,7 @@ import {
   CheckboxField,
   CheckboxFormField,
   FormikForm,
+  PageContent,
   RadioField,
   RadioFormField,
   SpaceBetween,
@@ -38,42 +39,44 @@ type TabContentProps = VendorMainChoice;
 
 const TabContent = ({ name, id, price, subChoices }: TabContentProps) => {
   return (
-    <FormikForm initialValues={{}} onSubmit={() => {}}>
-      <Form>
-        <SpaceBetween size="xs" vertical>
-          <h3>{name}</h3>
+    <PageContent horizontalPadding>
+      <FormikForm initialValues={{}} onSubmit={() => {}}>
+        <Form>
+          <SpaceBetween size="xs" vertical>
+            <h3>{name}</h3>
 
-          <FormSpaceBetween>
-            {subChoices.map(({ id, name, choices, multipleChoice }, i) => {
-              if (multipleChoice) {
-                return (
-                  <CheckboxFormField key={i} label={name} name={id}>
-                    {choices.map((c, i) => (
-                      <CheckboxField
-                        key={i}
-                        value={c.name}
-                        label={`${c.label}: $${c.price}`}
-                      />
-                    ))}
-                  </CheckboxFormField>
-                );
-              } else {
-                return (
-                  <RadioFormField key={i} label={name} name={id}>
-                    {choices.map((c, i) => (
-                      <RadioField
-                        key={i}
-                        value={c.name}
-                        label={`${c.label}: $${c.price}`}
-                      />
-                    ))}
-                  </RadioFormField>
-                );
-              }
-            })}
-          </FormSpaceBetween>
-        </SpaceBetween>
-      </Form>
-    </FormikForm>
+            <FormSpaceBetween>
+              {subChoices.map(({ id, name, choices, multipleChoice }, i) => {
+                if (multipleChoice) {
+                  return (
+                    <CheckboxFormField key={i} label={name} name={id}>
+                      {choices.map((c, i) => (
+                        <CheckboxField
+                          key={i}
+                          value={c.name}
+                          label={`${c.label}: $${c.price}`}
+                        />
+                      ))}
+                    </CheckboxFormField>
+                  );
+                } else {
+                  return (
+                    <RadioFormField key={i} label={name} name={id}>
+                      {choices.map((c, i) => (
+                        <RadioField
+                          key={i}
+                          value={c.name}
+                          label={`${c.label}: $${c.price}`}
+                        />
+                      ))}
+                    </RadioFormField>
+                  );
+                }
+              })}
+            </FormSpaceBetween>
+          </SpaceBetween>
+        </Form>
+      </FormikForm>
+    </PageContent>
   );
 };

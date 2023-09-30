@@ -3,6 +3,7 @@ import { getMockVendorList } from "mockData/mockVendorList";
 import {
   FormikSubmit,
   ListSpaceBetween,
+  PageContent,
   SpaceBetween,
   SpaceBetweenListItem,
 } from "@wedding-planner/shared/web/components";
@@ -23,27 +24,30 @@ export const VendorSearch = (props: VendorSearchProps) => {
   };
 
   return (
-    <SpaceBetween
-      classes={{ root: styles.searchPage }}
-      size="l"
-      wrap={false}
-      responsiveVertical={{ medium: true }}
-      responsiveStretchChildren={{ mobile: true }}
-    >
-      <VendorSearchFilterSideBar handleSubmit={handleSubmit} />
+    <>
       <VendorSearchFilterMobile handleSubmit={handleSubmit} />
-      <ListSpaceBetween
-        size="l"
-        itemsPerRow={3}
-        responsiveItemsPerRow={{ max: 2, large: 1, medium: 2, mobile: 1 }}
-        classes={{ root: styles.vendors }}
-      >
-        {mockVendors?.map((v, i) => (
-          <SpaceBetweenListItem key={i}>
-            <VendorCard {...v} />
-          </SpaceBetweenListItem>
-        ))}
-      </ListSpaceBetween>
-    </SpaceBetween>
+
+      <PageContent horizontalPadding verticalPadding>
+        <SpaceBetween
+          classes={{ root: styles.searchPage }}
+          size="l"
+          wrap={false}
+        >
+          <VendorSearchFilterSideBar handleSubmit={handleSubmit} />
+          <ListSpaceBetween
+            size="l"
+            itemsPerRow={3}
+            responsiveItemsPerRow={{ max: 2, large: 1, medium: 2, mobile: 1 }}
+            classes={{ root: styles.vendors }}
+          >
+            {mockVendors?.map((v, i) => (
+              <SpaceBetweenListItem key={i}>
+                <VendorCard {...v} />
+              </SpaceBetweenListItem>
+            ))}
+          </ListSpaceBetween>
+        </SpaceBetween>
+      </PageContent>
+    </>
   );
 };

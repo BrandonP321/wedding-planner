@@ -25,4 +25,18 @@ export class ResponsiveUtils {
     }
     return defaultValue;
   }
+
+  /** Creates a simpler re-usable function from `getMostSpecificFromMap` */
+  public static createMostSpecificGetter(state: ResponsiveState) {
+    return function <T>(
+      map: Partial<Record<ResponsiveBreakpoint, T>> | undefined,
+      defaultValue: T
+    ) {
+      return ResponsiveUtils.getMostSpecificFromMap(
+        state,
+        map ?? {},
+        defaultValue
+      );
+    };
+  }
 }

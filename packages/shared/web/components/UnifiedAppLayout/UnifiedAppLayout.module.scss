@@ -18,8 +18,8 @@
 
 .main {
   position: relative;
-  padding: $pageVerticalPadding $pageHorizontalPadding;
 
+  // TODO: Move to more global file
   @include mobileVW() {
     #{$pageVerticalPaddingVar}: $sizeS;
     #{$pageHorizontalPaddingVar}: $sizeS;
