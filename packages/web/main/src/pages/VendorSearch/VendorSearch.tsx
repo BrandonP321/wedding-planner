@@ -26,6 +26,7 @@ export const VendorSearch = (props: VendorSearchProps) => {
     <SpaceBetween
       classes={{ root: styles.searchPage }}
       size="l"
+      wrap={false}
       responsiveVertical={{ medium: true }}
       responsiveStretchChildren={{ mobile: true }}
     >

@@ -3,7 +3,6 @@
 .spaceBetween {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
 
   @include generateSizeClassNamesForProperty(gap);
 
@@ -26,6 +25,26 @@
 
   &.align-n {
     align-items: initial;
+  }
+
+  &.justify-start {
+    justify-content: flex-start;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+
+  &.justify-n {
+    justify-content: initial;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
   }
 
   &.stretchChildren {

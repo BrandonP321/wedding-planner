@@ -5,6 +5,10 @@ export namespace WebMainRouteHelper {
     export type SearchParams = "city";
   }
 
+  export namespace VendorDetails {
+    export type UrlParams = "vendorId";
+  }
+
   export namespace UserProfile {
     export type UrlParams = "userId";
   }
@@ -25,6 +29,10 @@ export class WebMainRouteHelper extends RouteHelperInternal {
   public VendorForgotPassword = this.CreateRoute(`/vendor/forgot-password`);
   public VendorResetPassword = this.CreateRoute(`/vendor/reset-password`);
 
+  public VendorDetails =
+    this.CreateRoute<WebMainRouteHelper.VendorDetails.UrlParams>(
+      `/vendor/:vendorId/details`
+    );
   public VendorPricing = this.CreateRoute(`/vendor/pricing`);
 
   public UserProfile =

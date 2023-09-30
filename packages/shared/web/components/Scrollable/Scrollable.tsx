@@ -15,6 +15,7 @@ export const Scrollable = ({ children, footer, classes }: ScrollableProps) => {
       classes={{ root: classNames(classes?.root, styles.scrollable) }}
       stretchChildren
       size="s"
+      wrap={false}
       vertical
     >
       <div className={classNames(styles.content, classes?.content)}>

@@ -6,16 +6,27 @@ import { ResponsiveBreakpoint } from "../../types/repsonsive";
 import { useResponsive } from "../../store";
 
 type SpaceBetweenAlign = "start" | "center" | "end" | "n";
+type SpaceBetweenJustify = "start" | "center" | "end" | "n";
 
 export type SpaceBetweenProps = React.PropsWithChildren<{
+  classes?: ClassesProp<"root">;
+  style?: React.CSSProperties;
+  // Size
   size?: Size;
   responsiveSize?: Partial<Record<ResponsiveBreakpoint, Size>>;
+  // Vertical
   vertical?: boolean;
   responsiveVertical?: Partial<Record<ResponsiveBreakpoint, boolean>>;
-  classes?: ClassesProp<"root">;
+  // Stretch children
   stretchChildren?: boolean;
   responsiveStretchChildren?: Partial<Record<ResponsiveBreakpoint, boolean>>;
+  // Align
   align?: SpaceBetweenAlign;
+  // Justify
+  justify?: SpaceBetweenAlign;
+  // Wrap
+  wrap?: boolean;
+  responsiveWrap?: Partial<Record<ResponsiveBreakpoint, boolean>>;
 }>;
 
 export const SpaceBetween = ({
@@ -24,10 +35,14 @@ export const SpaceBetween = ({
   vertical,
   classes,
   align,
+  justify,
   responsiveSize,
   responsiveVertical,
   responsiveStretchChildren,
   stretchChildren = false,
+  wrap = true,
+  responsiveWrap,
+  style,
 }: SpaceBetweenProps) => {
   const responsive = useResponsive();
 
@@ -49,6 +64,12 @@ export const SpaceBetween = ({
     stretchChildren
   );
 
+  const isWrap = ResponsiveUtils.getMostSpecificFromMap(
+    responsive,
+    responsiveWrap ?? {},
+    wrap
+  );
+
   return (
     <div
       className={classnames(
@@ -56,9 +77,12 @@ export const SpaceBetween = ({
         classes?.root,
         isVertical && styles.vertical,
         align && styles[`align-${align}`],
+        justify && styles[`justify-${justify}`],
         isStretchChildren && styles.stretchChildren,
+        isWrap && styles.wrap,
         styles[sizeToRender]
       )}
+      style={style}
     >
       {children}
     </div>

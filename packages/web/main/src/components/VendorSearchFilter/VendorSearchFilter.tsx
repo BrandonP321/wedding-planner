@@ -36,6 +36,7 @@ export const VendorSearchFilterContent = (
         classes={{ root: styles.content }}
         stretchChildren
         size="l"
+        wrap={false}
         vertical
         align="n"
       >

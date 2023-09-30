@@ -1,0 +1,38 @@
+@import "../../styles/webSharedStyles.scss";
+
+.caorusel {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.slides {
+  transition: $transitionSlow;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+
+  // ===========================================
+  // TEMP
+  // ===========================================
+  border: 1px solid black;
+  height: 20rem;
+}
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+$navBtnSpacing: $sizeS;
+
+.navBtnLeft {
+  left: $navBtnSpacing;
+}
+
+.navBtnRight {
+  right: $navBtnSpacing;
+}

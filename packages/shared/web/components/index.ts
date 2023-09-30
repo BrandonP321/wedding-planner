@@ -15,3 +15,5 @@ export * from "./AspectRatioImage/AspectRatioImage";
 export * from "./DropdownList/DropdownList";
 export * from "./Scrollable/Scrollable";
 export * from "./Dropdown/Dropdown";
+export * from "./Carousel";
+export * from "./CarouselPagination/CarouselPagination";

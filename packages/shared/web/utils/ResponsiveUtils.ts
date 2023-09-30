@@ -19,7 +19,7 @@ export class ResponsiveUtils {
   ): T {
     for (const breakpoint of ResponsiveUtils.breakpointsSmallToLarge) {
       const value = map[breakpoint];
-      if (state[breakpoint] && value) {
+      if (state[breakpoint] && value !== undefined) {
         return value;
       }
     }

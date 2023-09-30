@@ -1,6 +1,19 @@
 export namespace Vendor {
+  export type MediaAsset =
+    | {
+        type: "image";
+        url: string;
+      }
+    | {
+        type: "video";
+        url: string;
+        posterImg: string;
+      };
+
   export type Vendor = {
     name: string;
+    description: string;
+    media: MediaAsset[];
     city: string;
     thumbnail: string;
   };

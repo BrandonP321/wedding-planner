@@ -7,7 +7,6 @@
   padding-bottom: $sizeS;
 
   @include mobileVW() {
-    flex-wrap: nowrap;
     overflow: auto;
   }
 }

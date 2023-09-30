@@ -1,0 +1,19 @@
+@import "../../styles/webSharedStyles.scss";
+
+.pagination {
+  margin-top: $sizeM;
+}
+
+$dotWidth: $sizeS;
+
+.dot {
+  width: $dotWidth;
+  height: $dotWidth;
+  transition: $transitionSlow;
+  border-radius: 50%;
+  border: 2px solid black;
+
+  &.active {
+    background-color: black;
+  }
+}

@@ -6,6 +6,7 @@ import {
   Home,
   PrivacyPolicy,
   SimpleVendorSearch,
+  VendorDetails,
   VendorPricing,
   VendorSearch,
 } from "./pages";
@@ -41,6 +42,11 @@ function App() {
                 <Route
                   path={RouteHelper.VendorSearch()}
                   element={<VendorSearch />}
+                />
+
+                <Route
+                  path={RouteHelper.VendorDetails()}
+                  element={<VendorDetails />}
                 />
 
                 <Route

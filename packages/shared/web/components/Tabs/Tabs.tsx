@@ -32,6 +32,7 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
     <div className={classNames(styles.tabs, classes?.root)}>
       <SpaceBetween
         classes={{ root: classNames(styles.header, classes?.header) }}
+        responsiveWrap={{ mobile: false }}
       >
         {[...tabs, ...tabs, ...tabs, ...tabs, ...tabs]?.map((tab, i) => {
           const isSelected = i === selectedTabIndex;
