@@ -10,7 +10,7 @@ import classnames from "classnames";
 import { useResponsive } from "../../store";
 
 type SpaceBetweenAlign = "start" | "center" | "end" | "n";
-type SpaceBetweenJustify = "start" | "center" | "end" | "n";
+type SpaceBetweenJustify = "start" | "center" | "end" | "space-between" | "n";
 
 export type SpaceBetweenProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root">;

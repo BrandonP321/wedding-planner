@@ -2,13 +2,16 @@ import React from "react";
 import styles from "./Modal.module.scss";
 import { ClassesProp } from "../../utils";
 import classNames from "classnames";
+import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
+import { PageContent } from "../PageContent/PageContent";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faX } from "@fortawesome/pro-solid-svg-icons";
 
 export type ModalProps = React.PropsWithChildren<{
   show: boolean;
   toggleShow: () => void;
-  classes?: ClassesProp<"root" | "overaly" | "content" | "exitIcon">;
+  classes?: ClassesProp<"root" | "overaly" | "content" | "exitIcon" | "header">;
+  title?: React.ReactNode;
   footer?: JSX.Element;
 }>;
 
@@ -17,6 +20,7 @@ export const Modal = ({
   toggleShow,
   classes,
   children,
+  title,
   footer,
 }: ModalProps) => {
   return (
@@ -32,15 +36,36 @@ export const Modal = ({
         onClick={toggleShow}
       />
       <div className={classNames(styles.modalContent, classes?.content)}>
-        <button
-          className={classNames(styles.exitBtn, classes?.exitIcon)}
-          onClick={toggleShow}
+        <SpaceBetween
+          classes={{ root: classNames(styles.header, classes?.header) }}
+          wrap={false}
+          justify="space-between"
         >
-          {/* <FontAwesomeIcon icon={faX} className={classNames(styles.icon)} /> */}
-          X
-        </button>
-        <div className={styles.children}>{children}</div>
-        {footer && <div className={styles.footer}>{footer}</div>}
+          <h3 className={styles.title}>{title}</h3>
+
+          <button
+            className={classNames(styles.exitBtn, classes?.exitIcon)}
+            onClick={toggleShow}
+          >
+            {/* <FontAwesomeIcon icon={faX} className={classNames(styles.icon)} /> */}
+            X
+          </button>
+        </SpaceBetween>
+        <div className={styles.children}>
+          <PageContent verticalPadding horizontalPadding>
+            {children}
+          </PageContent>
+        </div>
+
+        {footer && (
+          <PageContent
+            classes={{ root: styles.footer }}
+            horizontalPadding
+            verticalPadding
+          >
+            {footer}
+          </PageContent>
+        )}
       </div>
     </div>
   );

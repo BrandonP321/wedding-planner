@@ -29,6 +29,7 @@ export const VendorSearchFilterMobile = ({
           </button>
         </SpaceBetween>
         <Modal
+          title="Filters"
           show={showFilterModal}
           toggleShow={() => setShowFilterModal(!showFilterModal)}
           footer={<FilterSubmitBtn />}

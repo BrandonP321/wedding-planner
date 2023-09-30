@@ -18,3 +18,4 @@ export * from "./Dropdown/Dropdown";
 export * from "./Carousel";
 export * from "./CarouselPagination/CarouselPagination";
 export * from "./PageContent/PageContent";
+export * from "./EllipsisText/EllipsisText";

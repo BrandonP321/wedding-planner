@@ -1,0 +1,12 @@
+@import "../../styles/webSharedStyles.scss";
+
+.text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.stretch {
+    width: 100%;
+  }
+}

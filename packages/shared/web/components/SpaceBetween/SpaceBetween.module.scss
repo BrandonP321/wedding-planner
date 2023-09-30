@@ -39,6 +39,10 @@
     justify-content: center;
   }
 
+  &.justify-space-between {
+    justify-content: space-between;
+  }
+
   &.justify-n {
     justify-content: initial;
   }
