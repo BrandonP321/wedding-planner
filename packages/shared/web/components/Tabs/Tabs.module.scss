@@ -18,6 +18,10 @@
   transition: $transition;
   white-space: nowrap;
 
+  @include mobileVW() {
+    padding: $sizeXS $sizeS;
+  }
+
   &.selected,
   &:hover {
     background-color: $baseColorSilver;

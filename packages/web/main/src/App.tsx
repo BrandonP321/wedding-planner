@@ -7,7 +7,6 @@ import {
   PrivacyPolicy,
   SimpleVendorSearch,
   VendorDetails,
-  VendorPricing,
   VendorSearch,
 } from "./pages";
 import { AppLayout } from "./components";
@@ -47,11 +46,6 @@ function App() {
                 <Route
                   path={RouteHelper.VendorDetails()}
                   element={<VendorDetails />}
-                />
-
-                <Route
-                  path={RouteHelper.VendorPricing()}
-                  element={<VendorPricing />}
                 />
 
                 <Route

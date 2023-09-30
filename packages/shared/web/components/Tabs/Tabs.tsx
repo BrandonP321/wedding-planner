@@ -34,7 +34,7 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
         classes={{ root: classNames(styles.header, classes?.header) }}
         responsiveWrap={{ mobile: false }}
       >
-        {[...tabs, ...tabs, ...tabs, ...tabs, ...tabs]?.map((tab, i) => {
+        {tabs?.map((tab, i) => {
           const isSelected = i === selectedTabIndex;
 
           return (
