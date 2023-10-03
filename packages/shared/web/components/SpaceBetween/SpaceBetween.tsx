@@ -15,11 +15,11 @@ type SpaceBetweenJustify = "start" | "center" | "end" | "space-between" | "n";
 export type SpaceBetweenProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root">;
   style?: React.CSSProperties;
-  align?: SpaceBetweenAlign;
-  justify?: SpaceBetweenJustify;
 }> &
   ResponsiveProps<"size", Size> &
-  ResponsiveProps<"vertical" | "stretchChildren" | "wrap", boolean>;
+  ResponsiveProps<"vertical" | "stretchChildren" | "wrap", boolean> &
+  ResponsiveProps<"justify", SpaceBetweenJustify> &
+  ResponsiveProps<"align", SpaceBetweenAlign>;
 
 export const SpaceBetween = ({
   children,
@@ -27,12 +27,14 @@ export const SpaceBetween = ({
   vertical,
   classes,
   align,
+  responsiveAlign,
   justify,
   responsiveSize,
   responsiveVertical,
   responsiveStretchChildren,
   stretchChildren = false,
   wrap = true,
+  responsiveJustify,
   responsiveWrap,
   style,
 }: SpaceBetweenProps) => {
@@ -63,14 +65,24 @@ export const SpaceBetween = ({
     [responsiveWrap, wrap, getMostSpecific]
   );
 
+  const justifyToRender = useMemo(
+    () => getMostSpecific(responsiveJustify, justify),
+    [responsiveJustify, justify, getMostSpecific]
+  );
+
+  const alignToRender = useMemo(
+    () => getMostSpecific(responsiveAlign, align),
+    [responsiveAlign, align, getMostSpecific]
+  );
+
   return (
     <div
       className={classnames(
         styles.spaceBetween,
         classes?.root,
         isVertical && styles.vertical,
-        align && styles[`align-${align}`],
-        justify && styles[`justify-${justify}`],
+        alignToRender && styles[`align-${alignToRender}`],
+        justifyToRender && styles[`justify-${justifyToRender}`],
         isStretchChildren && styles.stretchChildren,
         isWrap && styles.wrap,
         styles[sizeToRender]

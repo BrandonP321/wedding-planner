@@ -19,3 +19,5 @@ export * from "./Carousel";
 export * from "./CarouselPagination/CarouselPagination";
 export * from "./PageContent/PageContent";
 export * from "./EllipsisText/EllipsisText";
+export * from "./MediaCarousel/MediaCarousel";
+export * from "./ClickableThumbnail/ClickableThumbnail";

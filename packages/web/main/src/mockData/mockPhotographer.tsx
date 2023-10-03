@@ -3,11 +3,7 @@ import { Vendor } from "@wedding-planner/shared/common/types";
 const mediaAssets: Vendor.MediaAsset[] = [
   { type: "image", url: "https://placehold.co/1920x1080" },
   { type: "image", url: "https://placehold.co/1920x1080" },
-  {
-    type: "video",
-    url: "https://youtu.be/NpEaa2P7qZI",
-    posterImg: "https://placehold.co/1920x1080",
-  },
+  { type: "image", url: "https://placehold.co/1920x1080" },
 ];
 
 export const mockPhotographer: Vendor.Vendor = {

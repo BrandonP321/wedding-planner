@@ -1,0 +1,42 @@
+@import "../../styles/webSharedStyles.scss";
+
+.thumbnail {
+  position: relative;
+  width: 20rem;
+  border-radius: $borderRadiusM;
+  border: 2px solid gray;
+  overflow: hidden;
+
+  .img {
+    transition: $transition;
+  }
+
+  &:hover {
+    .img {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $sizeS;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  );
+  z-index: 2;
+  pointer-events: none;
+
+  .title {
+    @include FontSizeM();
+    font-weight: bold;
+    // color: white;
+  }
+}

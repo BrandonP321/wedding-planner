@@ -1,1 +1,12 @@
 @import "../../styles/uiBase.scss";
+
+.showcaseCarousel {
+  height: 30rem;
+}
+
+.mediaThumb {
+  @include mobileVW() {
+    width: 100%;
+    max-width: 30rem;
+  }
+}

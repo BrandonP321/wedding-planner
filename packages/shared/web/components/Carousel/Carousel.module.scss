@@ -8,17 +8,13 @@
 
 .slides {
   transition: $transitionSlow;
+  height: 100%;
 }
 
 .slide {
   flex-shrink: 0;
   width: 100%;
-
-  // ===========================================
-  // TEMP
-  // ===========================================
-  border: 1px solid black;
-  height: 20rem;
+  height: 100%;
 }
 
 .navBtn {

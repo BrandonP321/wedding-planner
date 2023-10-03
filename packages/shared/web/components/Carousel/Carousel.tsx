@@ -43,7 +43,6 @@ export const Carousel = <T extends object>({
           >
             {slides.map((s, i) => (
               <div className={classNames(styles.slide, classes?.slide)} key={i}>
-                {i}
                 <Slide {...s} />
               </div>
             ))}
