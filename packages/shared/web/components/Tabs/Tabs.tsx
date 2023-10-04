@@ -6,10 +6,11 @@ import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
 
 export type TabsProps = {
   tabs: TabProps[];
+  onTabChange?: (index: number) => void;
   classes?: ClassesProp<"root" | "header" | "content" | "tabBtn">;
 };
 
-export const Tabs = ({ tabs, classes }: TabsProps) => {
+export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const tabBtns = useRef<{ [index: number]: HTMLButtonElement | null }>({});
 
@@ -18,6 +19,8 @@ export const Tabs = ({ tabs, classes }: TabsProps) => {
   }, [tabs]);
 
   useEffect(() => {
+    onTabChange?.(selectedTabIndex);
+
     const selectedTabBtn = tabBtns.current[selectedTabIndex];
     if (selectedTabBtn) {
       selectedTabBtn.scrollIntoView({

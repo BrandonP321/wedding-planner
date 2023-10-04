@@ -44,6 +44,7 @@ export type VendorSubChoice = {
 };
 
 type VendorChoice = {
+  id: string;
   name: string;
   label: string;
   price: number;

@@ -26,16 +26,19 @@ export const mockVenue: VendorResponse = {
           name: "Package",
           choices: [
             {
+              id: "100",
               label: "Basic",
               name: "basic",
               price: 1000,
             },
             {
+              id: "101",
               label: "Standard",
               name: "standard",
               price: 2000,
             },
             {
+              id: "102",
               label: "Premium",
               name: "premium",
               price: 3000,
@@ -47,9 +50,9 @@ export const mockVenue: VendorResponse = {
           name: "Guest count",
           multipleChoice: false,
           choices: [
-            { label: "0-99", name: "100", price: 0 },
-            { label: "100-199", name: "200", price: 1000 },
-            { label: "200+", name: "300", price: 2000 },
+            { label: "0-99", name: "100", price: 0, id: "103" },
+            { label: "100-199", name: "200", price: 1000, id: "104" },
+            { label: "200+", name: "300", price: 2000, id: "105" },
           ],
         },
         {
@@ -57,9 +60,9 @@ export const mockVenue: VendorResponse = {
           name: "Add-ons",
           multipleChoice: true,
           choices: [
-            { label: "Chair renatls", name: "chairs", price: 300 },
-            { label: "AC", name: "ac", price: 200 },
-            { label: "Fire place", name: "fireplace", price: 400 },
+            { label: "Chair renatls", name: "chairs", price: 300, id: "106" },
+            { label: "AC", name: "ac", price: 200, id: "107" },
+            { label: "Fire place", name: "fireplace", price: 400, id: "108" },
           ],
         },
       ],
@@ -75,16 +78,19 @@ export const mockVenue: VendorResponse = {
           name: "Package",
           choices: [
             {
+              id: "109",
               label: "Basic",
               name: "basic",
               price: 1500,
             },
             {
+              id: "110",
               label: "Standard",
               name: "standard",
               price: 2500,
             },
             {
+              id: "111",
               label: "Premium",
               name: "premium",
               price: 3500,
@@ -96,9 +102,9 @@ export const mockVenue: VendorResponse = {
           name: "Guest count",
           multipleChoice: false,
           choices: [
-            { label: "0-99", name: "100", price: 1000 },
-            { label: "100-199", name: "200", price: 2000 },
-            { label: "200+", name: "300", price: 3000 },
+            { label: "0-99", name: "100", price: 1000, id: "112" },
+            { label: "100-199", name: "200", price: 2000, id: "113" },
+            { label: "200+", name: "300", price: 3000, id: "114" },
           ],
         },
         {
@@ -106,10 +112,10 @@ export const mockVenue: VendorResponse = {
           name: "Add-ons",
           multipleChoice: true,
           choices: [
-            { label: "Chair renatls", name: "chairs", price: 300 },
-            { label: "AC", name: "ac", price: 200 },
-            { label: "Fire place", name: "fireplace", price: 400 },
-            { label: "Swimming pool", name: "pool", price: 1000 },
+            { label: "Chair renatls", name: "chairs", price: 300, id: "115" },
+            { label: "AC", name: "ac", price: 200, id: "116" },
+            { label: "Fire place", name: "fireplace", price: 400, id: "117" },
+            { label: "Swimming pool", name: "pool", price: 1000, id: "118" },
           ],
         },
       ],

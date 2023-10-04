@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./VendorDetails.module.scss";
 import { mockPhotographer } from "mockData/mockPhotographer";
 import { useParams } from "react-router-dom";
@@ -22,6 +22,8 @@ export type VendorDetailsProps = {};
 export const VendorDetails = (props: VendorDetailsProps) => {
   const { vendorId } = useParams<WebMainRouteHelper.VendorDetails.UrlParams>();
   const { medium } = useResponsive();
+
+  const [packagePrice, setPackagePrice] = useState(0);
 
   const p = mockPhotographer;
 
@@ -116,9 +118,9 @@ export const VendorDetails = (props: VendorDetailsProps) => {
 
           <SpaceBetween size="s" vertical>
             <PageContent horizontalPadding stretch>
-              <h2>Pricing</h2>
+              <h2>Pricing ${packagePrice}</h2>
             </PageContent>
-            <VendorPricing />
+            <VendorPricing onPriceChange={setPackagePrice} />
           </SpaceBetween>
         </SpaceBetween>
       </SpaceBetween>
