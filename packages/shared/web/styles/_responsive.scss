@@ -54,7 +54,7 @@ $picoVW: 350px;
 }
 
 @mixin mobileTouchDevice() {
-  :global(html.touch.mobile) & {
+  :global(html.touch) & {
     @include mobileVW() {
       @content;
     }

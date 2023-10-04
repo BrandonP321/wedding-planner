@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { RefObject, useCallback, useMemo } from "react";
 import styles from "./SpaceBetween.module.scss";
 import {
   ClassesProp,
@@ -15,6 +15,7 @@ type SpaceBetweenJustify = "start" | "center" | "end" | "space-between" | "n";
 export type SpaceBetweenProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root">;
   style?: React.CSSProperties;
+  inputRef?: RefObject<HTMLDivElement>;
 }> &
   ResponsiveProps<"size", Size> &
   ResponsiveProps<
@@ -27,6 +28,7 @@ export type SpaceBetweenProps = React.PropsWithChildren<{
 export const SpaceBetween = ({
   children,
   size = "s",
+  inputRef,
   vertical,
   stretch,
   responsiveStretch,
@@ -87,6 +89,7 @@ export const SpaceBetween = ({
 
   return (
     <div
+      ref={inputRef}
       className={classnames(
         styles.spaceBetween,
         classes?.root,

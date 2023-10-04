@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  @include mediumVW() {
+    height: 100vh;
+  }
 }
 
 .appLayout {

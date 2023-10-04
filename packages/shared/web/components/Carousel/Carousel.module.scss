@@ -8,8 +8,13 @@
 }
 
 .slides {
-  transition: $transitionSlow;
+  position: relative;
+  transition: left 0.25s ease-in-out;
   height: 100%;
+
+  &.isSliding {
+    transition: all 0.25s ease-in-out;
+  }
 }
 
 .slide {
@@ -22,6 +27,10 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+
+  @include mobileTouchDevice() {
+    display: none;
+  }
 }
 
 $navBtnSpacing: $sizeS;
