@@ -25,7 +25,7 @@ export type VendorPricingProps = {
 
 const tabs = [
   ...mockVenue.mainChoices,
-  // ...mockVenue.mainChoices,
+  ...mockVenue.mainChoices,
   // ...mockVenue.mainChoices,
   // ...mockVenue.mainChoices,
 ];
@@ -98,7 +98,13 @@ const TabContentFormik = ({
   return (
     <PageContent horizontalPadding>
       <FormikForm initialValues={getInitialValues()} onSubmit={() => {}}>
-        {children}
+        <PageContent
+          horizontalPadding
+          classes={{ root: styles.tabContent }}
+          responsiveHorizontalPadding={{ mobile: false }}
+        >
+          {children}
+        </PageContent>
       </FormikForm>
     </PageContent>
   );
@@ -153,7 +159,6 @@ const TabContent = ({
     let price = 0;
 
     choiceGroup?.forEach((c) => {
-      console.log(c.id);
       if (selected.includes(c.id)) {
         price += c.price;
       }
@@ -164,8 +169,8 @@ const TabContent = ({
 
   return (
     <Form>
-      <SpaceBetween size="s" vertical>
-        <SpaceBetween size="n" vertical>
+      <SpaceBetween size="s" vertical stretch>
+        <SpaceBetween size="n" vertical stretch>
           <h3>
             {name}: ${price}
           </h3>

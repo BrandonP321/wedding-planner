@@ -81,6 +81,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                       <h3>Media</h3>
                       <ListSpaceBetween
                         size="m"
+                        stretch
                         itemsPerRow={2}
                         responsiveItemsPerRow={{ tiny: 1 }}
                         responsiveSize={{ mobile: "s" }}
@@ -116,7 +117,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
             </SpaceBetween>
           </PageContent>
 
-          <SpaceBetween size="s" vertical>
+          <SpaceBetween size="s" vertical stretch>
             <PageContent horizontalPadding stretch>
               <h2>Pricing ${packagePrice}</h2>
             </PageContent>

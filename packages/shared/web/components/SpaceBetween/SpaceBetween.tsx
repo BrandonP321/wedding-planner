@@ -17,7 +17,10 @@ export type SpaceBetweenProps = React.PropsWithChildren<{
   style?: React.CSSProperties;
 }> &
   ResponsiveProps<"size", Size> &
-  ResponsiveProps<"vertical" | "stretchChildren" | "wrap", boolean> &
+  ResponsiveProps<
+    "vertical" | "stretchChildren" | "wrap" | "stretch",
+    boolean
+  > &
   ResponsiveProps<"justify", SpaceBetweenJustify> &
   ResponsiveProps<"align", SpaceBetweenAlign>;
 
@@ -25,6 +28,8 @@ export const SpaceBetween = ({
   children,
   size = "s",
   vertical,
+  stretch,
+  responsiveStretch,
   classes,
   align,
   responsiveAlign,
@@ -75,6 +80,11 @@ export const SpaceBetween = ({
     [responsiveAlign, align, getMostSpecific]
   );
 
+  const renderStretch = useMemo(
+    () => getMostSpecific(responsiveStretch, stretch),
+    [responsiveStretch, stretch, getMostSpecific]
+  );
+
   return (
     <div
       className={classnames(
@@ -84,6 +94,7 @@ export const SpaceBetween = ({
         alignToRender && styles[`align-${alignToRender}`],
         justifyToRender && styles[`justify-${justifyToRender}`],
         isStretchChildren && styles.stretchChildren,
+        renderStretch && styles.stretch,
         isWrap && styles.wrap,
         styles[sizeToRender]
       )}

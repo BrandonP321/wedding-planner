@@ -27,7 +27,8 @@ export const MainFooter = (props: MainFooterProps) => {
     <SpaceBetween
       classes={{ root: styles.footer }}
       size="l"
-      responsiveSize={{ mobile: "m", tiny: "s" }}
+      align="center"
+      responsiveSize={{ tiny: "s" }}
     >
       <SpaceBetween>
         {siteLinks.map((l, i) => (

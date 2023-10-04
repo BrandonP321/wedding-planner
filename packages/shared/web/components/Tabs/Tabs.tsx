@@ -13,6 +13,7 @@ export type TabsProps = {
 export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const tabBtns = useRef<{ [index: number]: HTMLButtonElement | null }>({});
+  const hasTabBeenManuallySelected = useRef(false);
 
   const tabContents = useMemo(() => {
     return tabs.map((t) => t.content);
@@ -21,13 +22,15 @@ export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
   useEffect(() => {
     onTabChange?.(selectedTabIndex);
 
-    const selectedTabBtn = tabBtns.current[selectedTabIndex];
-    if (selectedTabBtn) {
-      selectedTabBtn.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
+    if (hasTabBeenManuallySelected.current) {
+      const selectedTabBtn = tabBtns.current[selectedTabIndex];
+      if (selectedTabBtn) {
+        selectedTabBtn.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
     }
   }, [selectedTabIndex]);
 
@@ -51,7 +54,10 @@ export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
                 isSelected && styles.selected,
                 classes?.tabBtn
               )}
-              onClick={() => setSelectedTabIndex(i)}
+              onClick={() => {
+                hasTabBeenManuallySelected.current = true;
+                setSelectedTabIndex(i);
+              }}
             >
               {tab.title}
             </button>
