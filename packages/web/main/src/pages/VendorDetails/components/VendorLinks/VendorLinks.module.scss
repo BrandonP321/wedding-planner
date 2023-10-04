@@ -1,0 +1,20 @@
+@import "../../../../styles/uiBase.scss";
+
+.linksWrapper {
+  width: 25%;
+
+  @include mediumVW() {
+    flex-direction: column-reverse !important;
+  }
+}
+
+.links {
+  @include mediumVW() {
+    width: initial;
+  }
+}
+
+.icon {
+  cursor: pointer;
+  height: $sizeL;
+}

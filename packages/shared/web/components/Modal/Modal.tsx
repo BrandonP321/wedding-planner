@@ -62,6 +62,7 @@ export const Modal = ({
             classes={{ root: styles.footer }}
             horizontalPadding
             verticalPadding
+            stretch
           >
             {footer}
           </PageContent>

@@ -6,6 +6,7 @@ import { useResponsive } from "../../store";
 
 export type PageContentProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root">;
+  stretch?: boolean;
 }> &
   ResponsiveProps<
     | "topPadding"
@@ -20,6 +21,7 @@ export type PageContentProps = React.PropsWithChildren<{
 export const PageContent = ({
   children,
   classes,
+  stretch,
   bottomPadding,
   responsiveBottomPadding,
   leftPadding,
@@ -75,6 +77,7 @@ export const PageContent = ({
       className={classNames(
         styles.content,
         classes?.root,
+        stretch && styles.stretch,
         (renderTopPadding || renderVerticalPadding) && styles.topPadding,
         (renderRightPadding || renderHorizontalPadding) && styles.rightPadding,
         (renderBottomPadding || renderVerticalPadding) && styles.bottomPadding,

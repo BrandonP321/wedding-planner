@@ -1,9 +1,18 @@
 import { Vendor } from "@wedding-planner/shared/common/types";
 
 const mediaAssets: Vendor.MediaAsset[] = [
-  { type: "image", url: "https://placehold.co/1920x1080" },
-  { type: "image", url: "https://placehold.co/1920x1080" },
-  { type: "image", url: "https://placehold.co/1920x1080" },
+  {
+    type: "image",
+    url: "https://iso.500px.com/wp-content/uploads/2020/07/Her-By-Melli-Shayne-.jpeg",
+  },
+  {
+    type: "image",
+    url: "https://iso.500px.com/wp-content/uploads/2020/07/Her-By-Melli-Shayne-.jpeg",
+  },
+  {
+    type: "image",
+    url: "https://iso.500px.com/wp-content/uploads/2020/07/Her-By-Melli-Shayne-.jpeg",
+  },
 ];
 
 export const mockPhotographer: Vendor.Vendor = {

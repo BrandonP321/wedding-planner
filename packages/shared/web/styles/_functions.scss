@@ -1,0 +1,7 @@
+/** 
+  * Returns the width of a list item based on the 
+  * parent's gap size and number of items per row
+  */
+@function GetListItemWidth($itemsPerRow: $listCardsPerRow) {
+  @return calc((100% - ($listFlexGap * ($itemsPerRow - 1))) / $itemsPerRow);
+}

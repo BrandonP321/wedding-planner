@@ -1,0 +1,18 @@
+@import "../../styles/webSharedStyles.scss";
+
+.wrapper {
+}
+
+.aspectRatioBox {
+  position: relative;
+  // default aspect ratio of 1920x1080
+  padding-top: $aspectRatioPadding1080;
+}
+
+.children {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

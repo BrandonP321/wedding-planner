@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./UnifiedAppLayout.module.scss";
 import classNames from "classnames";
 import { ClassesProp } from "../../utils";
-import { SharedActions, useAppLayout } from "../../store";
+import { SharedActions, useAppLayout, useResponsive } from "../../store";
 import { useDispatch } from "react-redux";
 
 export type UnifiedAppLayoutProps = React.PropsWithChildren<{
@@ -22,11 +22,12 @@ export const UnifiedAppLayout = ({
   children,
 }: UnifiedAppLayoutProps) => {
   const { showMobileNav } = useAppLayout();
+  const { medium } = useResponsive();
   const dispatch = useDispatch();
 
   return (
     <div className={classNames(styles.appLayout, classes?.root)}>
-      {header}
+      {!medium && header}
 
       <div
         className={classNames(
@@ -48,6 +49,7 @@ export const UnifiedAppLayout = ({
       </div>
 
       <div className={styles.content}>
+        {medium && header}
         <main className={styles.main}>{children}</main>
         {footer}
       </div>

@@ -2,6 +2,13 @@
 
 .content {
   position: relative;
+  max-width: $largeVW;
+  width: 100%;
+  margin: 0 auto;
+
+  &.stretch {
+    max-width: none;
+  }
 
   &.topPadding {
     padding-top: $pageVerticalPadding;

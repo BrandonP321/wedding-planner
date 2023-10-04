@@ -27,15 +27,16 @@ export const VendorSearch = (props: VendorSearchProps) => {
     <>
       <VendorSearchFilterMobile handleSubmit={handleSubmit} />
 
-      <PageContent horizontalPadding verticalPadding>
+      <PageContent horizontalPadding verticalPadding stretch>
         <SpaceBetween
           classes={{ root: styles.searchPage }}
-          size="l"
+          size="m"
           wrap={false}
         >
           <VendorSearchFilterSideBar handleSubmit={handleSubmit} />
           <ListSpaceBetween
             size="l"
+            responsiveSize={{ medium: "s" }}
             itemsPerRow={3}
             responsiveItemsPerRow={{ max: 2, large: 1, medium: 2, mobile: 1 }}
             classes={{ root: styles.vendors }}

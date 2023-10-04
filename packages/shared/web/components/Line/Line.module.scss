@@ -1,0 +1,16 @@
+@import "../../styles/webSharedStyles.scss";
+
+$lineWidth: 1px;
+
+.line {
+  background-color: gray;
+
+  &.horizontal {
+    width: 100%;
+    height: $lineWidth;
+  }
+
+  &.vertical {
+    width: $lineWidth;
+  }
+}

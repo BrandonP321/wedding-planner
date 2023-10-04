@@ -9,7 +9,7 @@ import { CarouselContext } from "./useCarousel";
 export type CarouselProps<T> = React.PropsWithChildren<{
   slides: T[];
   slide: (slide: T) => JSX.Element;
-  classes?: ClassesProp<"root" | "slides" | "slide">;
+  classes?: ClassesProp<"root" | "carousel" | "slides" | "slide">;
 }>;
 
 export const Carousel = <T extends object>({
@@ -33,8 +33,8 @@ export const Carousel = <T extends object>({
 
   return (
     <CarouselContext.Provider value={{ currentIndex, slides, setCurrentIndex }}>
-      <div>
-        <div className={classNames(styles.caorusel, classes?.root)}>
+      <div className={classes?.root}>
+        <div className={classNames(styles.caorusel, classes?.carousel)}>
           <SpaceBetween
             classes={{ root: classNames(styles.slides, classes?.slides) }}
             wrap={false}

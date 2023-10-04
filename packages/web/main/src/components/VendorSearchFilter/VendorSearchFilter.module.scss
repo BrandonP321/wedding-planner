@@ -36,9 +36,10 @@
 .mobileFilterBar {
   height: 4rem;
   background-color: gainsboro;
+  display: none;
 
-  @include notMobileVW() {
-    display: none;
+  @include mediumVW() {
+    display: flex;
   }
 }
 

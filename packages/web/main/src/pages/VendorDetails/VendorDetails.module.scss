@@ -1,12 +1,21 @@
 @import "../../styles/uiBase.scss";
 
+.showcaseCarouselRoot {
+  height: 100%;
+}
+
 .showcaseCarousel {
-  height: 30rem;
+  border-radius: $borderRadiusL;
+
+  @include largeVW() {
+    border-radius: initial;
+  }
+}
+
+.description {
+  flex-grow: 1;
 }
 
 .mediaThumb {
-  @include mobileVW() {
-    width: 100%;
-    max-width: 30rem;
-  }
+  width: 100%;
 }

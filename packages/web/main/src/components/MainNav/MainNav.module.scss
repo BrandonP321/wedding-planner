@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: $sizeS $sizeM;
   background-color: $colorBackground;
-  box-shadow: 0 0 1rem rgba(black, 0.5);
+  border-bottom: 1px solid $baseColorSilver;
   z-index: $zIndexHeader;
 
   // TEMP

@@ -2,9 +2,10 @@
 
 .spaceBetween {
   display: flex;
-  align-items: center;
+  width: 100%;
 
   @include generateSizeClassNamesForProperty(gap);
+  @include generateSizeClassNamesForProperty($listFlexGapVar);
 
   &.vertical {
     flex-direction: column;
@@ -69,13 +70,9 @@ $maxItemsPerRow: 10;
       #{$listCardsPerRowVar}: $i;
     }
   }
-
-  @include generateSizeClassNamesForProperty($listFlexGapVar);
 }
 
 .listItem {
-  width: calc(
-    (100% - ($listFlexGap * ($listCardsPerRow - 1))) / $listCardsPerRow
-  );
+  width: GetListItemWidth();
   flex-shrink: 0;
 }
