@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./VendorPricing.module.scss";
 import {
   CheckboxField,
@@ -25,39 +25,45 @@ export type VendorPricingProps = {
 
 const tabs = [
   ...mockVenue.mainChoices,
-  ...mockVenue.mainChoices,
-  ...mockVenue.mainChoices,
-  ...mockVenue.mainChoices,
+  // ...mockVenue.mainChoices,
+  // ...mockVenue.mainChoices,
+  // ...mockVenue.mainChoices,
 ];
 
 export const VendorPricing = ({ onPriceChange }: VendorPricingProps) => {
+  const [totalPrice, setTotalPrice] = useState(0);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [savedPrices, setSavedPrices] = useState<Record<string, number>>({});
+  const savedPrices = useRef<Record<string, number>>({});
 
   useEffect(() => {
+    onPriceChange?.(getTotalPrice());
+  }, [selectedTabIndex, onPriceChange]);
+
+  useEffect(() => {
+    onPriceChange?.(totalPrice);
+  }, [totalPrice]);
+
+  const getTotalPrice = () => {
     const basePrice = tabs[selectedTabIndex]?.price ?? 0;
-    const total = (savedPrices[selectedTabIndex] ?? 0) + basePrice;
-    onPriceChange?.(total);
-  }, [selectedTabIndex, savedPrices, onPriceChange]);
+    const total = (savedPrices.current[selectedTabIndex] ?? 0) + basePrice;
+
+    return total;
+  };
 
   return (
     <div className={styles.pricingWrapper}>
       <Tabs
         onTabChange={setSelectedTabIndex}
-        tabs={[
-          ...mockVenue.mainChoices,
-          ...mockVenue.mainChoices,
-          ...mockVenue.mainChoices,
-          ...mockVenue.mainChoices,
-        ].map((c, i) => ({
+        tabs={tabs.map((c, i) => ({
           title: c.name,
           content: (
-            <TabContentFormik key={i}>
+            <TabContentFormik key={i} mainChoice={c}>
               <TabContent
                 {...c}
-                onPriceChange={(p) =>
-                  setSavedPrices({ ...savedPrices, [i]: p })
-                }
+                onPriceChange={(p) => {
+                  savedPrices.current[i] = p;
+                  setTotalPrice(getTotalPrice());
+                }}
               />
             </TabContentFormik>
           ),
@@ -67,10 +73,31 @@ export const VendorPricing = ({ onPriceChange }: VendorPricingProps) => {
   );
 };
 
-const TabContentFormik = ({ children }: React.PropsWithChildren) => {
+type TabContentFormikProps = React.PropsWithChildren<{
+  mainChoice: VendorMainChoice;
+}>;
+
+const TabContentFormik = ({
+  children,
+  mainChoice: { subChoices },
+}: TabContentFormikProps) => {
+  const getInitialValues = () => {
+    const initialValues: Record<string, string | string[]> = {};
+
+    subChoices.forEach((c) => {
+      if (c.multipleChoice) {
+        initialValues[c.id] = [];
+      } else {
+        initialValues[c.id] = c.choices[0].id;
+      }
+    });
+
+    return initialValues;
+  };
+
   return (
     <PageContent horizontalPadding>
-      <FormikForm initialValues={{}} onSubmit={() => {}}>
+      <FormikForm initialValues={getInitialValues()} onSubmit={() => {}}>
         {children}
       </FormikForm>
     </PageContent>
@@ -81,35 +108,43 @@ type TabContentProps = VendorMainChoice & {
   onPriceChange: (price: number) => void;
 };
 
-const TabContent = ({ name, subChoices, onPriceChange }: TabContentProps) => {
+const TabContent = ({
+  name,
+  price,
+  description,
+  subChoices,
+  onPriceChange,
+}: TabContentProps) => {
   const { values } = useFormikContext<Record<string, string | string[]>>();
+
+  const getPriceSum = useCallback(
+    (v?: typeof values) => {
+      let priceSum = 0;
+
+      for (const [key, value] of Object.entries(v ?? values)) {
+        const subChoice = subChoices.find((c) => c.id === key);
+
+        if (isArray(value)) {
+          const choicesPrice = getMultipleChoicesPrice(
+            subChoice?.choices ?? [],
+            value
+          );
+          priceSum += choicesPrice;
+        } else {
+          const choicePrice = subChoice?.choices.find(
+            (c) => c.id === value
+          )?.price;
+          priceSum += choicePrice ?? 0;
+        }
+      }
+      return priceSum;
+    },
+    [values, subChoices]
+  );
 
   useEffect(() => {
     onPriceChange(getPriceSum());
-  }, [values]);
-
-  const getPriceSum = () => {
-    let priceSum = 0;
-
-    for (const [key, value] of Object.entries(values)) {
-      const subChoice = subChoices.find((c) => c.id === key);
-
-      if (isArray(value)) {
-        const choicesPrice = getMultipleChoicesPrice(
-          subChoice?.choices ?? [],
-          value
-        );
-        priceSum += choicesPrice;
-      } else {
-        const choicePrice = subChoice?.choices.find(
-          (c) => c.id === value
-        )?.price;
-        priceSum += choicePrice ?? 0;
-      }
-    }
-
-    return priceSum;
-  };
+  }, [values, getPriceSum]);
 
   const getMultipleChoicesPrice = (
     choiceGroup: VendorChoice[],
@@ -129,8 +164,13 @@ const TabContent = ({ name, subChoices, onPriceChange }: TabContentProps) => {
 
   return (
     <Form>
-      <SpaceBetween size="xs" vertical>
-        <h3>{name}</h3>
+      <SpaceBetween size="s" vertical>
+        <SpaceBetween size="n" vertical>
+          <h3>
+            {name}: ${price}
+          </h3>
+          {description && <p>{description}</p>}
+        </SpaceBetween>
 
         <FormSpaceBetween>
           {subChoices.map(({ id, name, choices, multipleChoice }, i) => {

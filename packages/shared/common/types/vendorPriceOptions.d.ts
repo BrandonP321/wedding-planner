@@ -32,6 +32,7 @@ export type VendorSpecificDetails<Type extends VendorType> = {
 type VendorMainChoice = {
   id: string;
   name: string;
+  description?: string;
   price: number;
   subChoices: VendorSubChoice[];
 };

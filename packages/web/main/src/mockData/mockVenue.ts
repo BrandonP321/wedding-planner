@@ -18,6 +18,7 @@ export const mockVenue: VendorResponse = {
     {
       id: "1",
       name: "Indoor Venue",
+      description: "A beautiful indoor venue perfect for weddings.",
       price: 4000,
       subChoices: [
         {
@@ -70,6 +71,7 @@ export const mockVenue: VendorResponse = {
     {
       id: "5",
       name: "Outdoor Venue",
+      description: "Some description about the outdoor venue.",
       price: 5000,
       subChoices: [
         {
