@@ -16,7 +16,7 @@ AWS_ACCOUNT_ID=<account ID>
 
 ### 1. Set AWS CodeArtifact auth token environment variable
 
-- Run this script to get an auth token for CodeArtifact and set it as an environment. This will allow you to connect to the CodeArtifact repo to install npm dependencies.
+- Run this script to get an auth token for CodeArtifact set as an environment variable. This will allow you to connect to the CodeArtifact repo to install npm dependencies.
 
 ```
 source bin/set-artifact-token.sh
@@ -48,7 +48,7 @@ npmScopes:
 
 ### 2. Install package
 
-No install the package normally using `yarn install`.
+Now install the package normally using `yarn install`.
 
 ### 3. Publish package to CodeArtifact
 
