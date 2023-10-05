@@ -1,5 +1,29 @@
 # wedding-planner
 
+## Noteworthy tools & technologies
+
+These are some of the tools & technologies I incorporated into this app that I'd like to call out.
+
+#### Infrastructure & API
+
+1. **AWS CodePipeline & CodeBuild**: CI/CD pipeline with automated builds, tests, and deployments
+2. **AWS CodeArtifact**: Stores npm dependencies to control dependency bandwidth quotas
+3. **AWS CloudWatch**: Used to monitor application, API and resource health
+4. **AWS S3**: Asset and log storage
+5. **AWS CloudFront**: Edge optimizes react app & API
+6. **AWS CloudFormation**: Provisions all app related AWS resources
+7. **AWS WAF**: Provides app & API with a layer of protection against DDOS attacks
+8. **AWS Lambda**: Provides serverless handlers for all API endpoints. Also used with S3 & CloudFront to provide an image delivery API that allows for on-the-spot editing & transformations of images.
+9. **AWS API Gateway**: Integrates with AWS Lambda to create the REST API.
+10. **AWS CDK**: Provides centralized modeling and provisioning of all AWS resources
+11. **Monorepo**: Makes code sharing between all packages extremely simple, boosting productivity.
+
+#### Web React app
+
+1. **React & TypeScript**
+2. **Redux**: Global state management solution
+3. **i18next & Locize**: Localizes the app
+
 ## Environment Setup
 
 ### Pre-reqs
