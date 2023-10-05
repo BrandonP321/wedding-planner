@@ -35,13 +35,13 @@ export const VendorPricing = ({ onPriceChange }: VendorPricingProps) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const savedPrices = useRef<Record<string, number>>({});
 
-  useEffect(() => {
-    onPriceChange?.(getTotalPrice());
-  }, [selectedTabIndex, onPriceChange]);
+  // useEffect(() => {
+  //   onPriceChange?.(getTotalPrice());
+  // }, [selectedTabIndex, onPriceChange]);
 
-  useEffect(() => {
-    onPriceChange?.(totalPrice);
-  }, [totalPrice]);
+  // useEffect(() => {
+  //   onPriceChange?.(totalPrice);
+  // }, [totalPrice]);
 
   const getTotalPrice = () => {
     const basePrice = tabs[selectedTabIndex]?.price ?? 0;
@@ -116,11 +116,13 @@ type TabContentProps = VendorMainChoice & {
 
 const TabContent = ({
   name,
-  price,
+  price: basePrice,
   description,
   subChoices,
   onPriceChange,
 }: TabContentProps) => {
+  const [totalPrice, setTotalPrice] = useState(basePrice);
+
   const { values } = useFormikContext<Record<string, string | string[]>>();
 
   const getPriceSum = useCallback(
@@ -143,14 +145,18 @@ const TabContent = ({
           priceSum += choicePrice ?? 0;
         }
       }
-      return priceSum;
+      return priceSum + basePrice;
     },
-    [values, subChoices]
+    [values, subChoices, basePrice]
   );
 
   useEffect(() => {
-    onPriceChange(getPriceSum());
+    setTotalPrice(getPriceSum());
   }, [values, getPriceSum]);
+
+  useEffect(() => {
+    onPriceChange(totalPrice);
+  }, [totalPrice]);
 
   const getMultipleChoicesPrice = (
     choiceGroup: VendorChoice[],
@@ -172,8 +178,9 @@ const TabContent = ({
       <SpaceBetween size="s" vertical stretch>
         <SpaceBetween size="n" vertical stretch>
           <h3>
-            {name}: ${price}
+            {name}: ${totalPrice}
           </h3>
+          <small>Base price: ${basePrice}</small>
           {description && <p>{description}</p>}
         </SpaceBetween>
 

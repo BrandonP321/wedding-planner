@@ -7,10 +7,15 @@
   z-index: $zIndexModal;
   width: 100%;
   height: 100%;
+  padding: $pageVerticalPadding $pageHorizontalPadding;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: $transitionSlow;
+
+  @include mobileVW() {
+    padding: 0;
+  }
 
   &.hidden {
     pointer-events: none;
@@ -33,6 +38,7 @@
   position: relative;
   background-color: $colorBackground;
   width: 100%;
+  max-height: 100%;
   max-width: $maxWidthL;
   border-radius: $borderRadiusL;
   box-shadow: $darkBoxShadow;

@@ -119,7 +119,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
 
           <SpaceBetween size="s" vertical stretch>
             <PageContent horizontalPadding stretch>
-              <h2>Pricing ${packagePrice}</h2>
+              <h2>Pricing</h2>
             </PageContent>
             <VendorPricing onPriceChange={setPackagePrice} />
           </SpaceBetween>
