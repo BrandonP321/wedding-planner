@@ -75,37 +75,42 @@ export class CDKPipelineStack extends PipelineStack {
   }
 
   private getReactAppBuildAction(stage: Stage) {
+    const project = new codebuild.PipelineProject(
+      this,
+      getStageResoureName(stage, "WebsiteBuild"),
+      {
+        projectName: getStageResoureName(stage, "WebsiteBuild"),
+        buildSpec: codebuild.BuildSpec.fromObject({
+          version: "0.2",
+          phases: {
+            install: {
+              commands: [
+                ". bin/set-artifact-token.sh",
+                "cd packages/web/main",
+                "yarn install --frozen-lockfile",
+              ],
+            },
+            build: {
+              commands: ["yarn run build"],
+            },
+          },
+          artifacts: {
+            "base-directory": "packages/web/main/build",
+            files: ["**/*"],
+          },
+        }),
+        environment: {
+          buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+        },
+        environmentVariables: getWebMainEnvVars(stage),
+      }
+    );
+
+    this.addCodeArtifactPolicyToProject(project);
+
     return new CodePipelineAction.CodeBuildAction({
       actionName: getStageResoureName(stage, "BuildWebsite"),
-      project: new codebuild.PipelineProject(
-        this,
-        getStageResoureName(stage, "WebsiteBuild"),
-        {
-          projectName: getStageResoureName(stage, "WebsiteBuild"),
-          buildSpec: codebuild.BuildSpec.fromObject({
-            version: "0.2",
-            phases: {
-              install: {
-                commands: [
-                  "cd packages/web/main",
-                  "yarn install --frozen-lockfile",
-                ],
-              },
-              build: {
-                commands: ["yarn run build"],
-              },
-            },
-            artifacts: {
-              "base-directory": "packages/web/main/build",
-              files: ["**/*"],
-            },
-          }),
-          environment: {
-            buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-          },
-          environmentVariables: getWebMainEnvVars(stage),
-        }
-      ),
+      project,
       input: this.sourceOutput,
       outputs: [this.websiteOutputs[stage]],
     });
@@ -144,7 +149,7 @@ export class CDKPipelineStack extends PipelineStack {
 
     cfInvalidationProject.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ["cloudfront:CreateInvalidation"],
+        actions: ["*"],
         resources: [getDistributionArn(cfDistributionId, account)],
       })
     );

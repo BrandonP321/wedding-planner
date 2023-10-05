@@ -3,6 +3,7 @@ import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
+import * as iam from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { getUniqueResourceName } from "../utils/helpers";
 import { DeploymentAccount } from "../utils/accounts";
@@ -50,46 +51,79 @@ export class PipelineStack extends cdk.Stack {
   }
 
   protected addBuildStage() {
+    const project = new codebuild.PipelineProject(
+      this,
+      this.getResourceName("CDKBuild"),
+      {
+        projectName: this.getResourceName("CDKBuild"),
+        buildSpec: codebuild.BuildSpec.fromObject({
+          version: "0.2",
+          phases: {
+            install: {
+              commands: [
+                ". bin/set-artifact-token.sh",
+                "cd packages/cdk",
+                "yarn install --frozen-lockfile",
+              ],
+            },
+            build: {
+              commands: ["yarn cdk synth"],
+            },
+          },
+          artifacts: {
+            "base-directory": "packages/cdk/cdk.out",
+            files: ["**/*"],
+          },
+        }),
+        environment: {
+          buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+          privileged: true,
+        },
+      }
+    );
+
+    this.addCodeArtifactPolicyToProject(project);
+
     return this.pipeline.addStage({
       stageName: "Build",
       actions: [
         ...this.getBuildStagePreActions(),
         new CodePipelineAction.CodeBuildAction({
           actionName: "BuildCDK",
-          project: new codebuild.PipelineProject(
-            this,
-            this.getResourceName("CDKBuild"),
-            {
-              projectName: this.getResourceName("CDKBuild"),
-              buildSpec: codebuild.BuildSpec.fromObject({
-                version: "0.2",
-                phases: {
-                  install: {
-                    commands: [
-                      "cd packages/cdk",
-                      "yarn install --frozen-lockfile",
-                    ],
-                  },
-                  build: {
-                    commands: ["yarn cdk synth"],
-                  },
-                },
-                artifacts: {
-                  "base-directory": "packages/cdk/cdk.out",
-                  files: ["**/*"],
-                },
-              }),
-              environment: {
-                buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
-                privileged: true,
-              },
-            }
-          ),
+          project,
           input: this.sourceOutput,
           outputs: [this.cdkOutput],
         }),
       ],
     });
+  }
+
+  protected addCodeArtifactPolicyToProject(project: codebuild.PipelineProject) {
+    project.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["*"],
+        resources: ["arn:aws:codeartifact:us-east-1:757269603777:domain/wp"],
+      })
+    );
+
+    project.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["*"],
+        resources: [
+          "arn:aws:codeartifact:us-east-1:757269603777:repository/wp/WP-code-artifacts",
+        ],
+      })
+    );
+
+    project.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["sts:GetServiceBearerToken"],
+        resources: ["*"],
+      })
+    );
   }
 
   protected getStackUpdateAction(
