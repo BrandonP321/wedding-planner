@@ -63,6 +63,14 @@ Run the following script to publish the package to the CodeArtifact repo, replac
 source bin/publish-artifact-package.sh <package_name>
 ```
 
-### 4. Cleanup
+### 4. Refresh yarn.lock
+
+You now need to delete and re-create the `yarn.lock` file in order to set the registry url for each of the new packages as the CodeArtifact repo.
+
+```
+rm -rf yarn.lock && yarn install
+```
+
+### 5. Cleanup
 
 After successfully publishing all required packages, comment out any changes made to .yarnrc.yml for locally installing. This ensures that all future installs use the CodeArtifact repo.
