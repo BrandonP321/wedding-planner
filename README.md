@@ -14,12 +14,17 @@ AWS_ACCOUNT_ID=<account ID>
 
 - Ensure you have the AWS CLI v2 installed and configured for your account
 
-### 1. Set AWS CodeArtifact auth token environment variable
+### 1. Set AWS CodeArtifact auth environment variables
 
-- Run this script to get an auth token for CodeArtifact set as an environment variable. This will allow you to connect to the CodeArtifact repo to install npm dependencies.
+- Add the following to your `~/.bashrc`. This ensures that you have the necessary permissions to interact with the CodeArtifact repo each time a new terminal instance is created.
 
 ```
-source bin/set-artifact-token.sh
+export WP_CODEARTIFACT_ACCOUNT_ID="757269603777"
+export WP_CODEARTIFACT_DOMAIN_NAME="wp"
+export WP_CODEARTIFACT_REPOSITORY_NAME="WP-code-artifacts"
+export WP_CODEARTIFACT_AWS_REGION="us-east-1"
+
+export WP_CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain $WP_CODEARTIFACT_DOMAIN_NAME --domain-owner $WP_CODEARTIFACT_ACCOUNT_ID --query authorizationToken --output text`
 ```
 
 ### 2. Install

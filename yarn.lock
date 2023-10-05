@@ -2107,6 +2107,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/pro-duotone-svg-icons@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/pro-duotone-svg-icons@npm:6.4.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Fpro-duotone-svg-icons%2F-%2F6.4.2%2Fpro-duotone-svg-icons-6.4.2.tgz"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 2667bf314400cef61af0642cf392b5ea88706f3c87a019da301dfae69d3c86060ee201b6d465067fb35708b8030217a8fdc2e4fcf0cebac7ec3eb659f46c9b89
+  languageName: node
+  linkType: hard
+
+"@fortawesome/pro-light-svg-icons@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/pro-light-svg-icons@npm:6.4.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Fpro-light-svg-icons%2F-%2F6.4.2%2Fpro-light-svg-icons-6.4.2.tgz"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 92ed30d302980cab64fa1738731fbfec9efb4502737968489b0b781471d52711fba31b1098b54b6840bff5ba7382a29447f9a5a65e438d4fcb1c534d3daaea56
+  languageName: node
+  linkType: hard
+
+"@fortawesome/pro-regular-svg-icons@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/pro-regular-svg-icons@npm:6.4.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Fpro-regular-svg-icons%2F-%2F6.4.2%2Fpro-regular-svg-icons-6.4.2.tgz"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 12ca6403082e155ff1e8c8bbb7886aa9ca58cc5877af1d7414edc50f8731717fc99b71efc0f73664608961486368520e84651e165cbbe1e03405594a2aa10ec1
+  languageName: node
+  linkType: hard
+
 "@fortawesome/pro-solid-svg-icons@npm:^6.4.2":
   version: 6.4.2
   resolution: "@fortawesome/pro-solid-svg-icons@npm:6.4.2"
@@ -14686,6 +14713,9 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-pro": ^6.4.2
     "@fortawesome/fontawesome-svg-core": ^6.4.2
+    "@fortawesome/pro-duotone-svg-icons": ^6.4.2
+    "@fortawesome/pro-light-svg-icons": ^6.4.2
+    "@fortawesome/pro-regular-svg-icons": ^6.4.2
     "@fortawesome/pro-solid-svg-icons": ^6.4.2
     "@fortawesome/react-fontawesome": ^0.2.0
     "@reduxjs/toolkit": ^1.9.5
