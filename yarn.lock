@@ -2084,6 +2084,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-common-types@npm:6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.4.2"
+  checksum: 4a22932bd0cac65be1d35b739624f366b6c247b60eb5b8f66218957f54ce1cae56e2a20ea88789ede45d1e1c0c1014f160e01c1752122ec174ad0823e60f94bf
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-pro@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/fontawesome-pro@npm:6.4.2"
+  checksum: 8af23532c35c189ef9b5a6d6fc59e8ede0446f0e26dc80fe5665d69c6694f0195b906bf0d9b041276ca29cb274080abc946b89c3e89e41498149b184ff207180
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.4.2"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 0c0ecd9058883b128127e2b281c983ba6272be38a17577aaa2293ada58e9b1538357fe44430ded508d49ae3f5cc55aa720a0448d2b9d99689bb912d786f034e5
+  languageName: node
+  linkType: hard
+
+"@fortawesome/pro-solid-svg-icons@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/pro-solid-svg-icons@npm:6.4.2"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 806155113141f86184fa2d21701287e5ebc4c618ad2eb3d9eeadde2c44c89bf08d6707e9f4b6ebf50b511f3d68ebdb76d29391aa5862820429fc53212c6b9639
+  languageName: node
+  linkType: hard
+
+"@fortawesome/react-fontawesome@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@fortawesome/react-fontawesome@npm:0.2.0"
+  dependencies:
+    prop-types: ^15.8.1
+  peerDependencies:
+    "@fortawesome/fontawesome-svg-core": ~1 || ~6
+    react: ">=16.3"
+  checksum: f652a0c2172e7b209e2d9e7e511f9b8c17abad85f55e0bd09bb1175ea1927693215da47eb6cd95b1f3a23bd124368553c677907fa76cb17c5093afc1fcffe338
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.11":
   version: 0.11.11
   resolution: "@humanwhocodes/config-array@npm:0.11.11"
@@ -4871,9 +4915,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001541":
-  version: 1.0.30001543
-  resolution: "caniuse-lite@npm:1.0.30001543"
-  checksum: 1a65c8b0b93913b6241c7d66e1e1f3ea0f194f7e140eefe500512641c2eb4df285991ec9869a1ba2856ea6f6d21e9f3d7bcd91971b5fb1721e3fa0390feec6f1
+  version: 1.0.30001546
+  resolution: "caniuse-lite@npm:1.0.30001546"
+  checksum: d3ef82f5ee94743002c5b2dd61c84342debcc94b2d5907b64ade3514ecfc4f20bbe86a6bc453fd6436d5fbcf6582e07405d7c2077565675a71c83adc238a11fa
   languageName: node
   linkType: hard
 
@@ -6153,9 +6197,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.535":
-  version: 1.4.541
-  resolution: "electron-to-chromium@npm:1.4.541"
-  checksum: bae664088197c07130daaed5457a315762d1caf0229a43673f32db5b137ce0d6661320a83134f9f78fe14bcfb8dc51a33e9378205fb25354be0690522eaeed50
+  version: 1.4.542
+  resolution: "electron-to-chromium@npm:1.4.542"
+  checksum: b5bfac82121ce91dbe71ab59fe760881c8c6786ea48814c7effeac92fbff59dffd7327be9a92d381e5c2b1620c824d0bb9a2b392bf6204278e4545f710c9fa98
   languageName: node
   linkType: hard
 
@@ -14640,6 +14684,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "wedding-planner@workspace:."
   dependencies:
+    "@fortawesome/fontawesome-pro": ^6.4.2
+    "@fortawesome/fontawesome-svg-core": ^6.4.2
+    "@fortawesome/pro-solid-svg-icons": ^6.4.2
+    "@fortawesome/react-fontawesome": ^0.2.0
     "@reduxjs/toolkit": ^1.9.5
     "@types/lodash": ^4.14.197
     "@types/node": ^20.5.6

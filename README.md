@@ -29,3 +29,35 @@ Now that you've set up authentication with the AWS CodeArtifact repo, you should
 ```
 yarn install
 ```
+
+## Publish custom external packages to CodeArtifact repo
+
+Follow these steps to publish an external package that requires it's own npm scope, such as fontawesome, to the CodeArtifact repo.
+
+### 1. Configure local environment
+
+You'll need to configure your local environment to install the package from the package's npm registry. For example, here is the .yarnrc.yml local config for fontawesome:
+
+```
+npmScopes:
+  fortawesome:
+    npmRegistryServer: https://npm.fontawesome.com/
+    npmAlwaysAuth: true
+    npmAuthToken: "..."
+```
+
+### 2. Install package
+
+No install the package normally using `yarn install`.
+
+### 3. Publish package to CodeArtifact
+
+Run the following script to publish the package to the CodeArtifact repo, replacing <package_name> with the name of the package.
+
+```
+source bin/publish-artifact-package.sh <package_name>
+```
+
+### 4. Cleanup
+
+After successfully publishing all required packages, comment out any changes made to .yarnrc.yml for locally installing. This ensures that all future installs use the CodeArtifact repo.
