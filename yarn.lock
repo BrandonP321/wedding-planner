@@ -2107,6 +2107,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/free-brands-svg-icons@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/free-brands-svg-icons@npm:6.4.2"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.2
+  checksum: 79efd840297f7b8dc057b553e46df1d5bfbc58e936bb2c7a3e488721fbbd430a70c4f4c613ac4d52bdc752e115b104fcd92774f35080ae04b8075add5423b6f0
+  languageName: node
+  linkType: hard
+
 "@fortawesome/pro-duotone-svg-icons@npm:^6.4.2":
   version: 6.4.2
   resolution: "@fortawesome/pro-duotone-svg-icons@npm:6.4.2"
@@ -14713,6 +14722,7 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-pro": ^6.4.2
     "@fortawesome/fontawesome-svg-core": ^6.4.2
+    "@fortawesome/free-brands-svg-icons": ^6.4.2
     "@fortawesome/pro-duotone-svg-icons": ^6.4.2
     "@fortawesome/pro-light-svg-icons": ^6.4.2
     "@fortawesome/pro-regular-svg-icons": ^6.4.2

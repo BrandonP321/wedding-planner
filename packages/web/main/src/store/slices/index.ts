@@ -1,1 +1,1 @@
-
+export * from "./vendor/vendorSlice";

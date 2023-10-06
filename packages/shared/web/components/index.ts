@@ -23,3 +23,4 @@ export * from "./MediaCarousel/MediaCarousel";
 export * from "./ClickableThumbnail/ClickableThumbnail";
 export * from "./AspectRatioContent/AspectRatioContent";
 export * from "./Line/Line";
+export * from "./Icons";

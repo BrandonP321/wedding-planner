@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./VendorLinks.module.scss";
-import { SpaceBetween } from "@wedding-planner/shared/web/components";
+import {
+  ExternalLink,
+  SpaceBetween,
+  SocialMediaIcons,
+} from "@wedding-planner/shared/web/components";
+import { useVendor } from "store";
 
 export type VendorLinksProps = {};
-
-const tempSocialIcon =
-  "https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/640px-Facebook_f_logo_%282021%29.svg.png";
 
 const otherLinks = [
   { url: "https://www.google.com", name: "Website" },
@@ -13,6 +15,8 @@ const otherLinks = [
 ];
 
 export const VendorLinks = (props: VendorLinksProps) => {
+  const { vendor } = useVendor();
+
   return (
     <SpaceBetween
       classes={{ root: styles.linksWrapper }}
@@ -23,24 +27,36 @@ export const VendorLinks = (props: VendorLinksProps) => {
     >
       <SpaceBetween classes={{ root: styles.links }} vertical>
         <SpaceBetween>
-          <img src={tempSocialIcon} alt="facebook" className={styles.icon} />
-          <img src={tempSocialIcon} alt="instagram" className={styles.icon} />
-          <img src={tempSocialIcon} alt="twitter" className={styles.icon} />
+          {vendor?.socialMediaLinks?.map((link, i) => {
+            const Icon = SocialMediaIcons[link.type];
+
+            return (
+              <a
+                href={link.url}
+                key={i}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.icon}
+              >
+                <Icon />
+              </a>
+            );
+          })}
         </SpaceBetween>
       </SpaceBetween>
 
       <SpaceBetween classes={{ root: styles.links }} vertical size="xs">
         <SpaceBetween responsiveVertical={{ medium: false }} vertical>
           {otherLinks.map((link, i) => (
-            <a
-              href={link.url}
+            <ExternalLink
+              to={link.url}
               key={i}
-              className={styles.otherLink}
+              classes={{ root: styles.otherLink }}
               target="_blank"
               rel="noreferrer"
             >
               {link.name}
-            </a>
+            </ExternalLink>
           ))}
         </SpaceBetween>
       </SpaceBetween>

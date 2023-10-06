@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./VendorDetails.module.scss";
 import { mockPhotographer } from "mockData/mockPhotographer";
 import { useParams } from "react-router-dom";
@@ -16,16 +16,21 @@ import {
 import { VendorPricing } from "components";
 import { useResponsive } from "@wedding-planner/shared/web/store";
 import { VendorLinks } from "./components/VendorLinks/VendorLinks";
+import { Actions, useAppDispatch, useVendor } from "store";
 
 export type VendorDetailsProps = {};
 
 export const VendorDetails = (props: VendorDetailsProps) => {
   const { vendorId } = useParams<WebMainRouteHelper.VendorDetails.UrlParams>();
   const { medium } = useResponsive();
+  const dispatch = useAppDispatch();
+  const { vendor } = useVendor();
 
   const [packagePrice, setPackagePrice] = useState(0);
 
-  const p = mockPhotographer;
+  useEffect(() => {
+    dispatch(Actions.Vendor.setVendor({ vendor: mockPhotographer }));
+  });
 
   return (
     <PageContent
@@ -37,7 +42,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
         <PageContent>
           <AspectRatioContent>
             <MediaCarousel
-              slides={p.media}
+              slides={vendor?.media ?? []}
               classes={{
                 root: styles.showcaseCarouselRoot,
                 carousel: styles.showcaseCarousel,
@@ -61,7 +66,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                 stretchChildren
                 vertical
               >
-                <h1>{p.name}</h1>
+                <h1>{vendor?.name}</h1>
                 {medium && <VendorLinks />}
               </SpaceBetween>
 
@@ -74,7 +79,9 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                   <SpaceBetween size="m" wrap={false} vertical stretchChildren>
                     <div>
                       <h3>About this photographer</h3>
-                      <p className={styles.description}>{p.description}</p>
+                      <p className={styles.description}>
+                        {vendor?.description}
+                      </p>
                     </div>
 
                     <SpaceBetween size="xs" vertical>

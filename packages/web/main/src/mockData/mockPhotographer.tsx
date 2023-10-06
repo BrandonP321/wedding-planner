@@ -1,4 +1,4 @@
-import { Vendor } from "@wedding-planner/shared/common/types";
+import { SocialMedia, Vendor } from "@wedding-planner/shared/common/types";
 
 const mediaAssets: Vendor.MediaAsset[] = [
   {
@@ -22,4 +22,13 @@ export const mockPhotographer: Vendor.Vendor = {
   city: "Seattle, WA",
   thumbnail: "https://placehold.co/1920x1080",
   media: mediaAssets,
+  socialMediaLinks: [
+    { type: SocialMedia.FACEBOOK, url: "https://google.com" },
+    { type: SocialMedia.INSTAGRAM, url: "https://google.com" },
+    { type: SocialMedia.TWITTER, url: "https://google.com" },
+    { type: SocialMedia.LINKEDIN, url: "https://google.com" },
+    { type: SocialMedia.PINTEREST, url: "https://google.com" },
+    { type: SocialMedia.TIKTOK, url: "https://google.com" },
+    { type: SocialMedia.YOUTUBE, url: "https://google.com" },
+  ],
 };

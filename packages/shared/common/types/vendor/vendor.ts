@@ -1,3 +1,5 @@
+import { SocialMedia } from "../enums";
+
 export namespace Vendor {
   export type ImageAsset = {
     url: string;
@@ -16,12 +18,18 @@ export namespace Vendor {
         type: "video";
       } & VideoAsset);
 
+  export type SocialMediaLink = {
+    type: SocialMedia;
+    url: string;
+  };
+
   export type Vendor = {
     name: string;
     description: string;
     media: MediaAsset[];
     city: string;
     thumbnail: string;
+    socialMediaLinks: SocialMediaLink[];
   };
 
   /** Slim vendor JSON */

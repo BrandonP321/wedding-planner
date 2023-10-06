@@ -1,0 +1,37 @@
+@import "../../styles/webSharedStyles.scss";
+
+.facebook {
+  color: $brandColorFacebook;
+}
+
+.instagram {
+  color: $brandColorInstagram;
+}
+
+.twitter {
+  color: $brandColorTwitter;
+}
+
+.youtube {
+  color: $brandColorYoutube;
+}
+
+.tiktok {
+  color: $brandColorTiktok;
+}
+
+.pinterest {
+  color: $brandColorPinterest;
+}
+
+.linkedin {
+  color: $brandColorLinkedin;
+}
+
+.socialIcon {
+  transition: $transition;
+
+  &:hover {
+    color: gray;
+  }
+}

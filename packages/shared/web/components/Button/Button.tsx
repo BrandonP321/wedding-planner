@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./Button.module.scss";
 import classNames from "classnames";
 import { ClassesProp, HTMLButtonProps } from "../../utils";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -33,10 +33,8 @@ export const Button = ({
 };
 
 export type ButtonContentProps = React.PropsWithChildren<{
-  rightIcon?: any;
-  leftIcon?: any;
-  // rightIcon?: IconProp;
-  // leftIcon?: IconProp;
+  rightIcon?: IconProp;
+  leftIcon?: IconProp;
 }>;
 
 export const ButtonContent = ({
@@ -48,7 +46,7 @@ export const ButtonContent = ({
     <>
       {leftIcon && (
         <>
-          {/* <FontAwesomeIcon icon={leftIcon} className={styles.leftIcon} /> */}
+          <FontAwesomeIcon icon={leftIcon} className={styles.leftIcon} />
           &nbsp;
         </>
       )}
@@ -56,7 +54,7 @@ export const ButtonContent = ({
       {rightIcon && (
         <>
           &nbsp;
-          {/* <FontAwesomeIcon icon={rightIcon} className={styles.rightIcon} /> */}
+          <FontAwesomeIcon icon={rightIcon} className={styles.rightIcon} />
         </>
       )}
     </>
