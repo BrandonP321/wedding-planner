@@ -10,7 +10,7 @@ import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
 
 export type ClickableThumbnailProps = Omit<AspectRatioImageProps, "classes"> & {
   onClick: () => void;
-  title?: string;
+  title?: React.ReactNode;
   classes?: ClassesProp<"root">;
 };
 

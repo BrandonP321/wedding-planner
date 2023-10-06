@@ -25,18 +25,15 @@
   right: 0;
   bottom: 0;
   padding: $sizeS;
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0)
-  );
   z-index: 2;
   pointer-events: none;
 
   .title {
-    @include FontSizeM();
+    @include FontSizeS();
     font-weight: bold;
-    // color: white;
+    padding: $sizeXXS $sizeXS;
+    background-color: rgba(white, 0.85);
+    border: 2px solic gray;
+    border-radius: $sizeL;
   }
 }

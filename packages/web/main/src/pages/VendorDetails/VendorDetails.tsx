@@ -17,6 +17,8 @@ import { VendorPricing } from "components";
 import { useResponsive } from "@wedding-planner/shared/web/store";
 import { VendorLinks } from "./components/VendorLinks/VendorLinks";
 import { Actions, useAppDispatch, useVendor } from "store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera, faVideo } from "@fortawesome/pro-solid-svg-icons";
 
 export type VendorDetailsProps = {};
 
@@ -95,16 +97,24 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                       >
                         <SpaceBetweenListItem>
                           <ClickableThumbnail
-                            img="https://placehold.co/1920x1080"
-                            title="58 images"
+                            img={vendor?.media?.[0]?.url ?? ""}
+                            title={
+                              <>
+                                <FontAwesomeIcon icon={faCamera} /> 58 images
+                              </>
+                            }
                             onClick={() => alert("open images")}
                             classes={{ root: styles.mediaThumb }}
                           />
                         </SpaceBetweenListItem>
                         <SpaceBetweenListItem>
                           <ClickableThumbnail
-                            img="https://placehold.co/1920x1080"
-                            title="4 videos"
+                            img={vendor?.media?.[0]?.url ?? ""}
+                            title={
+                              <>
+                                <FontAwesomeIcon icon={faVideo} /> 4 videos
+                              </>
+                            }
                             onClick={() => alert("open videos")}
                             classes={{ root: styles.mediaThumb }}
                           />

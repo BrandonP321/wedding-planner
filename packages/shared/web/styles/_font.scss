@@ -6,7 +6,6 @@ $lineHeightXXLVar: --line-height-xxl;
 $fontSizeXXL: var(#{$fontSizeXXLVar});
 $lineHeightXXL: var(#{$lineHeightXXLVar});
 @include SetRootValue($fontSizeXXLVar, 2.8rem);
-@include SetRootValue($lineHeightXXLVar, 3.5rem);
 @mixin FontSizeXXL {
   font-size: $fontSizeXXL;
   line-height: $lineHeightXXL;
