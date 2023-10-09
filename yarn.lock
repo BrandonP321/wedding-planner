@@ -3319,6 +3319,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/nodemailer@npm:^6.4.11":
+  version: 6.4.11
+  resolution: "@types/nodemailer@npm:6.4.11"
+  dependencies:
+    "@types/node": "*"
+  checksum: 1069c30ad416add6035ee1437c93dccb846fc389bd6b31c36d094d90f4626f0db63f7ba88fddc3c4d448570dcbef59051e19b868f5f1038a472ef0e8dc169637
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -5776,6 +5785,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csv-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "csv-parser@npm:3.0.0"
+  dependencies:
+    minimist: ^1.2.0
+  bin:
+    csv-parser: bin/csv-parser
+  checksum: adc9d67d9f185249825570778c24d13004625301655330f6b735a052b9fdfbe1a239a014afb1f89939e0626ee573718f71f9f14164db7c17e4bcb2f38d6a162b
+  languageName: node
+  linkType: hard
+
 "damerau-levenshtein@npm:^1.0.8":
   version: 1.0.8
   resolution: "damerau-levenshtein@npm:1.0.8"
@@ -6197,6 +6217,13 @@ __metadata:
   version: 10.0.0
   resolution: "dotenv@npm:10.0.0"
   checksum: f412c5fe8c24fbe313d302d2500e247ba8a1946492db405a4de4d30dd0eb186a88a43f13c958c5a7de303938949c4231c56994f97d05c4bc1f22478d631b4005
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.3.1":
+  version: 16.3.1
+  resolution: "dotenv@npm:16.3.1"
+  checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
   languageName: node
   linkType: hard
 
@@ -10376,6 +10403,13 @@ __metadata:
   version: 2.0.13
   resolution: "node-releases@npm:2.0.13"
   checksum: 17ec8f315dba62710cae71a8dad3cd0288ba943d2ece43504b3b1aa8625bf138637798ab470b1d9035b0545996f63000a8a926e0f6d35d0996424f8b6d36dda3
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^6.9.5":
+  version: 6.9.5
+  resolution: "nodemailer@npm:6.9.5"
+  checksum: e39282795e09f0685691b1511f74e2dc4703ba6ecd55d964c2f8a1b54591e5b284228c90cd6a203b498a5a1ea2610415306e8d7eda0b3cd9ebdcb210f05b2846
   languageName: node
   linkType: hard
 
@@ -14731,6 +14765,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.9.5
     "@types/lodash": ^4.14.197
     "@types/node": ^20.5.6
+    "@types/nodemailer": ^6.4.11
     "@types/qrcode-terminal": ^0.12.0
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
@@ -14739,7 +14774,9 @@ __metadata:
     axios: ^1.5.0
     classnames: ^2.3.2
     concurrently: ^8.2.1
+    csv-parser: ^3.0.0
     destyle.css: ^4.0.0
+    dotenv: ^16.3.1
     esbuild: ^0.19.3
     formik: ^2.4.3
     i18next: ^23.4.9
@@ -14748,6 +14785,7 @@ __metadata:
     js-cookie: ^3.0.5
     lodash: ^4.17.21
     luxon: ^3.4.3
+    nodemailer: ^6.9.5
     qrcode-terminal: ^0.12.0
     react: ^18.2.0
     react-dom: ^18.2.0
