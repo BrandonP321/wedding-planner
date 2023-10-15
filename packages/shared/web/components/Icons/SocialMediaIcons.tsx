@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Icons.module.scss";
-import { SocialMediaMap } from "../../../common/types";
+import { SocialMediaPlatformMap } from "../../../common/types";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faFacebook,
@@ -14,7 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 
-const SocialMediaIconPropMap: SocialMediaMap<IconProp> = {
+const SocialMediaIconPropMap: SocialMediaPlatformMap<IconProp> = {
   facebook: faFacebook,
   instagram: faInstagram,
   twitter: faXTwitter,
@@ -28,7 +28,7 @@ type SocialMediaIconProps = {
   className?: string;
 };
 
-export const SocialMediaIcons: SocialMediaMap<
+export const SocialMediaIcons: SocialMediaPlatformMap<
   (props: SocialMediaIconProps) => React.JSX.Element
 > = {
   facebook: ({ className }) => (

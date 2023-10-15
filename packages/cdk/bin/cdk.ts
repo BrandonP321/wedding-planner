@@ -6,12 +6,7 @@ import { CDKPipelineStack, WebStacks } from "../lib/stacks/cdkPipeline.stack";
 import { WebMainStack } from "../lib/stacks/web/main/webMain.stack";
 import { WebMainDeploymentApp } from "../configuration/accounts/webMainAccounts";
 import { getDeploymentStackName } from "../lib/utils/helpers";
-import { APICDKStack } from "../lib/stacks/api/api.stack";
-import { APIPipelineStack } from "../lib/stacks/api/apiPipeline.stack";
-import { APIDeploymentApp } from "../configuration/accounts/apiAccounts";
 import {
-  addAPIPipelineTags,
-  addAPITags,
   addDefaultTags,
   addStageTags,
   addWebMainPipelineTags,
@@ -52,24 +47,24 @@ addWebMainPipelineTags(webMainPipelineStack);
 
 // API
 
-APIDeploymentApp.deploymentAccounts.forEach((a) => {
-  const stack = new APICDKStack(app, getDeploymentStackName(a), {
-    env: a,
-    account: a,
-  });
+// APIDeploymentApp.deploymentAccounts.forEach((a) => {
+//   const stack = new APICDKStack(app, getDeploymentStackName(a), {
+//     env: a,
+//     account: a,
+//   });
 
-  addAPITags(stack);
-});
+//   addAPITags(stack);
+// });
 
-const apiPipelineStack = new APIPipelineStack(
-  app,
-  "WeddingPlanner-API-Pipeline",
-  {
-    env: { region: defaultRegion, account: defaultAccountId },
-    crossRegionReferences: true,
-  }
-);
+// const apiPipelineStack = new APIPipelineStack(
+//   app,
+//   "WeddingPlanner-API-Pipeline",
+//   {
+//     env: { region: defaultRegion, account: defaultAccountId },
+//     crossRegionReferences: true,
+//   }
+// );
 
-addAPIPipelineTags(apiPipelineStack);
+// addAPIPipelineTags(apiPipelineStack);
 
 app.synth();

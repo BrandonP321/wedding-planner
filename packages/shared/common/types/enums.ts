@@ -1,4 +1,4 @@
-export enum SocialMedia {
+export enum SocialMediaPlatform {
   FACEBOOK = "facebook",
   INSTAGRAM = "instagram",
   TWITTER = "twitter",
@@ -8,4 +8,4 @@ export enum SocialMedia {
   TIKTOK = "tiktok",
 }
 
-export type SocialMediaMap<T> = Record<SocialMedia, T>;
+export type SocialMediaPlatformMap<T> = Record<SocialMediaPlatform, T>;

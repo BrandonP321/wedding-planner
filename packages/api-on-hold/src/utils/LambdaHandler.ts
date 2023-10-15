@@ -1,4 +1,35 @@
 import querystring from "querystring";
+import { Sequelize } from "sequelize";
+import { createAssociations } from "../models/associations";
+import { tempChoiceInit } from "../models/choice/choice.model";
+import { tempChoiceGroupInit } from "../models/choiceGroup/choiceGroup.model";
+import { tempMainChoiceInit } from "../models/mainChoice/mainChoice.model";
+import { tempMainChoiceAttributeInit } from "../models/mainChoiceAttribute/mainChoiceAttribute.model";
+import { tempVendorInit } from "../models/vendor/vendor.model";
+
+// ==============================
+
+// const sequelize = new Sequelize("postgres", "tempadmin", "Scooby3278", {
+//   host: "wp-temp-db.cluster-cveiephms8k5.us-east-1.rds.amazonaws.com",
+//   dialect: "postgres",
+//   logging: false,
+// });
+
+// tempChoiceGroupInit(sequelize);
+// tempChoiceInit(sequelize);
+// tempMainChoiceInit(sequelize);
+// tempVendorInit(sequelize);
+// tempMainChoiceAttributeInit(sequelize);
+
+// createAssociations();
+
+// const start = Date.now();
+// sequelize.sync().then(async () => {
+//   const secondsElapsed = (Date.now() - start) / 1000;
+//   console.log(`synced in ${secondsElapsed} seconds`);
+// });
+
+// ==============================
 
 type LambdaHeaders = Record<string, string>;
 

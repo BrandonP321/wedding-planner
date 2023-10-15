@@ -11,8 +11,8 @@ export const APIHandlers = getTypedLambdaResources({
   "hello-world": {
     handlerDirName: "helloWorld",
     nestedHandlers: {
-      "bye-world": {
-        handlerDirName: "goodbyeWorld",
+      vendor: {
+        handlerDirName: "getAllVendors",
       },
     },
   },

@@ -1,43 +1,35 @@
-import { SocialMedia } from "../enums";
+import { VendorModel } from "../../../api/models/vendor";
+import { SocialMediaPlatform } from "../enums";
+import { DefaultModel } from "../model.types";
+import { Asset } from "./asset";
 
 export namespace Vendor {
-  export type ImageAsset = {
-    url: string;
-  };
+  // export type SocialMediaLink = {
+  //   type: SocialMedia;
+  //   url: string;
+  // };
 
-  export type VideoAsset = {
-    url: string;
-    posterImg: string;
-  };
+  /** Vendor model types */
+  // export type VendorModelBase = {
+  //   name: string;
+  //   description: string;
+  //   city: string;
+  // };
 
-  export type MediaAsset =
-    | ({
-        type: "image";
-      } & ImageAsset)
-    | ({
-        type: "video";
-      } & VideoAsset);
+  /** Populated vendor JSON after DB query */
+  // export type VendorBase = VendorModelBase & {
+  //   media: Asset.MediaAsset[];
+  //   socialMediaLinks: SocialMediaLink[];
+  // };
 
-  export type SocialMediaLink = {
-    type: SocialMedia;
-    url: string;
-  };
-
-  export type Vendor = {
-    name: string;
-    description: string;
-    media: MediaAsset[];
-    city: string;
-    thumbnail: string;
-    socialMediaLinks: SocialMediaLink[];
-  };
+  export type Vendor = VendorModel.Base & DefaultModel.Attributes;
 
   /** Slim vendor JSON */
-  export type SearchResult = Pick<Vendor, "city" | "name" | "thumbnail"> & {
-    price: string;
-  };
+  // export type SearchResult = Pick<Vendor, "city" | "name"> & {
+  //   price: string;
+  // };
 
-  export type VendorList = SearchResult[];
+  // export type VendorList = SearchResult[];
 
   export enum VendorType {
     PHOTOGRAPHER = "photographer",

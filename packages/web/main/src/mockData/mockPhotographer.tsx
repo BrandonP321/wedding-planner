@@ -1,4 +1,7 @@
-import { SocialMedia, Vendor } from "@wedding-planner/shared/common/types";
+import {
+  SocialMediaPlatform,
+  Vendor,
+} from "@wedding-planner/shared/common/types";
 
 const mediaAssets: Vendor.MediaAsset[] = [
   {
@@ -23,12 +26,12 @@ export const mockPhotographer: Vendor.Vendor = {
   thumbnail: "https://placehold.co/1920x1080",
   media: mediaAssets,
   socialMediaLinks: [
-    { type: SocialMedia.FACEBOOK, url: "https://google.com" },
-    { type: SocialMedia.INSTAGRAM, url: "https://google.com" },
-    { type: SocialMedia.TWITTER, url: "https://google.com" },
-    { type: SocialMedia.LINKEDIN, url: "https://google.com" },
-    { type: SocialMedia.PINTEREST, url: "https://google.com" },
-    { type: SocialMedia.TIKTOK, url: "https://google.com" },
-    { type: SocialMedia.YOUTUBE, url: "https://google.com" },
+    { type: SocialMediaPlatform.FACEBOOK, url: "https://google.com" },
+    { type: SocialMediaPlatform.INSTAGRAM, url: "https://google.com" },
+    { type: SocialMediaPlatform.TWITTER, url: "https://google.com" },
+    { type: SocialMediaPlatform.LINKEDIN, url: "https://google.com" },
+    { type: SocialMediaPlatform.PINTEREST, url: "https://google.com" },
+    { type: SocialMediaPlatform.TIKTOK, url: "https://google.com" },
+    { type: SocialMediaPlatform.YOUTUBE, url: "https://google.com" },
   ],
 };
