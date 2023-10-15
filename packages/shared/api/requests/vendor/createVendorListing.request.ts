@@ -1,29 +1,10 @@
 import { APIErrorResponse } from "..";
-import { MainChoiceModel } from "../../models/mainChoice";
-import { MainChoiceAttributeModel } from "../../models/mainChoiceAttribute";
-import { ChoiceGroupModel } from "../../models/choiceGroup";
-import { ChoiceModel } from "../../models/choice";
 import { DefaultAPIError } from "../requestErrors";
-import { VendorModel } from "../../models/vendor";
-import { VenueFilterTypes } from "../../../common/types";
+import { Vendor, VenueFilterTypes } from "../../../common/types";
 
 export namespace CreateVendorListingRequest {
-  export type Choice = Pick<ChoiceModel.Base, "name" | "price" | "value">;
-  export type ChoiceGroup = Pick<ChoiceGroupModel.Base, "name" | "type"> & {
-    choices: Choice[];
-  };
-  export type MainChoiceAttribute = Pick<
-    MainChoiceAttributeModel.Base,
-    "filterName"
-  >;
-  export type MainChoice = Pick<MainChoiceModel.Base, "name"> & {
-    attributes: MainChoiceAttribute[];
-    choiceGroups: ChoiceGroup[];
-  };
-  export type Vendor = VendorModel.Base & { mainChoices: MainChoice[] };
-
   export type ReqBody = {
-    vendor: Vendor;
+    vendor: Vendor.VendorWithOptionalIDs;
   };
 
   export type ResBody = {
