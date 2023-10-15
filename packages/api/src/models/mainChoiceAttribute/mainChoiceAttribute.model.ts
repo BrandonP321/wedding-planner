@@ -10,6 +10,7 @@ import { DefaultModel } from "@wedding-planner/shared/common/types";
 import { asWriteable } from "@wedding-planner/shared/common/utils/UtilityTypes";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
 import { CreateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/createVendorListing.request";
+import { Vendor } from "@wedding-planner/shared/common/types";
 
 export default class MainChoiceAttribute extends Model<
   MainChoiceAttributeModel.Attributes,
@@ -25,7 +26,7 @@ export default class MainChoiceAttribute extends Model<
   };
 
   public static createEntries = (params: {
-    attributes: CreateVendorListingRequest.MainChoiceAttribute[];
+    attributes: Omit<MainChoiceAttributeModel.Response, "id">[];
     mainChoiceId: number;
     transaction: Transaction;
   }) => {

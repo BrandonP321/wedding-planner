@@ -4,7 +4,7 @@ import { Vendor, VenueFilterTypes } from "../../../common/types";
 
 export namespace CreateVendorListingRequest {
   export type ReqBody = {
-    vendor: Vendor.VendorWithOptionalIDs;
+    vendor: Vendor.VendorWithoutIDs;
   };
 
   export type ResBody = {

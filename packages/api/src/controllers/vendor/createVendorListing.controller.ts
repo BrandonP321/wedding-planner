@@ -31,7 +31,7 @@ export const CreateVendorListingController = controller.handler(
           // Wait for all attributes to be created
           await Promise.all(
             db.MainChoiceAttribute.createEntries({
-              attributes,
+              attributes: attributes,
               mainChoiceId: createdMainChoice.dataValues.id,
               transaction: t,
             })

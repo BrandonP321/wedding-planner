@@ -35,3 +35,41 @@ export type WithComputedKeys<T, Keys extends keyof T> = {
 export type KeyOf<T, K extends keyof T> = K;
 
 export type TypedOmit<T, K extends keyof T> = Omit<T, K>;
+
+type OptionalKey<T, K extends keyof any> = T extends { [P in K]?: any }
+  ? Omit<T, K> & { [P in K]?: T[K] }
+  : T;
+
+export type DeepOptionalKey<T, K extends keyof any> = OptionalKey<
+  {
+    [P in keyof T]: T[P] extends (infer U)[]
+      ? DeepOptionalKeyArray<U, K>[]
+      : T[P] extends object
+      ? DeepOptionalKey<T[P], K>
+      : T[P];
+  },
+  K
+>;
+
+type DeepOptionalKeyArray<T, K extends keyof any> = T extends (infer U)[]
+  ? DeepOptionalKeyArray<U, K>[]
+  : DeepOptionalKey<T, K>;
+
+type OmitKey<T, K extends keyof any> = T extends { [P in K]?: any }
+  ? Omit<T, K>
+  : T;
+
+export type DeepOmitKey<T, K extends keyof any> = OmitKey<
+  {
+    [P in keyof T]: T[P] extends (infer U)[]
+      ? DeepOmitKeyArray<U, K>[]
+      : T[P] extends object
+      ? DeepOmitKey<T[P], K>
+      : T[P];
+  },
+  K
+>;
+
+type DeepOmitKeyArray<T, K extends keyof any> = T extends (infer U)[]
+  ? DeepOmitKeyArray<U, K>[]
+  : DeepOmitKey<T, K>;

@@ -1,23 +1,8 @@
 import { VendorModel } from "../../../api/models/vendor";
+import { DeepOmitKey, DeepOptionalKey } from "../../utils";
 import { SocialMediaPlatform } from "../enums";
 import { DefaultModel } from "../model.types";
 import { Asset } from "./asset";
-
-type OptionalId<T> = T extends { id: any }
-  ? Omit<T, "id"> & { id?: T["id"] }
-  : T;
-
-type DeepOptionalId<T> = OptionalId<{
-  [P in keyof T]: T[P] extends (infer U)[]
-    ? DeepOptionalIdArray<U>[]
-    : T[P] extends object
-    ? DeepOptionalId<T[P]>
-    : T[P];
-}>;
-
-type DeepOptionalIdArray<T> = T extends (infer U)[]
-  ? DeepOptionalIdArray<U>[]
-  : DeepOptionalId<T>;
 
 export namespace Vendor {
   // export type SocialMediaLink = {
@@ -31,7 +16,8 @@ export namespace Vendor {
   //   socialMediaLinks: SocialMediaLink[];
   // };
   export type Vendor = VendorModel.APIResponse.Populated;
-  export type VendorWithOptionalIDs = DeepOptionalId<Vendor>;
+  export type VendorWithOptionalIDs = DeepOptionalKey<Vendor, "id">;
+  export type VendorWithoutIDs = DeepOmitKey<Vendor, "id">;
 
   export enum VendorType {
     PHOTOGRAPHER = "photographer",
