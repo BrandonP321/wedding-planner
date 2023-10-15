@@ -1,60 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { HttpStatusCode } from "../../api/requests";
 import { Stage } from "../types/environment";
-
-// TODO: Move this to a separate file
-// ==============================
-
-export type APIErrorResponse<Codes extends {}> = {
-  errCode: keyof Codes;
-  msg: string;
-};
-
-export type APIControllerResponse<Codes extends {}> = {
-  status: number;
-  msg: string;
-  errCode: keyof Codes;
-};
-
-export type APIErrors<T extends {}> = {
-  [key in keyof T]: APIControllerResponse<T>;
-};
-
-export namespace DefaultErrors {
-  export const ErrorCode = {
-    NotAuthenticated: "NotAuthenticated",
-    UserNotFound: "UserNotFound",
-    InternalServerError: "InternalServerError",
-    NetworkError: "NetworkError",
-  } as const;
-
-  export const Errors: APIErrors<typeof ErrorCode> = {
-    NotAuthenticated: {
-      status: HttpStatusCode.Unauthorized,
-      errCode: ErrorCode.NotAuthenticated,
-      msg: "Temp: User not authenticated",
-    },
-    UserNotFound: {
-      status: HttpStatusCode.NotFound,
-      errCode: ErrorCode.UserNotFound,
-      msg: "Temp: User not found",
-    },
-    InternalServerError: {
-      status: HttpStatusCode.InternalServerError,
-      errCode: ErrorCode.InternalServerError,
-      msg: "Temp: Internal server error",
-    },
-    NetworkError: {
-      status: HttpStatusCode.InternalServerError,
-      errCode: ErrorCode.NetworkError,
-      msg: "Temp: Network error",
-    },
-  };
-
-  export type Error = APIErrorResponse<typeof Errors>;
-}
-
-// ==============================
+import { DefaultAPIError } from "../../api/requests/requestErrors";
 
 type APIFetcherBaseParams = {
   handleAuthFail?: () => void;
@@ -97,13 +44,13 @@ export class APIFetcherBase {
 
         return resolve(res.data);
       } catch (err) {
-        const error = err as AxiosError<DefaultErrors.Error>;
-        const errCode = error?.response?.data?.errCode;
+        const error = err as AxiosError<DefaultAPIError.ErrorResponse>;
+        const errCode = error?.response?.data?.code;
 
         if (!errCode) {
-          reject(DefaultErrors.Errors.NetworkError);
+          reject(DefaultAPIError.Errors.NetworkError);
         } else if (
-          errCode === DefaultErrors.ErrorCode.NotAuthenticated &&
+          errCode === DefaultAPIError.Codes.NotAuthenticated &&
           this.handleAuthFail
         ) {
           this.handleAuthFail();

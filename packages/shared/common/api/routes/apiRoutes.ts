@@ -10,8 +10,3 @@ type APIPath = APIPathsFromHandlers<typeof APIHandlers>;
 
 const getTypedAPIRoutes = <T extends Record<string, APIPath>>(routes: T): T =>
   routes;
-
-export const APIRoutes = getTypedAPIRoutes({
-  ByeWorld: "/hello-world/bye-world",
-  GetCitySuggestions: "/maps/citySuggestions",
-});

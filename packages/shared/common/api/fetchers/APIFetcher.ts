@@ -1,11 +1,11 @@
 import { APIFetcherBase } from "../../utils";
 import { GetCitySuggestionsReq } from "../requests/maps.requests";
-import { APIRoutes } from "../routes/apiRoutes";
+import { APIRoute } from "../routes";
 
 export class APIFetcherInternal extends APIFetcherBase {
   getCitySuggestions = (params: GetCitySuggestionsReq.ReqBody) =>
     this.post<GetCitySuggestionsReq.ResBody>(
-      APIRoutes.GetCitySuggestions,
+      APIRoute.Places.GetCitySuggestions,
       params
     );
 }
