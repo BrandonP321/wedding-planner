@@ -133,3 +133,6 @@ build
 .pnp.*
 
 .aws-sam
+
+# Sensitive vendor data from CSVs for local scripts
+scripts/emailAddresses/*.csv
