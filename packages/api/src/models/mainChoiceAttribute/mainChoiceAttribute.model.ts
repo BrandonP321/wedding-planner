@@ -1,8 +1,15 @@
-import { DataTypes, IncludeOptions, Model, Sequelize } from "sequelize";
+import {
+  DataTypes,
+  IncludeOptions,
+  Model,
+  Sequelize,
+  Transaction,
+} from "sequelize";
 import { MainChoiceAttributeModel } from "@wedding-planner/shared/api/models/mainChoiceAttribute";
 import { DefaultModel } from "@wedding-planner/shared/common/types";
 import { asWriteable } from "@wedding-planner/shared/common/utils/UtilityTypes";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
+import { CreateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/createVendorListing.request";
 
 export default class MainChoiceAttribute extends Model<
   MainChoiceAttributeModel.Attributes,
@@ -15,6 +22,18 @@ export default class MainChoiceAttribute extends Model<
     model: MainChoiceAttribute,
     as: MainChoiceAttributeModel.PopulatedName,
     attributes: this.includedAttributes,
+  };
+
+  public static createEntries = (params: {
+    attributes: CreateVendorListingRequest.MainChoiceAttribute[];
+    mainChoiceId: number;
+    transaction: Transaction;
+  }) => {
+    const { attributes, mainChoiceId, transaction } = params;
+
+    return attributes.map(async (a) => {
+      await MainChoiceAttribute.create({ ...a, mainChoiceId }, { transaction });
+    });
   };
 }
 

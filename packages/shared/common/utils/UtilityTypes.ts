@@ -33,3 +33,5 @@ export type WithComputedKeys<T, Keys extends keyof T> = {
 };
 
 export type KeyOf<T, K extends keyof T> = K;
+
+export type TypedOmit<T, K extends keyof T> = Omit<T, K>;

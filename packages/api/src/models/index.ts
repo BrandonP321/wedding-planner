@@ -17,7 +17,7 @@ export default {
   MainChoiceAttribute,
 };
 
-const sequelize = new Sequelize(
+export const sequelize = new Sequelize(
   "postgres",
   process.env.DB_USERNAME ?? "",
   process.env.DB_PASSWORD ?? "",
@@ -36,7 +36,8 @@ export const initModels = () => {
   tempMainChoiceAttributeInit(sequelize);
 };
 export const syncWithDB = () => {
-  sequelize.sync({ force: true }).then(() => {
+  sequelize.sync().then(() => {
+    // sequelize.sync({ force: true }).then(() => {
     console.log("Synced with DB");
   });
 };

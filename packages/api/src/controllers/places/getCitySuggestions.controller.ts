@@ -1,5 +1,4 @@
 import { MapsAPIFetcher } from "@wedding-planner/shared/common";
-import { MapReq } from "@wedding-planner/shared/common/api/requests/maps.requests";
 import { Controller } from "../../utils/ControllerUtils";
 import { GetCitySuggestionsRequest } from "@wedding-planner/shared/api/requests/places/getCitySuggestions.request";
 
@@ -11,7 +10,7 @@ const controller = new Controller<
 >(GetCitySuggestionsRequest.Errors);
 
 export const getCitySuggestionsController = controller.handler(
-  async ({ body }, res, errors) => {
+  async ({ body }, res) => {
     const { predictions } = await MapsAPIFetcher.getCityAutocomplete(
       body.query
     );
@@ -20,6 +19,6 @@ export const getCitySuggestionsController = controller.handler(
       city: p.description,
     }));
 
-    return res.json({ predictions: slimPredictions });
+    return res.json({ predictions: slimPredictions }).end();
   }
 );
