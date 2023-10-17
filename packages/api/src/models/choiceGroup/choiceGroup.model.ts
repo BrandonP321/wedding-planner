@@ -1,11 +1,17 @@
 import { DataTypes, IncludeOptions, Model, Sequelize } from "sequelize";
 import { ChoiceGroupModel } from "@wedding-planner/shared/api/models/choiceGroup";
 import { DefaultModel } from "@wedding-planner/shared/common/types";
-import { asWriteable } from "@wedding-planner/shared/common/utils";
 import Choice from "../choice/choice.model";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
+import { ModelTypes } from "..";
+import { BaseModel } from "../BaseModel";
 
-export default class ChoiceGroup extends Model<
+type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
+  ChoiceGroupModel.Response.Unpopulated,
+  "mainChoiceId"
+>;
+
+export default class ChoiceGroup extends BaseModel<
   ChoiceGroupModel.Attributes,
   ChoiceGroupModel.Base
 > {
@@ -24,6 +30,18 @@ export default class ChoiceGroup extends Model<
   public static populatedIncludable: IncludeOptions = {
     ...ChoiceGroup.includable,
     include: [Choice.includable],
+  };
+
+  public static getCreateAttributesJSON = ({
+    mainChoiceId,
+    model,
+  }: CreationOrUpdateParams): ChoiceGroupModel.Base => ({
+    ...model,
+    mainChoiceId,
+  });
+
+  public static createOrUpdate = (params: CreationOrUpdateParams) => {
+    return this._createOrUpdate(params);
   };
 }
 

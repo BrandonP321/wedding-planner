@@ -36,7 +36,7 @@ export type KeyOf<T, K extends keyof T> = K;
 
 export type TypedOmit<T, K extends keyof T> = Omit<T, K>;
 
-type OptionalKey<T, K extends keyof any> = T extends { [P in K]?: any }
+export type OptionalKey<T, K extends keyof any> = T extends { [P in K]?: any }
   ? Omit<T, K> & { [P in K]?: T[K] }
   : T;
 

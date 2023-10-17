@@ -1,18 +1,16 @@
-import {
-  DataTypes,
-  IncludeOptions,
-  Model,
-  Sequelize,
-  Transaction,
-} from "sequelize";
+import { DataTypes, IncludeOptions, Sequelize } from "sequelize";
 import { MainChoiceAttributeModel } from "@wedding-planner/shared/api/models/mainChoiceAttribute";
 import { DefaultModel } from "@wedding-planner/shared/common/types";
-import { asWriteable } from "@wedding-planner/shared/common/utils/UtilityTypes";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
-import { CreateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/createVendorListing.request";
-import { Vendor } from "@wedding-planner/shared/common/types";
+import { ModelTypes } from "..";
+import { BaseModel } from "../BaseModel";
 
-export default class MainChoiceAttribute extends Model<
+type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
+  MainChoiceAttributeModel.Response,
+  "mainChoiceId"
+>;
+
+export default class MainChoiceAttribute extends BaseModel<
   MainChoiceAttributeModel.Attributes,
   MainChoiceAttributeModel.Base
 > {
@@ -25,16 +23,16 @@ export default class MainChoiceAttribute extends Model<
     attributes: this.includedAttributes,
   };
 
-  public static createEntries = (params: {
-    attributes: Omit<MainChoiceAttributeModel.Response, "id">[];
-    mainChoiceId: number;
-    transaction: Transaction;
-  }) => {
-    const { attributes, mainChoiceId, transaction } = params;
+  public static getCreateAttributesJSON = ({
+    mainChoiceId,
+    model,
+  }: CreationOrUpdateParams): MainChoiceAttributeModel.Base => ({
+    ...model,
+    mainChoiceId,
+  });
 
-    return attributes.map(async (a) => {
-      await MainChoiceAttribute.create({ ...a, mainChoiceId }, { transaction });
-    });
+  public static createOrUpdate = (params: CreationOrUpdateParams) => {
+    return this._createOrUpdate(params);
   };
 }
 
