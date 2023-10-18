@@ -36,10 +36,12 @@ const exampleRequest: CreateVendorListingRequest.ReqBody = {
         choiceGroups: [
           {
             name: "some choice group",
-            type: VenueFilterTypes.ChoiceGroupFilter.GUEST_CAPACITY,
+            filterType: VenueFilterTypes.ChoiceGroupFilter.GUEST_CAPACITY,
             choices: [
               {
                 name: "some choice",
+                filterType:
+                  VenueFilterTypes.SingleChoiceFilter.ENTERTAINMENT_SYSTEM,
                 price: 123,
                 value: 333,
               },

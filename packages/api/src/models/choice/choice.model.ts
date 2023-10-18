@@ -19,6 +19,7 @@ export default class Choice extends BaseModel<
     "name",
     "price",
     "value",
+    "filterType",
   ];
 
   public static includable: IncludeOptions = {
@@ -48,6 +49,7 @@ export const tempChoiceInit = (sequelize: Sequelize) =>
           key: DefaultModel.Field.ID,
         },
       },
+      filterType: DataTypes.STRING,
       price: DataTypes.INTEGER,
       value: DataTypes.INTEGER,
       name: DataTypes.STRING,

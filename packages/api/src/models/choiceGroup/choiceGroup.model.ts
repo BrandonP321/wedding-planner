@@ -18,7 +18,7 @@ export default class ChoiceGroup extends BaseModel<
   public static includedAttributes: ChoiceGroupModel.IncludedAttributes[] = [
     "id",
     "name",
-    "type",
+    "filterType",
   ];
 
   public static includable: IncludeOptions = {
@@ -49,7 +49,7 @@ export const tempChoiceGroupInit = (sequelize: Sequelize) =>
   ChoiceGroup.init(
     {
       ...DefaultModel.SchemaAttributes,
-      type: DataTypes.STRING,
+      filterType: DataTypes.STRING,
       mainChoiceId: {
         type: DataTypes.INTEGER,
         references: {

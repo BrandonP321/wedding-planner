@@ -9,15 +9,18 @@ export namespace VendorFilter {
   };
 
   export type ValidationFunc = (
-    mainChoices: MainChoiceModel.Populated[]
-  ) => MainChoiceModel.Populated[];
+    mainChoices: MainChoiceModel.Response.Populated[]
+  ) => MainChoiceModel.Response.Populated[];
 }
 
 export class VendorFilter {
-  protected vendor: VendorModel.Populated;
+  protected vendor: VendorModel.APIResponse.Populated;
   protected filters: VendorFilter.Filters;
 
-  constructor(vendor: VendorModel.Populated, filters: VendorFilter.Filters) {
+  constructor(
+    vendor: VendorModel.APIResponse.Populated,
+    filters: VendorFilter.Filters
+  ) {
     this.vendor = vendor;
     this.filters = filters;
   }

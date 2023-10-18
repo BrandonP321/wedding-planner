@@ -9,5 +9,21 @@ export enum BaseFilterType {
 export type VendorMainChoiceFilterType = VenueFilterTypes.MainChoiceFilter;
 
 export type VendorChoiceGroupFilterType =
-  | "custom"
+  | "none"
   | VenueFilterTypes.ChoiceGroupFilter;
+
+export type VendorChoiceFilterType =
+  | "none"
+  | VenueFilterTypes.SingleChoiceFilter;
+
+export namespace VendorFilterTypes {
+  type ChoiceGroupFilters = {
+    [key in VendorChoiceGroupFilterType]?: any;
+  };
+
+  export type Filters = {
+    mainChoiceAttributes?: VendorMainChoiceFilterType[];
+    choiceGroupFilters?: ChoiceGroupFilters;
+    singleChoiceFilters?: VendorChoiceFilterType[];
+  };
+}

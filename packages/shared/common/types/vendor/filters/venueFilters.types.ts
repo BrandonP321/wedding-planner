@@ -7,4 +7,8 @@ export namespace VenueFilterTypes {
   export enum ChoiceGroupFilter {
     GUEST_CAPACITY = "guestCapacity",
   }
+
+  export enum SingleChoiceFilter {
+    ENTERTAINMENT_SYSTEM = "entertainmentSystem",
+  }
 }

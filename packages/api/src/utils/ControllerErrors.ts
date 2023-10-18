@@ -34,16 +34,14 @@ export class ControllerErrors<Errors extends APIErrorMap<{}>> {
 
   public static logError = (err: any) => {
     if (err) {
-      if (typeof err !== "string") {
+      if (process.env.STAGE === Stage.LOCAL) {
+        return console.error(err);
+      } else if (typeof err !== "string") {
         err = JSON.stringify(err);
       }
 
-      if (process.env.STAGE === Stage.LOCAL) {
-        console.error(err);
-      } else {
-        // TODO: Log errors to CloudWatch
-        // Logger.error(err);
-      }
+      // TODO: Log errors to CloudWatch
+      // Logger.error(err);
     }
   };
 }

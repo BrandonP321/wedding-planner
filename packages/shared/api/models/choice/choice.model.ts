@@ -1,5 +1,5 @@
 import { KeyOf } from "../../../common";
-import { DefaultModel } from "../../../common/types";
+import { DefaultModel, VendorChoiceFilterType } from "../../../common/types";
 
 export namespace ChoiceModel {
   export const Name = "choice";
@@ -14,13 +14,14 @@ export namespace ChoiceModel {
      */
     value: number;
     price: number;
+    filterType: VendorChoiceFilterType;
   };
 
   export type Attributes = Base & DefaultModel.Attributes;
 
   export type IncludedAttributes = KeyOf<
     Attributes,
-    "id" | "name" | "value" | "price"
+    "id" | "name" | "value" | "price" | "filterType"
   >;
 
   export type Response = Pick<Attributes, IncludedAttributes>;

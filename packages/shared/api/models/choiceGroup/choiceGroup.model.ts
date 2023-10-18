@@ -11,13 +11,16 @@ export namespace ChoiceGroupModel {
 
   export type Base = {
     name: string;
-    type: VendorChoiceGroupFilterType;
+    filterType: VendorChoiceGroupFilterType;
     mainChoiceId: number;
   };
 
   export type Attributes = Base & DefaultModel.Attributes;
 
-  export type IncludedAttributes = KeyOf<Attributes, "id" | "name" | "type">;
+  export type IncludedAttributes = KeyOf<
+    Attributes,
+    "id" | "name" | "filterType"
+  >;
 
   export type PopulatedAttributes = {
     [ChoiceModel.PopulatedName]: ChoiceModel.Response[];
