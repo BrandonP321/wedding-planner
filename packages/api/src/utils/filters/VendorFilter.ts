@@ -59,7 +59,14 @@ export class VendorFilter {
     return validMainChoices;
   };
 
-  protected validateChoiceGroupMultiChoice = () => {};
+  // TODO: Update when there is a use case for this type of filtering
+  protected validateChoiceGroupMultiChoice = (
+    mainChoices: VendorFilter.ValidationFuncMainChoiceParam
+  ): VendorFilter.ValidationFuncResponse => {
+    const validMainChoices = mainChoices.filter((mc) => {});
+
+    return validMainChoices;
+  };
 
   protected validateChoiceGroupSingleChoices = (
     mainChoices: VendorFilter.ValidationFuncMainChoiceParam
