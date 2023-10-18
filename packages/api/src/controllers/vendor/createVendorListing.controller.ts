@@ -12,9 +12,16 @@ const controller = new Controller<
 
 export const CreateVendorListingController = controller.handler(
   async (req, res, errors) => {
-    const { vendor: reqVendor } = req.body;
+    const { vendor: reqVendor, location } = req.body;
 
-    const { vendorId } = await VendorUtils.createOrUpdateVendor(reqVendor);
+    const { vendorId } = await VendorUtils.createOrUpdateVendor({
+      ...reqVendor,
+      locationGeometry: {
+        type: "Point",
+        coordinates: location,
+        crs: { properties: { name: "EPSG:4326" }, type: "name" },
+      },
+    });
 
     return res.json({ vendorId }).end();
   }

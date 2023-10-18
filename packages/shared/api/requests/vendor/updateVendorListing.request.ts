@@ -5,7 +5,8 @@ import { Vendor } from "../../../common/types";
 
 export namespace UpdateVendorListingRequest {
   export type ReqBody = {
-    vendor: Vendor.VendorWithOptionalIDs;
+    // TODO: Remove creation attributes after implementing grabbing coords from address
+    vendor: Vendor.VendorWithOptionalIDs & VendorModel.CreationAttributes;
   };
 
   export type ResBody = {

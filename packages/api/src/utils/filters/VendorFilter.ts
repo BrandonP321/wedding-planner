@@ -122,7 +122,7 @@ export class VendorFilter {
     for (const func of allValidationFuncs) {
       mainChoices = func(mainChoices);
 
-      if (!mainChoices.length) return false;
+      if (!mainChoices?.length) return false;
     }
 
     return true;

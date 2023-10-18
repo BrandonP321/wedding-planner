@@ -42,6 +42,7 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST ?? "",
     dialect: "postgres",
+    // logging: console.log,
     logging: false,
   }
 );
@@ -53,9 +54,18 @@ export const initModels = () => {
   tempVendorInit(sequelize);
   tempMainChoiceAttributeInit(sequelize);
 };
+
+const enablePostGISExtension = async () => {
+  await sequelize.query("CREATE EXTENSION IF NOT EXISTS postgis;");
+
+  console.log("PostGIS extension enabled");
+};
+
 export const syncWithDB = () => {
   sequelize.sync().then(() => {
     // sequelize.sync({ force: true }).then(() => {
     console.log("Synced with DB");
+
+    enablePostGISExtension();
   });
 };

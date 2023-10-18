@@ -1,9 +1,10 @@
 import { Vendor } from "@wedding-planner/shared/common/types";
 import db, { sequelize } from "../models";
+import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 
 export class VendorUtils {
   public static createOrUpdateVendor = async (
-    vendor: Vendor.VendorWithOptionalIDs
+    vendor: Vendor.VendorWithOptionalIDs & VendorModel.CreationAttributes
   ) => {
     return await sequelize.transaction(async (transaction) => {
       const {

@@ -4,8 +4,9 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 import { ModelTypes } from "..";
 import { BaseModel } from "../BaseModel";
 
-type CreationOrUpdateParams =
-  ModelTypes.ModelCreationOrUpdateParams<VendorModel.APIResponse.Unpopulated>;
+type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
+  VendorModel.CreationAttributes & { id?: number }
+>;
 
 export default class Vendor extends BaseModel<
   VendorModel.Attributes,
@@ -30,10 +31,20 @@ export const tempVendorInit = (sequelize: Sequelize) =>
       name: DataTypes.STRING,
       city: DataTypes.STRING,
       description: DataTypes.STRING,
+      locationGeometry: {
+        type: DataTypes.GEOGRAPHY("POINT", 4326),
+      },
     },
     {
       sequelize,
       modelName: VendorModel.Name,
       tableName: VendorModel.Name,
+      indexes: [
+        {
+          name: "vendor_location_geometry_index",
+          using: "gist",
+          fields: ["locationGeometry"],
+        },
+      ],
     }
   );

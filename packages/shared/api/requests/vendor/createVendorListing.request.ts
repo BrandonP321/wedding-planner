@@ -1,10 +1,12 @@
 import { APIErrorResponse } from "..";
 import { DefaultAPIError } from "../requestErrors";
-import { Vendor, VenueFilterTypes } from "../../../common/types";
+import { Vendor } from "../../../common/types";
 
 export namespace CreateVendorListingRequest {
   export type ReqBody = {
     vendor: Vendor.VendorWithoutIDs;
+    // TODO: Change to address after testing
+    location: [number, number];
   };
 
   export type ResBody = {
@@ -21,34 +23,3 @@ export namespace CreateVendorListingRequest {
 
   export type ErrorResponse = APIErrorResponse<typeof Errors>;
 }
-
-const exampleRequest: CreateVendorListingRequest.ReqBody = {
-  vendor: {
-    city: "some city",
-    name: "some name",
-    description: "some description",
-    mainChoices: [
-      {
-        name: "some main choice",
-        attributes: [
-          { filterName: VenueFilterTypes.MainChoiceFilter.OUTDOOR_VENUE },
-        ],
-        choiceGroups: [
-          {
-            name: "some choice group",
-            filterType: VenueFilterTypes.ChoiceGroupFilter.GUEST_CAPACITY,
-            choices: [
-              {
-                name: "some choice",
-                filterType:
-                  VenueFilterTypes.SingleChoiceFilter.ENTERTAINMENT_SYSTEM,
-                price: 123,
-                value: 333,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-};

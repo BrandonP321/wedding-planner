@@ -9,7 +9,14 @@ export namespace VendorModel {
     name: string;
     description: string;
     city: string;
+    locationGeometry: {
+      type: "Point";
+      coordinates: [number, number];
+      crs: { type: "name"; properties: { name: "EPSG:4326" } };
+    };
   };
+
+  export type CreationAttributes = Base;
 
   export type Attributes = Base & DefaultModel.Attributes;
 

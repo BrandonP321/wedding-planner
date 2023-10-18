@@ -3,6 +3,8 @@ import { SearchVendorListingRequest } from "@wedding-planner/shared/api/requests
 import db, { sequelize } from "../../models";
 import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 import { getFilteredVendors } from "../../utils/filters";
+import { Sequelize } from "sequelize";
+import { locationGeographyUtils } from "../../utils";
 
 const controller = new Controller<
   SearchVendorListingRequest.ReqBody,
@@ -14,9 +16,32 @@ const controller = new Controller<
 export const SearchVendorListingsController = controller.handler(
   async (req, res, errors) => {
     const filters = req.body;
+    const { location, distanceFromLocation } = req.body;
 
-    // TODO: Implement location based filtering
+    const locationPoint = sequelize.fn(
+      "ST_MakePoint",
+      location[0],
+      location[1]
+    );
+
+    const maxSearchRadius = 50;
+    const minSearchRadius = 10;
+
+    const clampedSearchRadius = Math.max(
+      Math.min(distanceFromLocation, maxSearchRadius),
+      minSearchRadius
+    );
+
     const tempVendors = await db.Vendor.findAll({
+      where: Sequelize.where(
+        sequelize.fn(
+          "ST_DWithin",
+          sequelize.col("locationGeometry"),
+          locationPoint,
+          locationGeographyUtils.milesToMeters(clampedSearchRadius)
+        ),
+        true
+      ),
       attributes: db.Vendor.includedAttributes,
       include: db.MainChoice.populatedIncludable,
     });

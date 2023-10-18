@@ -14,6 +14,7 @@ export const UpdateVendorListingController = controller.handler(
   async (req, res, errors) => {
     const { vendor } = req.body;
 
+    // TODO: Remove location array after testing
     const { vendorId } = await VendorUtils.createOrUpdateVendor(vendor);
 
     return res.json({ vendorId }).end();
