@@ -1,4 +1,4 @@
-import { MapsAPIFetcher } from "@wedding-planner/shared/common";
+import { MapsAPIFetcher } from "../../utils";
 import { Controller } from "../../utils/ControllerUtils";
 import { GetCitySuggestionsRequest } from "@wedding-planner/shared/api/requests/places/getCitySuggestions.request";
 

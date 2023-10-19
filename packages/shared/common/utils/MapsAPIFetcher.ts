@@ -1,9 +1,6 @@
 import { Stage } from "../types/environment";
 import { APIFetcherBase } from "./APIFetcherBase";
 
-// TODO: Invalidate API key and store new key in env variable
-const API_KEY = "AIzaSyDlhQKdtBRYVgwNle7wP4ZQuG1gWaaWtwY";
-
 type GoogleMapsPlacePrediction = {
   description: string;
   place_id: string;
@@ -33,7 +30,7 @@ type MapsPlaceDetailsResponse = {
   };
 };
 
-class MapsAPIFetcherInternal extends APIFetcherBase {
+export class MapsAPIFetcherInternal extends APIFetcherBase {
   protected apiDomainMap = {
     [Stage.LOCAL]: "",
     [Stage.DEV]: "",
@@ -42,21 +39,28 @@ class MapsAPIFetcherInternal extends APIFetcherBase {
   };
   protected withCredentials = false;
 
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    super({});
+    this.apiKey = apiKey;
+  }
+
   public getCityAutocomplete = (city: string) => {
     return this.get<MapsPlaceAutoCompleteResponse>(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${city}&types=(cities)&key=${API_KEY}&components=country:us`
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${city}&types=(cities)&key=${this.apiKey}&components=country:us`
     );
   };
 
   public getPlaceDetails = (placeId: string) => {
     return this.get<MapsPlaceDetailsResponse>(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${this.apiKey}`
     );
   };
 
   public reverseGeocodePlace = (placeId: string) => {
     return this.get<ReverseGeocodePlaceResponse>(
-      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${this.apiKey}`
     );
   };
 
@@ -67,5 +71,3 @@ class MapsAPIFetcherInternal extends APIFetcherBase {
     return location;
   };
 }
-
-export const MapsAPIFetcher = new MapsAPIFetcherInternal({});

@@ -4,8 +4,7 @@ import db, { sequelize } from "../../models";
 import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 import { getFilteredVendors } from "../../utils/filters";
 import { Sequelize } from "sequelize";
-import { locationGeographyUtils } from "../../utils";
-import { MapsAPIFetcher } from "@wedding-planner/shared/common";
+import { MapsAPIFetcher, locationGeographyUtils } from "../../utils";
 
 const controller = new Controller<
   SearchVendorListingRequest.ReqBody,
