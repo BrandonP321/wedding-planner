@@ -6,10 +6,31 @@ const API_KEY = "AIzaSyDlhQKdtBRYVgwNle7wP4ZQuG1gWaaWtwY";
 
 type GoogleMapsPlacePrediction = {
   description: string;
+  place_id: string;
 };
 
 type MapsPlaceAutoCompleteResponse = {
   predictions: GoogleMapsPlacePrediction[];
+};
+
+type ReverseGeocodePlaceResponse = {
+  results: {
+    geometry: {
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
+  }[];
+};
+
+type MapsPlaceDetailsAddressComponent = {};
+
+type MapsPlaceDetailsResponse = {
+  result: {
+    address_components: MapsPlaceDetailsAddressComponent[];
+    formatted_address: string;
+  };
 };
 
 class MapsAPIFetcherInternal extends APIFetcherBase {
@@ -25,6 +46,25 @@ class MapsAPIFetcherInternal extends APIFetcherBase {
     return this.get<MapsPlaceAutoCompleteResponse>(
       `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${city}&types=(cities)&key=${API_KEY}&components=country:us`
     );
+  };
+
+  public getPlaceDetails = (placeId: string) => {
+    return this.get<MapsPlaceDetailsResponse>(
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${API_KEY}`
+    );
+  };
+
+  public reverseGeocodePlace = (placeId: string) => {
+    return this.get<ReverseGeocodePlaceResponse>(
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
+    );
+  };
+
+  public getCityCoords = async (placeId: string) => {
+    const result = await this.reverseGeocodePlace(placeId);
+    const location = result.results[0].geometry.location;
+
+    return location;
   };
 }
 

@@ -17,6 +17,7 @@ export const getCitySuggestionsController = controller.handler(
 
     const slimPredictions = predictions.map((p) => ({
       city: p.description,
+      googlePlaceId: p.place_id,
     }));
 
     return res.json({ predictions: slimPredictions }).end();

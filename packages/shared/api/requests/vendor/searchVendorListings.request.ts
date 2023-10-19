@@ -5,8 +5,7 @@ import { Vendor, VendorFilterTypes } from "../../../common/types";
 
 export namespace SearchVendorListingRequest {
   export type ReqBody = VendorFilterTypes.Filters & {
-    // TODO: Change to city after testing
-    location: [number, number];
+    locationPlaceId: string;
     distanceFromLocation: number;
   };
 

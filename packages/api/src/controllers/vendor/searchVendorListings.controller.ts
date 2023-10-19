@@ -5,6 +5,7 @@ import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 import { getFilteredVendors } from "../../utils/filters";
 import { Sequelize } from "sequelize";
 import { locationGeographyUtils } from "../../utils";
+import { MapsAPIFetcher } from "@wedding-planner/shared/common";
 
 const controller = new Controller<
   SearchVendorListingRequest.ReqBody,
@@ -16,13 +17,11 @@ const controller = new Controller<
 export const SearchVendorListingsController = controller.handler(
   async (req, res, errors) => {
     const filters = req.body;
-    const { location, distanceFromLocation } = req.body;
+    const { locationPlaceId, distanceFromLocation } = req.body;
 
-    const locationPoint = sequelize.fn(
-      "ST_MakePoint",
-      location[0],
-      location[1]
-    );
+    const { lat, lng } = await MapsAPIFetcher.getCityCoords(locationPlaceId);
+
+    const locationPoint = sequelize.fn("ST_MakePoint", lng, lat);
 
     const maxSearchRadius = 50;
     const minSearchRadius = 10;
