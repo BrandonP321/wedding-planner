@@ -1,0 +1,15 @@
+@import "../../styles/uiBase.scss";
+
+.cropPreview {
+  width: 100%;
+}
+
+.canvas {
+  object-fit: cover;
+}
+
+.hide {
+  visibility: hidden;
+  overflow: hidden;
+  height: 0;
+}
