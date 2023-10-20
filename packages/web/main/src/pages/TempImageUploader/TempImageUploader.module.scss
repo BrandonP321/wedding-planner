@@ -1,0 +1,44 @@
+@import "../../styles/uiBase.scss";
+
+.previewThumbs {
+  width: 90%;
+}
+
+.previewThumbWrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.previewThumb {
+}
+
+.removeThumbBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid gray;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(30%, -30%);
+  font-size: 1.5rem;
+}
+
+.cropPreview {
+  width: 100%;
+}
+
+.canvas {
+  object-fit: cover;
+}
+
+.hide {
+  visibility: hidden;
+  overflow: hidden;
+  height: 0;
+}

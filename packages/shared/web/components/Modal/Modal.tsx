@@ -13,6 +13,7 @@ export type ModalProps = React.PropsWithChildren<{
   classes?: ClassesProp<"root" | "overaly" | "content" | "exitIcon" | "header">;
   title?: React.ReactNode;
   footer?: JSX.Element;
+  fullSize?: boolean;
 }>;
 
 export const Modal = ({
@@ -22,12 +23,14 @@ export const Modal = ({
   children,
   title,
   footer,
+  fullSize,
 }: ModalProps) => {
   return (
     <div
       className={classNames(
         styles.modal,
         classes?.root,
+        fullSize && styles.fullSize,
         !show && styles.hidden
       )}
     >
@@ -52,7 +55,7 @@ export const Modal = ({
           </button>
         </SpaceBetween>
         <div className={styles.children}>
-          <PageContent verticalPadding horizontalPadding>
+          <PageContent verticalPadding horizontalPadding stretch={fullSize}>
             {children}
           </PageContent>
         </div>

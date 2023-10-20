@@ -6,6 +6,7 @@ import {
   Home,
   PrivacyPolicy,
   SimpleVendorSearch,
+  TempImageUploader,
   VendorDetails,
   VendorSearch,
 } from "./pages";
@@ -58,8 +59,9 @@ function App() {
                     path={RouteHelper.PrivacyPolicy()}
                     element={<PrivacyPolicy />}
                   />
-                  R
                 </Route>
+
+                <Route path="/temp" element={<TempImageUploader />} />
               </Route>
             </Routes>
           </Router>

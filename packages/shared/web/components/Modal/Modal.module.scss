@@ -17,6 +17,16 @@
     padding: 0;
   }
 
+  &.fullSize {
+    padding: 0;
+
+    .modalContent {
+      max-width: none;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+
   &.hidden {
     pointer-events: none;
     opacity: 0;

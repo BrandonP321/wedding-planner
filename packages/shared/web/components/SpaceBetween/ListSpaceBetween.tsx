@@ -36,6 +36,7 @@ export const ListSpaceBetween = ({
         ...classes,
         root: classNames(
           styles.listSpaceBetween,
+          classes?.root,
           styles[`items-${itemsToRenderPerRow}`]
         ),
       }}
