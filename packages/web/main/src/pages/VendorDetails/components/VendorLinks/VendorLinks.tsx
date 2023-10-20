@@ -27,7 +27,7 @@ export const VendorLinks = (props: VendorLinksProps) => {
     >
       <SpaceBetween classes={{ root: styles.links }} vertical>
         <SpaceBetween>
-          {vendor?.socialMediaLinks?.map((link, i) => {
+          {/* {vendor?.socialMediaLinks?.map((link, i) => {
             const Icon = SocialMediaIcons[link.type];
 
             return (
@@ -41,7 +41,7 @@ export const VendorLinks = (props: VendorLinksProps) => {
                 <Icon />
               </a>
             );
-          })}
+          })} */}
         </SpaceBetween>
       </SpaceBetween>
 

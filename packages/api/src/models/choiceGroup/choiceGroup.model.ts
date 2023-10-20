@@ -48,7 +48,7 @@ export default class ChoiceGroup extends BaseModel<
 export const tempChoiceGroupInit = (sequelize: Sequelize) =>
   ChoiceGroup.init(
     {
-      ...DefaultModel.SchemaAttributes,
+      ...BaseModel.SchemaAttributes,
       filterType: DataTypes.STRING,
       mainChoiceId: {
         type: DataTypes.INTEGER,

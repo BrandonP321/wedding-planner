@@ -39,7 +39,7 @@ export default class MainChoiceAttribute extends BaseModel<
 export const tempMainChoiceAttributeInit = (sequelize: Sequelize) =>
   MainChoiceAttribute.init(
     {
-      ...DefaultModel.SchemaAttributes,
+      ...BaseModel.SchemaAttributes,
       mainChoiceId: {
         type: DataTypes.INTEGER,
         references: {

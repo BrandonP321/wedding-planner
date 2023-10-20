@@ -74,14 +74,14 @@ const SimpleVendorSearchInput = () => {
       <DropdownList
         options={citySuggestions}
         getOptionHref={(s) =>
-          RouteHelper.VendorSearch(undefined, { city: s.description })
+          RouteHelper.VendorSearch(undefined, { city: s.city })
         }
         variant="raised"
         staticPosition
       >
         {(s) => {
           const modifiedCityName = TextUtils.getBoldenedMatchedText(
-            s.description,
+            s.city,
             vendorSearch
           );
 

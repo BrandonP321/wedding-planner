@@ -1,6 +1,7 @@
 import { VenueFilterTypes } from "./venueFilters.types";
 
 export * from "./venueFilters.types";
+export * from "./photographerFilters.types";
 
 export enum BaseFilterType {
   MAX_PRICE = "maxPrice",
@@ -25,5 +26,6 @@ export namespace VendorFilterTypes {
     mainChoiceAttributes?: VendorMainChoiceFilterType[];
     choiceGroupFilters?: ChoiceGroupFilters;
     singleChoiceFilters?: VendorChoiceFilterType[];
+    distanceFromLocation: number;
   };
 }

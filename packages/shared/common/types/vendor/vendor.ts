@@ -22,6 +22,7 @@ export namespace Vendor {
   export enum VendorType {
     PHOTOGRAPHER = "photographer",
     CATERER = "caterer",
+    VENUE = "venue",
   }
 
   export type VendorTypeMap<T> = Record<VendorType, T>;

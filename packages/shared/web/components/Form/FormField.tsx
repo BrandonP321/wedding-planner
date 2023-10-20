@@ -15,7 +15,7 @@ const FormFieldContext = createContext({} as TFormFieldContext);
 export const useFormFieldContext = () => useContext(FormFieldContext);
 
 type FormFieldProps = React.PropsWithChildren<{
-  label?: string;
+  label?: React.ReactNode;
   name: string;
   classes?: ClassesProp<"root" | "label" | "error">;
   hintText?: string;

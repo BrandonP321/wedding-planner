@@ -1,6 +1,9 @@
 import styles from "./VendorSearchFilter.module.scss";
 import {
   FormField,
+  Line,
+  RadioField,
+  RadioFormField,
   Select,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
@@ -13,22 +16,34 @@ import {
   VendorFilterValues,
 } from "./components/VendorFilterFormik";
 import { VendorCityFilter } from "./components/CityFilterInput";
+import { VenueFilterForm } from "./FilterForms/VenueFilterForm";
+import { useEffect } from "react";
 
 const VendorFilterFormMap: Vendor.VendorTypeMap<() => JSX.Element> = {
   [Vendor.VendorType.PHOTOGRAPHER]: PhotographerFilterForm,
   [Vendor.VendorType.CATERER]: CaterergrapherFilterForm,
+  [Vendor.VendorType.VENUE]: VenueFilterForm,
 };
 
 type VendorSearchFilterContentProps = {};
 
+const searchRadiusFilterName: keyof VendorFilterValues = "distanceFromLocation";
+
 export const VendorSearchFilterContent = (
   props: VendorSearchFilterContentProps
 ) => {
-  const {
-    values: { vendorType },
-  } = useFormikContext<VendorFilterValues>();
+  const { values, setValues } = useFormikContext<VendorFilterValues>();
 
-  const FilterForm = VendorFilterFormMap[vendorType];
+  useEffect(() => {
+    setValues({
+      ...values,
+      choiceGroupFilters: {},
+      mainChoiceAttributes: [],
+      singleChoiceFilters: [],
+    });
+  }, [values.vendorType]);
+
+  const FilterForm = VendorFilterFormMap[values.vendorType];
 
   return (
     <Form className={styles.filterForm}>
@@ -43,16 +58,25 @@ export const VendorSearchFilterContent = (
         <FormField name={FilterField.VENDOR_TYPE} label="Vendor type">
           <Select
             options={[
+              { label: "Venue", value: Vendor.VendorType.VENUE },
               {
                 label: "Photographer",
                 value: Vendor.VendorType.PHOTOGRAPHER,
               },
-              { label: "Caterer", value: Vendor.VendorType.CATERER },
+              // { label: "Caterer", value: Vendor.VendorType.CATERER },
             ]}
           />
         </FormField>
 
         <VendorCityFilter />
+
+        <RadioFormField name={searchRadiusFilterName} label="Search radius">
+          <RadioField label="10 miles" value={10} parse />
+          <RadioField label="20 miles" value={20} parse />
+          <RadioField label="50 miles" value={50} parse />
+        </RadioFormField>
+
+        <Line />
 
         <FilterForm />
       </SpaceBetween>

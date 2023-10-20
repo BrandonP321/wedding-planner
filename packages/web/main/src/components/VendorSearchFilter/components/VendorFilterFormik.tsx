@@ -1,41 +1,28 @@
+import { FormikSubmit, UrlUtils, FormikForm } from "@wedding-planner/shared";
+import { SearchVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/searchVendorListings.request";
 import {
-  getEmptyInitialValues,
-  FormikSubmit,
-  UrlUtils,
-  FormikForm,
-} from "@wedding-planner/shared";
-import { Vendor } from "@wedding-planner/shared/common/types";
-import { useMemo } from "react";
-import { catererInitialValues } from "../FilterForms/CatererFilterForm";
-import { photographerInitialValues } from "../FilterForms/PhotographerFilterForm";
+  Vendor,
+  VendorFilterTypes,
+} from "@wedding-planner/shared/common/types";
+import { useEffect, useMemo } from "react";
+import { APIFetcher } from "utils";
 
 export enum FilterField {
   CITY = "city",
   VENDOR_TYPE = "vendorType",
 }
 
-const initialValues = {
-  ...getEmptyInitialValues({
-    inputFields: FilterField,
-    selectFields: {
-      [FilterField.VENDOR_TYPE]: Vendor.VendorType,
-    },
-    checkboxFields: {},
-    radioFields: {},
-    toggleFields: {},
-  }),
-  ...catererInitialValues,
-  ...photographerInitialValues,
+export type VendorFilterValues = Required<VendorFilterTypes.Filters> & {
+  city: string;
+  vendorType: Vendor.VendorType;
 };
 
-export type VendorFilterValues = typeof initialValues;
-
 export type VendorFilterFormikProps = React.PropsWithChildren<{
-  handleSubmit: FormikSubmit<VendorFilterValues>;
+  onSubmit: (vendors: SearchVendorListingRequest.ResBody["vendors"]) => void;
 }>;
 
 export const VendorFilterFormik = ({
-  handleSubmit,
+  onSubmit: onFormSubmit,
   children,
 }: VendorFilterFormikProps) => {
   const prefilledCity = useMemo(
@@ -43,15 +30,41 @@ export const VendorFilterFormik = ({
     []
   );
 
+  const initialValues: VendorFilterValues = {
+    choiceGroupFilters: {},
+    mainChoiceAttributes: [],
+    singleChoiceFilters: [],
+    distanceFromLocation: 10,
+    [FilterField.VENDOR_TYPE]: Vendor.VendorType.VENUE,
+    [FilterField.CITY]: prefilledCity,
+  };
+
+  const fetchVendors = async (filters: VendorFilterValues) => {
+    return await APIFetcher.searchVendorListings({
+      ...filters,
+      locationPlaceId: "ChIJVTPokywQkFQRmtVEaUZlJRA",
+    })
+      .then(({ vendors }) => {
+        onFormSubmit(vendors);
+      })
+      .catch((e) => {
+        // TODO: Implement error handling
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    fetchVendors(initialValues);
+  }, []);
+
+  const handleSubmit: FormikSubmit<VendorFilterValues> = async (values, f) => {
+    f.resetForm({ values });
+
+    return await fetchVendors(values);
+  };
+
   return (
-    <FormikForm
-      initialValues={{
-        ...initialValues,
-        [FilterField.VENDOR_TYPE]: Vendor.VendorType.PHOTOGRAPHER,
-        [FilterField.CITY]: prefilledCity,
-      }}
-      onSubmit={handleSubmit}
-    >
+    <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
       {children}
     </FormikForm>
   );

@@ -41,7 +41,7 @@ export default class Choice extends BaseModel<
 export const tempChoiceInit = (sequelize: Sequelize) =>
   Choice.init(
     {
-      ...DefaultModel.SchemaAttributes,
+      ...BaseModel.SchemaAttributes,
       choiceGroupId: {
         type: DataTypes.INTEGER,
         references: {

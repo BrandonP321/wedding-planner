@@ -37,16 +37,20 @@ export const InputField = ({
   );
 };
 
-export type RadioFieldProps = {
-  value: string;
+export type RadioFieldProps<T> = {
+  value: T;
   label: string;
+  /** If true, will JSON.parse the value before setting it */
+  parse?: boolean;
 };
 
-export const RadioField = (props: RadioFieldProps) => {
-  const { value, label } = props;
+export const RadioField = <T extends any = string>(
+  props: RadioFieldProps<T>
+) => {
+  const { value, label, parse } = props;
 
   const { name, id } = useFormFieldContext();
-  const { values } = useFormikContext<MapOfStrings>();
+  const { values, setFieldValue } = useFormikContext<MapOfStrings>();
 
   const uniqueId = useId();
   const radioId = `${id}-${uniqueId}`;
@@ -59,6 +63,9 @@ export const RadioField = (props: RadioFieldProps) => {
         className={styles.radioInput}
         value={value}
         id={radioId}
+        {...(parse && {
+          onChange: () => setFieldValue(name, JSON.parse(value as string)),
+        })}
       />
       {label}
     </label>
@@ -70,10 +77,12 @@ export type CheckboxFieldProps = {
   label: string;
   classes?: ClassesProp<"root" | "checkbox">;
   inputProps?: HTMLInputProps;
+  onChange?: <T = string>(value: T) => void;
+  checked?: boolean;
 };
 
 export const CheckboxField = (props: CheckboxFieldProps) => {
-  const { value, label, classes, inputProps } = props;
+  const { value, label, classes, inputProps, onChange, checked } = props;
 
   const { name, id } = useFormFieldContext();
   const { values } = useFormikContext<MapOfStrings>();
@@ -92,6 +101,8 @@ export const CheckboxField = (props: CheckboxFieldProps) => {
         className={classNames(styles.checkboxInput, classes?.checkbox)}
         value={value}
         id={checkboxId}
+        {...(onChange && { onChange: () => onChange(value) })}
+        {...(checked && { checked })}
         {...inputProps}
       />
       {label}

@@ -27,7 +27,7 @@ export default class Vendor extends BaseModel<
 export const tempVendorInit = (sequelize: Sequelize) =>
   Vendor.init(
     {
-      ...DefaultModel.SchemaAttributes,
+      ...BaseModel.SchemaAttributes,
       name: DataTypes.STRING,
       city: DataTypes.STRING,
       description: DataTypes.STRING,

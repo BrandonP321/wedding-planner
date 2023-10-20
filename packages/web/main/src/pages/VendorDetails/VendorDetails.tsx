@@ -43,13 +43,13 @@ export const VendorDetails = (props: VendorDetailsProps) => {
       <SpaceBetween size="s" vertical stretchChildren>
         <PageContent>
           <AspectRatioContent>
-            <MediaCarousel
+            {/* <MediaCarousel
               slides={vendor?.media ?? []}
               classes={{
                 root: styles.showcaseCarouselRoot,
                 carousel: styles.showcaseCarousel,
               }}
-            />
+            /> */}
           </AspectRatioContent>
         </PageContent>
 
@@ -95,7 +95,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                         responsiveItemsPerRow={{ tiny: 1 }}
                         responsiveSize={{ mobile: "s" }}
                       >
-                        <SpaceBetweenListItem>
+                        {/* <SpaceBetweenListItem>
                           <ClickableThumbnail
                             img={vendor?.media?.[0]?.url ?? ""}
                             title={
@@ -118,7 +118,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
                             onClick={() => alert("open videos")}
                             classes={{ root: styles.mediaThumb }}
                           />
-                        </SpaceBetweenListItem>
+                        </SpaceBetweenListItem> */}
                       </ListSpaceBetween>
                     </SpaceBetween>
                   </SpaceBetween>

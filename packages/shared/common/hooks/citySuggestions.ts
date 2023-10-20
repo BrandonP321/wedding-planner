@@ -2,13 +2,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MapReq } from "../api/requests/maps.requests";
 import { isEmpty, throttle } from "lodash";
 import { APIFetcherInternal } from "../api/fetchers";
+import { Stage } from "../types/environment";
+import { GetCitySuggestionsRequest } from "../../api/requests/places/getCitySuggestions.request";
 
-const APIFetcher = new APIFetcherInternal({});
+const APIFetcher = new APIFetcherInternal({ apiStage: Stage.LOCAL });
 
 export const useCitySuggestions = (query: string) => {
   const [hasMounted, setHasMounted] = useState(false);
   const [citySuggestions, setCities] = useState<
-    MapReq.PlaceSuggestion[] | null
+    GetCitySuggestionsRequest.ResBody["predictions"] | null
   >(null);
 
   const getCities = useCallback(
@@ -43,8 +45,7 @@ export const useCitySuggestions = (query: string) => {
     setCities(null);
   };
 
-  const filteredCities =
-    citySuggestions?.filter((c) => c.description !== query) ?? [];
+  const filteredCities = citySuggestions?.filter((c) => c.city !== query) ?? [];
 
   return {
     citySuggestions: !isEmpty(filteredCities) ? filteredCities : null,

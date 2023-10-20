@@ -24,14 +24,14 @@ export const VendorCityFilter = () => {
           <DropdownList
             options={citySuggestions}
             setIsFocused={setIsSuggestionFocused}
-            onOptionClick={({ description }) => {
-              setValues({ ...values, city: description });
+            onOptionClick={({ city }) => {
+              setValues({ ...values, city });
               clearSuggestions();
             }}
           >
             {(s) => {
               const modifiedCityName = TextUtils.getBoldenedMatchedText(
-                s.description,
+                s.city,
                 values.city
               );
 

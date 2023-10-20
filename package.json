@@ -11,9 +11,11 @@
   ],
   "scripts": {
     "cdk": "yarn workspace @wedding-planner/cdk",
-    "cdk:synth:api:local": "yarn cdk synth:api:local",
     "web": "yarn workspace @wedding-planner/web-main",
-    "web:dev": "ts-node scripts/updateEnvVars.ts && yarn web start"
+    "api": "yarn workspace @wedding-planner/api",
+    "api:dev": "yarn api dev",
+    "cdk:synth:api:local": "yarn cdk synth:api:local",
+    "web:dev": "ts-node scripts/updateEnvVars.ts && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn api:dev\" \"yarn web start\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^6.4.2",

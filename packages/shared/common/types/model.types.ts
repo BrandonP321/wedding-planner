@@ -1,6 +1,3 @@
-import { DataTypes } from "sequelize";
-import { WithComputedKeys } from "../utils";
-
 export namespace DefaultModel {
   export const Field = {
     ID: "id",
@@ -12,15 +9,5 @@ export namespace DefaultModel {
     id: number;
     createdAt: Date;
     updatedAt: Date;
-  };
-
-  export const SchemaAttributes = {
-    [Field.ID]: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    [Field.CREATED_AT]: DataTypes.DATE,
-    [Field.UPDATED_AT]: DataTypes.DATE,
   };
 }

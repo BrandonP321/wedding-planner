@@ -11,15 +11,15 @@ import styles from "./VendorSearchFilter.module.scss";
 export type VendorSearchFilterMobileBarProps = VendorFilterFormikProps & {};
 
 export const VendorSearchFilterMobile = ({
-  handleSubmit,
+  onSubmit,
 }: VendorSearchFilterMobileBarProps) => {
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   return (
     <VendorFilterFormik
-      handleSubmit={async (...params) => {
+      onSubmit={(...params) => {
         setShowFilterModal(false);
-        await handleSubmit(...params);
+        onSubmit(...params);
       }}
     >
       <>

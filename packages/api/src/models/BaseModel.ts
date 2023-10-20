@@ -1,5 +1,6 @@
-import { Model, UpdateOptions } from "sequelize";
+import { DataTypes, Model, UpdateOptions } from "sequelize";
 import { ModelTypes } from ".";
+import { DefaultModel } from "@wedding-planner/shared/common/types";
 
 type ModelWithId = { id?: number };
 
@@ -63,4 +64,16 @@ export class BaseModel<
       return { successful: true, res: { id: newModel.dataValues.id } };
     }
   }
+}
+
+export namespace BaseModel {
+  export const SchemaAttributes = {
+    [DefaultModel.Field.ID]: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    [DefaultModel.Field.CREATED_AT]: DataTypes.DATE,
+    [DefaultModel.Field.UPDATED_AT]: DataTypes.DATE,
+  };
 }
