@@ -9,8 +9,9 @@ import {
   SpaceBetween,
 } from "@wedding-planner/shared";
 import { useDropzone } from "react-dropzone";
-import { ImageCompressionUtils } from "utils";
+import { APIFetcher, ImageCompressionUtils } from "utils";
 import { Crop } from "react-image-crop";
+import axios from "axios";
 
 export type ImageForUpload = File & {
   original: string;
@@ -19,7 +20,7 @@ export type ImageForUpload = File & {
   final?: File;
 };
 
-const maxImages = 10;
+const maxImages = 100;
 
 export type LocalImageSelectorProps = {};
 
@@ -33,7 +34,6 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     () => (selectedImageIndex !== null ? files[selectedImageIndex] : null),
     [selectedImageIndex, files]
   );
-  const [compressedImages, setCompressedImages] = useState<File[]>([]);
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: Math.max(maxImages - files.length, 0),
@@ -64,10 +64,39 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     setFiles(newFiles);
   };
 
-  const handleImagesCompress = () => {
-    ImageCompressionUtils.compressImages(files.map((f) => f.final ?? f)).then(
-      setCompressedImages
+  const uploadImages = async () => {
+    const startTime = Date.now();
+
+    // Comrpess images
+    const images = await ImageCompressionUtils.compressImages(
+      // TODO: Ensure all images have been cropped to 1920x1080 before reaching this point
+      files.map((f) => f.final ?? f)
     );
+
+    // Get unique S3 signed URLs for each image
+    const { signedURLs } = await APIFetcher.getVendorImageUploadPresignedUrl({
+      imageNames: images.map((img) => img.name),
+    });
+
+    // Upload all images to S3
+    await Promise.all(
+      signedURLs.map(async ({ signedUrl }, i) => {
+        const image = images[i];
+
+        await axios.put(signedUrl, image, {
+          headers: {
+            "Content-Type": image.type,
+          },
+        });
+      })
+    );
+
+    const endTime = Date.now();
+    console.log(`Upload time: ${endTime - startTime}ms`);
+
+    console.log("all images uploaded");
+
+    // TODO: Send object keys to backend to be associated with vendor
   };
 
   return (
@@ -76,7 +105,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select some files</p>
       </div>
-      <Button onClick={handleImagesCompress}>Compress images</Button>
+      <Button onClick={uploadImages}>Upload</Button>
       <ListSpaceBetween
         itemsPerRow={3}
         classes={{ root: styles.previewThumbs }}

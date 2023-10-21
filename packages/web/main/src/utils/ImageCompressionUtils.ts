@@ -41,6 +41,7 @@ export class ImageCompressionUtils {
         // Wait for image to load
         await new Promise((resolve) => (image.onload = resolve));
 
+        // TODO: Only resize images if resolution is greater than 1920x1080
         // Resize image to 1920x1080
         return await this.resizeImageToResolution(image, img.name, 1920, 1080);
       })
