@@ -1,4 +1,5 @@
 import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCitySuggestions.request";
+import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
 import { SearchVendorListingRequest } from "../../../api/requests/vendor/searchVendorListings.request";
 import { APIFetcherBase } from "../../utils";
@@ -22,6 +23,14 @@ export class APIFetcherInternal extends APIFetcherBase {
   ) =>
     this.post<GetS3PresignedUrlForVendorImageUploadRequest.ResBody>(
       APIRoute.S3.GetVendorImageUploadPresignedUrl,
+      params
+    );
+
+  associateVendorTempAssets = (
+    params: AssociateVendorTempAssetsRequest.ReqBody
+  ) =>
+    this.post<AssociateVendorTempAssetsRequest.ResBody>(
+      APIRoute.S3.AssociateVendorTempAssets,
       params
     );
 }

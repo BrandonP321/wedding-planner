@@ -1,3 +1,4 @@
+import { VendorImageAssetModel } from "@wedding-planner/shared/api/models/vendorImageAsset";
 import db from ".";
 
 export const createAssociations = () => {
@@ -20,6 +21,18 @@ export const createAssociations = () => {
   db.MainChoiceAttribute.belongsTo(db.MainChoice, {
     foreignKey: "mainChoiceId",
   });
+
+  db.Vendor.hasMany(db.VendorImageAsset, {
+    foreignKey: "vendorId",
+    as: VendorImageAssetModel.PopulatedName,
+  });
+  db.VendorImageAsset.belongsTo(db.Vendor, { foreignKey: "vendorId" });
+
+  db.Vendor.hasMany(db.VendorImageAsset, {
+    foreignKey: "vendorId",
+    as: VendorImageAssetModel.ShowcasePopulatedName,
+  });
+  db.VendorImageAsset.belongsTo(db.Vendor, { foreignKey: "vendorId" });
 
   db.ChoiceGroup.hasMany(db.Choice, {
     foreignKey: "choiceGroupId",

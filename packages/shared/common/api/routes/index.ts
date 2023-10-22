@@ -1,5 +1,5 @@
 import { PlacesRoutes } from "./placesRoutes";
-import { S3Routes } from "./seRoutes";
+import { S3Routes } from "./s3Routes";
 import { VendorRoutes } from "./vendorRoutes";
 
 export const APIRoute = {

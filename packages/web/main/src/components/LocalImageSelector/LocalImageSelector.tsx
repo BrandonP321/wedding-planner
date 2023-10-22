@@ -73,10 +73,14 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
       files.map((f) => f.final ?? f)
     );
 
+    const compressionEndTime = Date.now();
+
     // Get unique S3 signed URLs for each image
     const { signedURLs } = await APIFetcher.getVendorImageUploadPresignedUrl({
       imageNames: images.map((img) => img.name),
     });
+
+    console.log(`Compression time: ${compressionEndTime - startTime}ms`);
 
     // Upload all images to S3
     await Promise.all(
@@ -96,7 +100,12 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
 
     console.log("all images uploaded");
 
-    // TODO: Send object keys to backend to be associated with vendor
+    await APIFetcher.associateVendorTempAssets({
+      assets: signedURLs.map(({ objectKey }, i) => ({ objectKey, order: i })),
+    });
+
+    const endTime2 = Date.now();
+    console.log(`Total time: ${endTime2 - startTime}ms`);
   };
 
   return (

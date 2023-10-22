@@ -17,7 +17,11 @@ export const GetVendorListingController = controller.handler(
     const vendor = await db.Vendor.findOne({
       where: { id: vendorId },
       attributes: db.Vendor.includedAttributes,
-      include: db.MainChoice.populatedIncludable,
+      include: [
+        db.MainChoice.populatedIncludable,
+        db.VendorImageAsset.includable,
+        db.VendorImageAsset.showcaseIncludable,
+      ],
     });
 
     if (!vendor) {

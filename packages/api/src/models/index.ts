@@ -2,6 +2,9 @@ import Choice, { tempChoiceInit } from "./choice/choice.model";
 import ChoiceGroup, {
   tempChoiceGroupInit,
 } from "./choiceGroup/choiceGroup.model";
+import VendorImageAsset, {
+  tempVendorImageAssetInit,
+} from "./vendorImageAsset/vendorImageAsset.model";
 import MainChoice, { tempMainChoiceInit } from "./mainChoice/mainChoice.model";
 import Vendor, { tempVendorInit } from "./vendor/vendor.model";
 import MainChoiceAttribute, {
@@ -16,6 +19,7 @@ export default {
   MainChoice,
   Vendor,
   MainChoiceAttribute,
+  VendorImageAsset,
 };
 
 export namespace ModelTypes {
@@ -53,6 +57,7 @@ export const initModels = () => {
   tempMainChoiceInit(sequelize);
   tempVendorInit(sequelize);
   tempMainChoiceAttributeInit(sequelize);
+  tempVendorImageAssetInit(sequelize);
 };
 
 const enablePostGISExtension = async () => {
