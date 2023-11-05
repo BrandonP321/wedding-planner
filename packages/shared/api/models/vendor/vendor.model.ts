@@ -1,6 +1,8 @@
 import { KeyOf } from "../../../common";
 import { DefaultModel } from "../../../common/types";
+import { LinkModel } from "../Link";
 import { MainChoiceModel } from "../mainChoice";
+import { VendorImageAssetModel } from "../vendorImageAsset";
 
 export namespace VendorModel {
   export const Name = "vendor";
@@ -16,8 +18,6 @@ export namespace VendorModel {
     };
   };
 
-  export type CreationAttributes = Base;
-
   export type Attributes = Base & DefaultModel.Attributes;
 
   export type IncludedAttributes = KeyOf<
@@ -25,15 +25,26 @@ export namespace VendorModel {
     "city" | "id" | "description" | "name"
   >;
 
-  export type PopulatedAttributes = {
-    [MainChoiceModel.PopulatedName]: MainChoiceModel.Response.Populated[];
+  export type PopulatedCreationAttributes = {
+    [LinkModel.PopulatedName]: LinkModel.CreationOrUpdateParams[];
+    [LinkModel.SocialLinksPopulatedName]: LinkModel.CreationOrUpdateParams[];
   };
+
+  export type PopulatedResponseAttributes = {
+    [MainChoiceModel.PopulatedName]: MainChoiceModel.Response.Populated[];
+    [VendorImageAssetModel.PopulatedName]: VendorImageAssetModel.Response[];
+    [VendorImageAssetModel.ShowcasePopulatedName]: VendorImageAssetModel.Response[];
+    [LinkModel.PopulatedName]: LinkModel.Response[];
+    [LinkModel.SocialLinksPopulatedName]: LinkModel.Response[];
+  };
+
+  export type CreationOrUpdateAttributes = Base & PopulatedCreationAttributes;
 
   export type ResponseAttributes = Pick<Attributes, IncludedAttributes>;
 
   export namespace APIResponse {
     export type Unpopulated = ResponseAttributes;
 
-    export type Populated = ResponseAttributes & PopulatedAttributes;
+    export type Populated = ResponseAttributes & PopulatedResponseAttributes;
   }
 }

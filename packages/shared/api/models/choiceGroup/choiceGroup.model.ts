@@ -22,9 +22,18 @@ export namespace ChoiceGroupModel {
     "id" | "name" | "filterType"
   >;
 
+  export type PopulatedCreationAttributes = {
+    [ChoiceModel.PopulatedName]: ChoiceModel.CreationOrUpdateParams[];
+  };
+
   export type PopulatedAttributes = {
     [ChoiceModel.PopulatedName]: ChoiceModel.Response[];
   };
+
+  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> &
+    PopulatedCreationAttributes & {
+      id?: number;
+    };
 
   export namespace Response {
     export type Unpopulated = Pick<Attributes, IncludedAttributes>;

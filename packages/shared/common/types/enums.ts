@@ -1,3 +1,5 @@
+import { EnumUtils } from "../utils";
+
 export enum SocialMediaPlatform {
   FACEBOOK = "facebook",
   INSTAGRAM = "instagram",
@@ -7,5 +9,8 @@ export enum SocialMediaPlatform {
   PINTEREST = "pinterest",
   TIKTOK = "tiktok",
 }
+
+export const SocialMediaPlatformsList =
+  EnumUtils.toArrayOfValues(SocialMediaPlatform);
 
 export type SocialMediaPlatformMap<T> = Record<SocialMediaPlatform, T>;

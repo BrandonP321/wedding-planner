@@ -17,5 +17,9 @@ export namespace MainChoiceAttributeModel {
 
   export type IncludedAttributes = KeyOf<Attributes, "id" | "filterName">;
 
+  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> & {
+    id?: number;
+  };
+
   export type Response = Pick<Attributes, IncludedAttributes>;
 }

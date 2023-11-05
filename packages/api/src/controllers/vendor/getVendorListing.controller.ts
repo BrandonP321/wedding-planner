@@ -21,6 +21,8 @@ export const GetVendorListingController = controller.handler(
         db.MainChoice.populatedIncludable,
         db.VendorImageAsset.includable,
         db.VendorImageAsset.showcaseIncludable,
+        db.Link.includable,
+        db.Link.socialLinksIncludable,
       ],
     });
 

@@ -20,6 +20,7 @@ export default class MainChoiceAttribute extends BaseModel<
   public static includable: IncludeOptions = {
     model: MainChoiceAttribute,
     as: MainChoiceAttributeModel.PopulatedName,
+    required: false,
     attributes: this.includedAttributes,
   };
 

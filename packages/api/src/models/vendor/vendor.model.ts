@@ -5,7 +5,7 @@ import { ModelTypes } from "..";
 import { BaseModel } from "../BaseModel";
 
 type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
-  VendorModel.CreationAttributes & { id?: number }
+  VendorModel.CreationOrUpdateAttributes & { id?: number }
 >;
 
 export default class Vendor extends BaseModel<

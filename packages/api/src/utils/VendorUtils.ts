@@ -4,9 +4,11 @@ import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 
 export class VendorUtils {
   public static createOrUpdateVendor = async (
-    vendor: Vendor.VendorWithOptionalIDs & VendorModel.CreationAttributes
+    vendor: VendorModel.CreationOrUpdateAttributes &
+      VendorModel.CreationOrUpdateAttributes
   ) => {
     return await sequelize.transaction(async (transaction) => {
+      // Vendor
       const {
         res: { id: vendorId },
       } = await db.Vendor.createOrUpdate({
@@ -14,48 +16,20 @@ export class VendorUtils {
         transaction,
       });
 
+      // Links
       await Promise.all(
-        vendor.mainChoices.map(async (mainChoice) => {
-          const {
-            res: { id: mainChoiceId },
-          } = await db.MainChoice.createOrUpdate({
-            model: mainChoice,
-            vendorId,
-            transaction,
-          });
+        vendor.links.map(
+          async (link) =>
+            await db.Link.createOrUpdate({ model: link, vendorId, transaction })
+        )
+      );
 
-          await Promise.all(
-            mainChoice.attributes.map(async (mainChoiceAttribute) => {
-              await db.MainChoiceAttribute.createOrUpdate({
-                model: mainChoiceAttribute,
-                mainChoiceId,
-                transaction,
-              });
-            })
-          );
-
-          await Promise.all(
-            mainChoice.choiceGroups.map(async (choiceGroup) => {
-              const {
-                res: { id: choiceGroupId },
-              } = await db.ChoiceGroup.createOrUpdate({
-                model: choiceGroup,
-                mainChoiceId,
-                transaction,
-              });
-
-              await Promise.all(
-                choiceGroup.choices.map(async (choice) => {
-                  await db.Choice.createOrUpdate({
-                    model: choice,
-                    choiceGroupId,
-                    transaction,
-                  });
-                })
-              );
-            })
-          );
-        })
+      // Social Links
+      await Promise.all(
+        vendor.socialLinks.map(
+          async (link) =>
+            await db.Link.createOrUpdate({ model: link, vendorId, transaction })
+        )
       );
 
       return { vendorId };

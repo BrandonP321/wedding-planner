@@ -18,4 +18,10 @@ export class EnumUtils {
 
     return keysObj;
   };
+
+  public static toArrayOfValues = <T extends Record<string, string>>(
+    obj: T
+  ) => {
+    return _.values(obj) as T[keyof T][];
+  };
 }

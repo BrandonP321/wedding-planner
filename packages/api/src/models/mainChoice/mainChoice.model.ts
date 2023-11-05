@@ -24,6 +24,7 @@ export default class MainChoice extends BaseModel<
   public static includable: IncludeOptions = {
     model: MainChoice,
     as: MainChoiceModel.PopulatedName,
+    required: false,
     attributes: this.includedAttributes,
   };
 

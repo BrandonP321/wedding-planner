@@ -29,6 +29,7 @@ export default class VendorImageAsset extends BaseModel<
   public static includable: IncludeOptions = {
     model: VendorImageAsset,
     as: VendorImageAssetModel.PopulatedName,
+    required: false,
     attributes: this.includedAttributes,
   };
 

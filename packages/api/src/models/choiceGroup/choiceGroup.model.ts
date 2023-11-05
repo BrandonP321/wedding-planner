@@ -24,6 +24,7 @@ export default class ChoiceGroup extends BaseModel<
   public static includable: IncludeOptions = {
     model: ChoiceGroup,
     as: ChoiceGroupModel.PopulatedName,
+    required: false,
     attributes: this.includedAttributes,
   };
 
