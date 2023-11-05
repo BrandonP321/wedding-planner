@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./VendorDetails.module.scss";
-import { mockPhotographer } from "mockData/mockPhotographer";
 import { useParams } from "react-router-dom";
 import { WebMainRouteHelper } from "@wedding-planner/shared";
 import {
@@ -31,7 +30,7 @@ export const VendorDetails = (props: VendorDetailsProps) => {
   const [packagePrice, setPackagePrice] = useState(0);
 
   useEffect(() => {
-    dispatch(Actions.Vendor.setVendor({ vendor: mockPhotographer }));
+    // dispatch(Actions.Vendor.setVendor({ vendor: mockPhotographer }));
   });
 
   return (
