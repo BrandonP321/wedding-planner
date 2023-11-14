@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { VendorAccountModel } from "@wedding-planner/shared/api/models/vendorAccount";
 import { BaseModel } from "../BaseModel";
-import { RegexUtils } from "@wedding-planner/shared/common";
+import { KeyOf, RegexUtils } from "@wedding-planner/shared/common";
 import bcrypt from "bcrypt";
 
 export default class VendorAccount extends Model<
@@ -9,7 +9,7 @@ export default class VendorAccount extends Model<
   VendorAccountModel.Base
 > {
   // Declaring password for type safety in hooks
-  declare password: string;
+  declare password: KeyOf<VendorAccountModel.Attributes, "password">;
 
   public static includedAttributes: VendorAccountModel.IncludedAttributes[] = [
     "id",
@@ -22,6 +22,10 @@ export default class VendorAccount extends Model<
     "phoneNumber",
     "updatedAt",
   ];
+
+  public validatePassword(password: string) {
+    return bcrypt.compare(password, this.dataValues.password);
+  }
 }
 
 export const tempVendorAccountInit = (sequelize: Sequelize) =>
