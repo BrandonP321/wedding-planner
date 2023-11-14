@@ -1,4 +1,7 @@
 import Choice, { tempChoiceInit } from "./choice/choice.model";
+import VendorAccount, {
+  tempVendorAccountInit,
+} from "./vendorAccount/vendorAccount.model";
 import ChoiceGroup, {
   tempChoiceGroupInit,
 } from "./choiceGroup/choiceGroup.model";
@@ -22,6 +25,7 @@ export default {
   MainChoiceAttribute,
   VendorImageAsset,
   Link,
+  VendorAccount,
 };
 
 export namespace ModelTypes {
@@ -61,6 +65,7 @@ export const initModels = () => {
   tempMainChoiceAttributeInit(sequelize);
   tempVendorImageAssetInit(sequelize);
   tempLinkInit(sequelize);
+  tempVendorAccountInit(sequelize);
 };
 
 const enablePostGISExtension = async () => {
@@ -70,8 +75,8 @@ const enablePostGISExtension = async () => {
 };
 
 export const syncWithDB = () => {
-  sequelize.sync().then(() => {
-    // sequelize.sync({ force: true }).then(() => {
+  // sequelize.sync().then(() => {
+  sequelize.sync({ force: true }).then(() => {
     console.log("Synced with DB");
 
     enablePostGISExtension();

@@ -6,6 +6,7 @@ import { VendorImageAssetModel } from "../vendorImageAsset";
 
 export namespace VendorModel {
   export const Name = "vendor";
+  export const PopulatedName = "vendorListing";
 
   export type Base = {
     name: string;
