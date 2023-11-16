@@ -75,8 +75,8 @@ const enablePostGISExtension = async () => {
 };
 
 export const syncWithDB = () => {
-  // sequelize.sync().then(() => {
-  sequelize.sync({ force: true }).then(() => {
+  sequelize.sync().then(() => {
+    // sequelize.sync({ force: true }).then(() => {
     console.log("Synced with DB");
 
     enablePostGISExtension();

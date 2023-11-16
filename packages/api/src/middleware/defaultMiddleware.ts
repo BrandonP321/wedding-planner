@@ -9,7 +9,8 @@ export const configureDefaultMiddleware = (app: Express) => {
 
   app.use(
     cors({
-      origin: "*",
+      // TODO: Properly configure before launch
+      origin: true,
       credentials: true,
       exposedHeaders: "authorization",
     })

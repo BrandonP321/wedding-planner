@@ -9,14 +9,13 @@ export const SubmitButton = ({
   disabled,
   ...props
 }: ButtonProps) => {
-  const { dirty, submitForm } = useFormikContext();
+  const { dirty } = useFormikContext();
 
   return (
     <Button
       {...props}
       type="submit"
       variant={variant}
-      onClick={submitForm}
       disabled={disabled ?? !dirty}
     >
       {children}

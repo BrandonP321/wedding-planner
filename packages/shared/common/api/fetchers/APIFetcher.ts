@@ -1,3 +1,5 @@
+import { LoginVendorAccountRequest } from "../../../api/requests/auth/LoginVendorAccount.request";
+import { RegisterVendorAccountRequest } from "../../../api/requests/auth/RegisterVendorAccount.request";
 import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCitySuggestions.request";
 import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
@@ -33,4 +35,18 @@ export class APIFetcherInternal extends APIFetcherBase {
       APIRoute.S3.AssociateVendorTempAssets,
       params
     );
+
+  registerVendorAccount = (params: RegisterVendorAccountRequest.ReqBody) =>
+    this.post<RegisterVendorAccountRequest.ResBody>(
+      APIRoute.VendorAuth.Register,
+      params
+    );
+
+  loginVendorAccount = (params: LoginVendorAccountRequest.ReqBody) =>
+    this.post<LoginVendorAccountRequest.ResBody>(
+      APIRoute.VendorAuth.Login,
+      params
+    );
+
+  signoutVendorAccount = () => this.post(APIRoute.VendorAuth.Register, {});
 }

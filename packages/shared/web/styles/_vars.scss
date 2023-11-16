@@ -99,11 +99,11 @@ $maxWidthL: var(#{$maxWidthLVar});
 
 $maxWidthMVar: --max-width-m;
 $maxWidthM: var(#{$maxWidthMVar});
-@include SetRootValue($maxWidthMVar, 30rem);
+@include SetRootValue($maxWidthMVar, 40rem);
 
 $maxWidthSVar: --max-width-s;
 $maxWidthS: var(#{$maxWidthSVar});
-@include SetRootValue($maxWidthSVar, 20rem);
+@include SetRootValue($maxWidthSVar, 25rem);
 
 $pageContentWidthVar: --page-content-width;
 $pageContentWidth: var(#{$pageContentWidthVar});

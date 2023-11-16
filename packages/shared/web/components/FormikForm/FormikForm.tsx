@@ -37,7 +37,7 @@ export type RadioValues<
 export type FormikSubmit<Values extends {}> = (
   values: Values,
   formik: FormikHelpers<Values>
-) => Promise<void>;
+) => Promise<any>;
 
 export type FormikFormProps<Values extends {}> = FormikConfig<Values> & {};
 

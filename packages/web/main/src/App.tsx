@@ -7,6 +7,7 @@ import {
   PrivacyPolicy,
   SimpleVendorSearch,
   TempImageUploader,
+  VendorAuth,
   VendorDetails,
   VendorSearch,
 } from "./pages";
@@ -60,6 +61,15 @@ function App() {
                     element={<PrivacyPolicy />}
                   />
                 </Route>
+
+                <Route
+                  path={RouteHelper.VendorLogin()}
+                  element={<VendorAuth authType="login" />}
+                />
+                <Route
+                  path={RouteHelper.VendorSignup()}
+                  element={<VendorAuth authType="register" />}
+                />
 
                 <Route path="/temp" element={<TempImageUploader />} />
               </Route>

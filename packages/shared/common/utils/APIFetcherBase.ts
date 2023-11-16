@@ -20,9 +20,8 @@ export class APIFetcherBase {
     return this.apiDomainMap[this.apiStage] ?? this.apiDomainMap[Stage.PROD];
   }
 
-  protected withCredentials = false;
   protected defaultConfig: AxiosRequestConfig = {
-    // withCredentials: this.withCredentials,
+    withCredentials: true,
   };
   protected handleAuthFail: (() => void) | undefined;
 

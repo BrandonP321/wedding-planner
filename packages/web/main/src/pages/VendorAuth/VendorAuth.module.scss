@@ -1,0 +1,7 @@
+@import "../../styles/uiBase.scss";
+
+.page {
+  @include notMobileVW() {
+    padding-top: 5rem;
+  }
+}
