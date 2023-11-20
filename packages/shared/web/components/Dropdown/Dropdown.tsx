@@ -10,14 +10,22 @@ export type DropdownOption<Value> = {
 
 export type DropdownProps<Value extends string> = {
   options: DropdownOption<Value>[];
+  selected?: DropdownOption<Value>;
   onOptionClick: (option: DropdownOption<Value>) => void;
+  placeholder?: string;
+  optionsStaticPosition?: boolean;
 };
 
 export const Dropdown = <V extends string>({
   onOptionClick,
   options,
+  placeholder,
+  selected,
+  optionsStaticPosition = true,
 }: DropdownProps<V>) => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption, setSelectedOption] = useState(
+    selected ?? (placeholder ? undefined : options[0])
+  );
   const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
@@ -36,13 +44,13 @@ export const Dropdown = <V extends string>({
   return (
     <div className={styles.wrapper}>
       <Button classes={{ root: styles.dropdown }} onClick={toggleDropdown}>
-        {selectedOption?.label}
+        {selectedOption?.label ?? placeholder}
       </Button>
       {showOptions && (
         <DropdownList
           options={options}
           onOptionClick={handleOptionClick}
-          staticPosition
+          staticPosition={optionsStaticPosition}
         >
           {(option) => option.label}
         </DropdownList>

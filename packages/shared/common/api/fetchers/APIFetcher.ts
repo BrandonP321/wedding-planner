@@ -3,6 +3,7 @@ import { RegisterVendorAccountRequest } from "../../../api/requests/auth/Registe
 import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCitySuggestions.request";
 import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
+import { CreateVendorListingRequest } from "../../../api/requests/vendor/createVendorListing.request";
 import { SearchVendorListingRequest } from "../../../api/requests/vendor/searchVendorListings.request";
 import { APIFetcherBase } from "../../utils";
 import { APIRoute } from "../routes";
@@ -49,4 +50,10 @@ export class APIFetcherInternal extends APIFetcherBase {
     );
 
   signoutVendorAccount = () => this.post(APIRoute.VendorAuth.Register, {});
+
+  createListing = (params: CreateVendorListingRequest.ReqBody) =>
+    this.post<CreateVendorListingRequest.ResBody>(
+      APIRoute.Vendor.CreateVendorListing,
+      params
+    );
 }

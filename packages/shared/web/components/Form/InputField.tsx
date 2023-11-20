@@ -12,6 +12,10 @@ export type InputFieldProps = {
   suggestions?: JSX.Element;
   isSuggestionFocused?: boolean;
   isPassword?: boolean;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  value?: string;
+  disabled?: boolean;
 };
 
 export const InputField = ({
@@ -19,6 +23,10 @@ export const InputField = ({
   suggestions,
   isSuggestionFocused,
   isPassword = false,
+  onChange,
+  disabled,
+  placeholder,
+  value,
 }: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -29,11 +37,18 @@ export const InputField = ({
     <div className={styles.inputWrapper}>
       <Field
         {...context}
+        {...(onChange && {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange(e.target.value),
+        })}
+        {...(value !== undefined && { value })}
+        disabled={disabled}
         className={styles.input}
         onFocus={() => setIsFocused(true)}
         onBlur={() => requestAnimationFrame(() => setIsFocused(false))}
         autoComplete={autoComplete ? "on" : "off"}
         type={isPassword ? "password" : "text"}
+        placeholder={placeholder}
       />
       {(isFocused || isSuggestionFocused) && suggestions}
     </div>
@@ -67,7 +82,8 @@ export const RadioField = <T extends any = string>(
         value={value}
         id={radioId}
         {...(parse && {
-          onChange: () => setFieldValue(name, JSON.parse(value as string)),
+          onChange: () =>
+            name && setFieldValue(name, JSON.parse(value as string)),
         })}
       />
       {label}
@@ -117,7 +133,7 @@ export const ToggleField = (props: CheckboxFieldProps) => {
   const { values, setFieldValue } = useFormikContext<MapOfStrings>();
   const { name } = useFormFieldContext();
 
-  const value = values[name];
+  const value = name && values[name];
 
   return (
     <CheckboxField
@@ -127,7 +143,7 @@ export const ToggleField = (props: CheckboxFieldProps) => {
         onChangeCapture: (e: React.ChangeEvent<HTMLInputElement>) => {
           const isChecked = e.target.checked;
           requestAnimationFrame(() => {
-            setFieldValue(name, isChecked);
+            name && setFieldValue(name, isChecked);
           });
         },
         checked: !!value,

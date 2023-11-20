@@ -16,7 +16,7 @@ export const Select = <V extends string>({ options }: SelectProps<V>) => {
   return (
     <Dropdown
       options={options}
-      onOptionClick={(o) => setFieldValue(name, o.value)}
+      onOptionClick={(o) => name && setFieldValue(name, o.value)}
     />
   );
 };

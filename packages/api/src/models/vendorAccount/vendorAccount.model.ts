@@ -67,6 +67,12 @@ export const tempVendorAccountInit = (sequelize: Sequelize) =>
       sequelize,
       modelName: VendorAccountModel.Name,
       tableName: VendorAccountModel.Name,
+      indexes: [
+        {
+          unique: true,
+          fields: ["email"],
+        },
+      ],
       hooks: {
         beforeCreate: async (account) => {
           account.dataValues.password = await getHashedPassword(account);

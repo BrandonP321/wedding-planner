@@ -22,10 +22,7 @@
 
 .main {
   position: relative;
-
-  @include mediumVW() {
-    flex-grow: 1;
-  }
+  flex-grow: 1;
 
   // TODO: Move to more global file
   @include mobileVW() {

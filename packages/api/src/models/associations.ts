@@ -6,10 +6,10 @@ import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 export const createAssociations = () => {
   // Vendor Account
   db.VendorAccount.hasOne(db.Vendor, {
-    foreignKey: "vendorAccountId",
+    foreignKey: "ownerId",
     as: VendorModel.PopulatedName,
   });
-  db.Vendor.belongsTo(db.VendorAccount, { foreignKey: "vendorAccountId" });
+  db.Vendor.belongsTo(db.VendorAccount, { foreignKey: "ownerId" });
 
   // Main Choices
   db.Vendor.hasMany(db.MainChoice, {

@@ -17,6 +17,11 @@ import { FormSpaceBetween } from "./components/SpaceBetween/SpaceBetween";
 import { useParams } from "react-router-dom";
 import { RouteHelper, WebMainRouteHelper } from "./utils/RouteHelper";
 import { QueryClient, QueryClientProvider } from "react-query";
+import {
+  VendorDashboardLayout,
+  VendorDashboardListingDetails,
+  VendorDashboardMedia,
+} from "pages/VendorDashboard";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +75,17 @@ function App() {
                   path={RouteHelper.VendorSignup()}
                   element={<VendorAuth authType="register" />}
                 />
+
+                <Route element={<VendorDashboardLayout />}>
+                  <Route
+                    path={RouteHelper.VendorDashboard.Listing()}
+                    element={<VendorDashboardListingDetails />}
+                  />
+                  <Route
+                    path={RouteHelper.VendorDashboard.Media()}
+                    element={<VendorDashboardMedia />}
+                  />
+                </Route>
 
                 <Route path="/temp" element={<TempImageUploader />} />
               </Route>

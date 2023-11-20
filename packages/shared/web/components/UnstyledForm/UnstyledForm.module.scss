@@ -1,0 +1,14 @@
+@import "../../styles/webSharedStyles.scss";
+
+.form {
+  width: 100%;
+  max-width: $maxWidthL;
+
+  @include mediumVW() {
+    max-width: $maxWidthM;
+  }
+
+  @include mobileVW() {
+    max-width: none;
+  }
+}

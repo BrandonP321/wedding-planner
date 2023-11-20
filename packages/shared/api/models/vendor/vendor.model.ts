@@ -12,6 +12,8 @@ export namespace VendorModel {
     name: string;
     description: string;
     city: string;
+    /** ID of vendor account that owns this listing */
+    ownerId: number;
     locationGeometry: {
       type: "Point";
       coordinates: [number, number];
@@ -23,7 +25,7 @@ export namespace VendorModel {
 
   export type IncludedAttributes = KeyOf<
     Attributes,
-    "city" | "id" | "description" | "name"
+    "city" | "id" | "description" | "name" | "ownerId"
   >;
 
   export type PopulatedCreationAttributes = {

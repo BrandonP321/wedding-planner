@@ -1,6 +1,5 @@
 import { APIErrorResponse } from "..";
 import { DefaultAPIError } from "../requestErrors";
-import { Vendor } from "../../../common/types";
 import { VendorModel } from "../../models/vendor";
 import { TypedOmit } from "../../../common";
 
@@ -9,7 +8,7 @@ export namespace CreateVendorListingRequest {
     // vendor: Vendor.VendorWithoutIDs;
     vendor: TypedOmit<
       VendorModel.CreationOrUpdateAttributes,
-      "locationGeometry"
+      "locationGeometry" | "ownerId"
     >;
     // TODO: Change to address after testing
     location: [number, number];

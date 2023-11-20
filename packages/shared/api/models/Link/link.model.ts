@@ -22,7 +22,10 @@ export namespace LinkModel {
     "id" | "label" | "type" | "url"
   >;
 
-  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> & {
+  export type CreationOrUpdateParams = Pick<
+    Attributes,
+    Exclude<IncludedAttributes, "id">
+  > & {
     id?: number;
   };
 

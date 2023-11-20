@@ -4,6 +4,7 @@ import { Form } from "formik";
 import { ClassesProp } from "../../utils";
 import classNames from "classnames";
 import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
+import { UnstyledForm } from "../UnstyledForm/UnstyledForm";
 
 export type StyledFormProps = React.PropsWithChildren<{
   /** Actions at the bottom of the form (i.e. submit, cancel, etc.) */
@@ -23,7 +24,7 @@ export const StyledForm = ({
 }: StyledFormProps) => {
   return (
     <SpaceBetween justify="center" classes={{ root: classes?.root }}>
-      <Form className={classNames(styles.form, classes?.form)}>
+      <UnstyledForm classes={{ root: styles.form }}>
         <SpaceBetween size="l" vertical stretchChildren>
           {children}
           {errorMsg && (
@@ -36,7 +37,7 @@ export const StyledForm = ({
           </SpaceBetween>
           {footer}
         </SpaceBetween>
-      </Form>
+      </UnstyledForm>
     </SpaceBetween>
   );
 };

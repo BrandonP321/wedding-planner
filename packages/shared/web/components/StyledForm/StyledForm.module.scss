@@ -1,21 +1,10 @@
 @import "../../styles/webSharedStyles.scss";
 
 .form {
-  width: 100%;
-  max-width: $maxWidthL;
-
   @include notMobileVW() {
     padding: $sizeXL;
     border-radius: $borderRadiusL;
     box-shadow: $darkBoxShadow;
-  }
-
-  @include mediumVW() {
-    max-width: $maxWidthM;
-  }
-
-  @include mobileVW() {
-    max-width: none;
   }
 
   h1,

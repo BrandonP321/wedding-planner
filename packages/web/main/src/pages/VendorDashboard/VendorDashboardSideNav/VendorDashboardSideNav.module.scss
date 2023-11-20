@@ -1,0 +1,23 @@
+@import "../../../styles/uiBase.scss";
+
+.sideNav {
+  max-width: 15rem;
+  width: 100%;
+  border-right: 1px solid $baseColorSilver;
+  border-bottom: 1px solid $baseColorSilver;
+
+  .link {
+    padding: $sizeS $sizeM;
+    color: black;
+
+    &.selected {
+      font-weight: bold;
+    }
+
+    &.selected,
+    &:hover {
+      background-color: $baseColorSilver;
+      text-decoration: none;
+    }
+  }
+}

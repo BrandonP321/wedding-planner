@@ -1,8 +1,12 @@
 import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 import { DefaultModel } from "@wedding-planner/shared/common/types";
-import { DataTypes, Model, Sequelize } from "sequelize";
-import { ModelTypes } from "..";
+import { DataTypes, FindOptions, Sequelize } from "sequelize";
+import db, { ModelTypes } from "..";
 import { BaseModel } from "../BaseModel";
+import { VendorAccountModel } from "@wedding-planner/shared/api/models/vendorAccount";
+import MainChoice from "../mainChoice/mainChoice.model";
+import VendorImageAsset from "../vendorImageAsset/vendorImageAsset.model";
+import Link from "../link/link.model";
 
 type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
   VendorModel.CreationOrUpdateAttributes & { id?: number }
@@ -17,10 +21,32 @@ export default class Vendor extends BaseModel<
     "description",
     "id",
     "name",
+    "ownerId",
   ];
 
   public static createOrUpdate = (params: CreationOrUpdateParams) => {
     return this._createOrUpdate(params);
+  };
+
+  public static defaultFindOptions: FindOptions<VendorModel.Attributes> = {
+    attributes: this.includedAttributes,
+    include: [
+      MainChoice.populatedIncludable,
+      VendorImageAsset.includable,
+      VendorImageAsset.showcaseIncludable,
+      Link.includable,
+      Link.socialLinksIncludable,
+    ],
+  };
+
+  public static findPopulatedById = (id: number) =>
+    db.Vendor.findOne({ ...this.defaultFindOptions, where: { id } });
+
+  public static findPopulatedByOwnerId = (ownerId: number) =>
+    db.Vendor.findOne({ ...this.defaultFindOptions, where: { ownerId } });
+
+  public toPopulatedJSON = (): VendorModel.APIResponse.Populated => {
+    return this.toJSON() as any;
   };
 }
 
@@ -31,6 +57,13 @@ export const tempVendorInit = (sequelize: Sequelize) =>
       name: DataTypes.STRING,
       city: DataTypes.STRING,
       description: DataTypes.STRING,
+      ownerId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: VendorAccountModel.Name,
+          key: DefaultModel.Field.ID,
+        },
+      },
       locationGeometry: {
         type: DataTypes.GEOGRAPHY("POINT", 4326),
       },
@@ -45,6 +78,7 @@ export const tempVendorInit = (sequelize: Sequelize) =>
           using: "gist",
           fields: ["locationGeometry"],
         },
+        { fields: ["ownerId"] },
       ],
     }
   );

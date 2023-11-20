@@ -6,8 +6,8 @@ import { ClassesProp } from "../../utils";
 import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
 
 type TFormFieldContext = {
-  name: string;
-  id: string;
+  name?: string;
+  id?: string;
 };
 
 const FormFieldContext = createContext({} as TFormFieldContext);
@@ -16,7 +16,7 @@ export const useFormFieldContext = () => useContext(FormFieldContext);
 
 type FormFieldProps = React.PropsWithChildren<{
   label?: React.ReactNode;
-  name: string;
+  name?: string;
   classes?: ClassesProp<"root" | "label" | "error">;
   hintText?: string;
   errorText?: string;
@@ -38,7 +38,7 @@ export const FormField = (props: FormFieldProps) => {
 
   const { errors } = useFormikContext<{ [key: string]: string }>();
 
-  const error = errors[name];
+  const error = name && errors[name];
   const inputId = id ?? name;
 
   return (
