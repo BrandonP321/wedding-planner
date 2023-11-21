@@ -1,12 +1,16 @@
 import { APIErrorMap, APIErrorResponse } from "..";
 import { DefaultAPIError } from "../requestErrors";
 import { VendorModel } from "../../models/vendor";
-import { Vendor } from "../../../common/types";
+import { DeepOmitKey } from "../../../common";
 
 export namespace UpdateVendorListingRequest {
   export type ReqBody = {
+    location: [number, number];
     // TODO: Remove creation attributes after implementing grabbing coords from address
-    vendor: VendorModel.CreationOrUpdateAttributes;
+    vendor: DeepOmitKey<
+      VendorModel.UpdateParams,
+      "ownerId" | "locationGeometry"
+    >;
   };
 
   export type ResBody = {
@@ -16,6 +20,7 @@ export namespace UpdateVendorListingRequest {
   export const ErrorCodes = {
     ...DefaultAPIError.Codes,
     VendorNotFound: "VendorNotFound",
+    UnauthorizedAccess: "UnauthorizedAccess",
   } as const;
 
   export const Errors: APIErrorMap<typeof ErrorCodes> = {
@@ -24,6 +29,11 @@ export namespace UpdateVendorListingRequest {
       code: ErrorCodes.VendorNotFound,
       msg: "Vendor not found",
       statusCode: 404,
+    },
+    UnauthorizedAccess: {
+      code: ErrorCodes.UnauthorizedAccess,
+      msg: "You are unauthorized to modify this listing",
+      statusCode: 401,
     },
   };
 

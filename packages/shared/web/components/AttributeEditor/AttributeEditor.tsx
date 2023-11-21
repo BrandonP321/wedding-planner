@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./AttributeEditor.module.scss";
 import classNames from "classnames";
 import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
@@ -46,7 +45,7 @@ export function AttributeEditor<T>({
       <SpaceBetween size="s" vertical stretch>
         {items.map((item, i) => {
           return (
-            <SpaceBetween stretch>
+            <SpaceBetween key={i} stretch>
               <ListSpaceBetween
                 key={i}
                 classes={{ root: styles.row }}

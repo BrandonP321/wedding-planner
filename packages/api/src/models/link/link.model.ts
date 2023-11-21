@@ -5,13 +5,8 @@ import {
   SocialMediaPlatformsList,
 } from "@wedding-planner/shared/common/types";
 import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
-import { ModelTypes } from "..";
 import { BaseModel } from "../BaseModel";
-
-type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
-  LinkModel.CreationOrUpdateParams,
-  "vendorId"
->;
+import { VendorAccountModel } from "@wedding-planner/shared/api/models/vendorAccount";
 
 export default class Link extends BaseModel<
   LinkModel.Attributes,
@@ -21,6 +16,7 @@ export default class Link extends BaseModel<
     "id",
     "label",
     "type",
+    "url",
   ];
 
   public static includable: IncludeOptions = {
@@ -28,6 +24,7 @@ export default class Link extends BaseModel<
     as: LinkModel.PopulatedName,
     required: false,
     attributes: this.includedAttributes,
+    where: { type: "custom" },
   };
 
   public static socialLinksIncludable: IncludeOptions = {
@@ -39,18 +36,6 @@ export default class Link extends BaseModel<
       },
     },
   };
-
-  public static getCreateAttributesJSON = ({
-    vendorId,
-    model,
-  }: CreationOrUpdateParams): LinkModel.Base => ({
-    ...model,
-    vendorId,
-  });
-
-  public static createOrUpdate = (params: CreationOrUpdateParams) => {
-    return this._createOrUpdate(params);
-  };
 }
 
 export const tempLinkInit = (sequelize: Sequelize) =>
@@ -61,6 +46,13 @@ export const tempLinkInit = (sequelize: Sequelize) =>
         type: DataTypes.INTEGER,
         references: {
           model: VendorModel.Name,
+          key: DefaultModel.Field.ID,
+        },
+      },
+      ownerId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: VendorAccountModel.Name,
           key: DefaultModel.Field.ID,
         },
       },

@@ -1,6 +1,7 @@
 import { CreateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/createVendorListing.request";
 import { Controller } from "../../utils/ControllerUtils";
 import { JWTResLocals, VendorUtils } from "../../utils";
+import db, { sequelize } from "../../models";
 
 const controller = new Controller<
   CreateVendorListingRequest.ReqBody,
@@ -14,14 +15,32 @@ export const CreateVendorListingController = controller.handler(
     const { vendor: reqVendor, location } = req.body;
     const { ownerId } = res.locals;
 
-    const { vendorId } = await VendorUtils.createOrUpdateVendor({
-      ...reqVendor,
-      ownerId,
-      locationGeometry: {
-        type: "Point",
-        coordinates: location,
-        crs: { properties: { name: "EPSG:4326" }, type: "name" },
-      },
+    const existingVendor = await db.Vendor.findOne({ where: { ownerId } });
+
+    if (existingVendor) {
+      return errors.listingAlreadyExists();
+    }
+
+    const { vendorId } = await sequelize.transaction(async (transaction) => {
+      const newVendor = await db.Vendor.create(
+        VendorUtils.getVendorCreationOrUpdateParams(
+          reqVendor,
+          ownerId,
+          location
+        ),
+        { transaction }
+      );
+
+      const vendorId = newVendor.dataValues.id;
+
+      await VendorUtils.createVendorLinks(
+        [...reqVendor.links, ...reqVendor.socialLinks],
+        ownerId,
+        vendorId,
+        transaction
+      );
+
+      return { vendorId: newVendor.dataValues.id };
     });
 
     return res.json({ vendorId }).end();

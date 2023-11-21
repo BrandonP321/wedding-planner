@@ -17,7 +17,11 @@ router.post(
   CreateVendorListingController
 );
 router.post(APIRoute.Vendor.GetVendorListing, GetVendorListingController);
-router.post(APIRoute.Vendor.UpdateVendorListing, UpdateVendorListingController);
+router.post(
+  APIRoute.Vendor.UpdateVendorListing,
+  VendorAuth,
+  UpdateVendorListingController
+);
 router.post(
   APIRoute.Vendor.SearchVendorListings,
   SearchVendorListingsController

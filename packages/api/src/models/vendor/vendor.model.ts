@@ -8,10 +8,6 @@ import MainChoice from "../mainChoice/mainChoice.model";
 import VendorImageAsset from "../vendorImageAsset/vendorImageAsset.model";
 import Link from "../link/link.model";
 
-type CreationOrUpdateParams = ModelTypes.ModelCreationOrUpdateParams<
-  VendorModel.CreationOrUpdateAttributes & { id?: number }
->;
-
 export default class Vendor extends BaseModel<
   VendorModel.Attributes,
   VendorModel.Base
@@ -23,10 +19,6 @@ export default class Vendor extends BaseModel<
     "name",
     "ownerId",
   ];
-
-  public static createOrUpdate = (params: CreationOrUpdateParams) => {
-    return this._createOrUpdate(params);
-  };
 
   public static defaultFindOptions: FindOptions<VendorModel.Attributes> = {
     attributes: this.includedAttributes,
@@ -47,6 +39,10 @@ export default class Vendor extends BaseModel<
 
   public toPopulatedJSON = (): VendorModel.APIResponse.Populated => {
     return this.toJSON() as any;
+  };
+
+  public validateOwnership = (ownerId: number) => {
+    return this.dataValues.ownerId === ownerId;
   };
 }
 

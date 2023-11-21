@@ -4,7 +4,9 @@ import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCityS
 import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
 import { CreateVendorListingRequest } from "../../../api/requests/vendor/createVendorListing.request";
+import { GetAuthedVendorListingRequest } from "../../../api/requests/vendor/getAuthedVendorListing.request";
 import { SearchVendorListingRequest } from "../../../api/requests/vendor/searchVendorListings.request";
+import { UpdateVendorListingRequest } from "../../../api/requests/vendor/updateVendorListing.request";
 import { APIFetcherBase } from "../../utils";
 import { APIRoute } from "../routes";
 
@@ -55,5 +57,17 @@ export class APIFetcherInternal extends APIFetcherBase {
     this.post<CreateVendorListingRequest.ResBody>(
       APIRoute.Vendor.CreateVendorListing,
       params
+    );
+
+  updateListing = (params: UpdateVendorListingRequest.ReqBody) =>
+    this.post<UpdateVendorListingRequest.ResBody>(
+      APIRoute.Vendor.UpdateVendorListing,
+      params
+    );
+
+  getAuthedListing = () =>
+    this.post<GetAuthedVendorListingRequest.ResBody>(
+      APIRoute.Vendor.GetAuthedListing,
+      {}
     );
 }

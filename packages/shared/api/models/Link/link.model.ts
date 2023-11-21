@@ -1,4 +1,4 @@
-import { KeyOf } from "../../../common";
+import { DeepOptionalKey, KeyOf } from "../../../common";
 import { DefaultModel, SocialMediaPlatform } from "../../../common/types";
 
 type LinkType = SocialMediaPlatform;
@@ -12,6 +12,7 @@ export namespace LinkModel {
     label: string;
     type: LinkType | "custom";
     url: string;
+    ownerId: number;
     vendorId: number;
   };
 
@@ -19,15 +20,18 @@ export namespace LinkModel {
 
   export type IncludedAttributes = KeyOf<
     Attributes,
-    "id" | "label" | "type" | "url"
+    "id" | "label" | "type" | "url" | "ownerId"
   >;
 
-  export type CreationOrUpdateParams = Pick<
+  export type CreationParams = Pick<
     Attributes,
-    Exclude<IncludedAttributes, "id">
-  > & {
-    id?: number;
-  };
+    Exclude<IncludedAttributes, "id" | "ownerId">
+  >;
+
+  export type UpdateParams = DeepOptionalKey<
+    Pick<Attributes, IncludedAttributes>,
+    "id"
+  >;
 
   export type Response = Pick<Attributes, IncludedAttributes>;
 }

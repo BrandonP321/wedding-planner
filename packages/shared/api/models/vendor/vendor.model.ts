@@ -1,4 +1,4 @@
-import { KeyOf } from "../../../common";
+import { DeepOmitKey, KeyOf } from "../../../common";
 import { DefaultModel } from "../../../common/types";
 import { LinkModel } from "../Link";
 import { MainChoiceModel } from "../mainChoice";
@@ -29,8 +29,8 @@ export namespace VendorModel {
   >;
 
   export type PopulatedCreationAttributes = {
-    [LinkModel.PopulatedName]: LinkModel.CreationOrUpdateParams[];
-    [LinkModel.SocialLinksPopulatedName]: LinkModel.CreationOrUpdateParams[];
+    [LinkModel.PopulatedName]: LinkModel.CreationParams[];
+    [LinkModel.SocialLinksPopulatedName]: LinkModel.CreationParams[];
   };
 
   export type PopulatedResponseAttributes = {
@@ -41,7 +41,12 @@ export namespace VendorModel {
     [LinkModel.SocialLinksPopulatedName]: LinkModel.Response[];
   };
 
-  export type CreationOrUpdateAttributes = Base & PopulatedCreationAttributes;
+  export type CreationParams = DeepOmitKey<
+    Base,
+    "locationGeometry" | "ownerId"
+  > &
+    PopulatedCreationAttributes;
+  export type UpdateParams = CreationParams;
 
   export type ResponseAttributes = Pick<Attributes, IncludedAttributes>;
 

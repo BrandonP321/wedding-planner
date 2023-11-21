@@ -4,10 +4,12 @@ import { createExportedSlice } from "@wedding-planner/shared/web/store/slices/sl
 
 export interface VendorState {
   vendor: Vendor.Vendor | null;
+  loading: boolean;
 }
 
 const initialState: VendorState = {
   vendor: null,
+  loading: true,
 };
 
 const slice = createSlice({
@@ -19,6 +21,9 @@ const slice = createSlice({
       { payload }: PayloadAction<{ vendor: Vendor.Vendor }>
     ) => {
       state.vendor = payload.vendor;
+    },
+    setLoading: (state, { payload }: PayloadAction<{ loading: boolean }>) => {
+      state.loading = payload.loading;
     },
   },
 });

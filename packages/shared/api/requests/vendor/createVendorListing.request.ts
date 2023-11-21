@@ -1,15 +1,11 @@
-import { APIErrorResponse } from "..";
+import { APIErrorMap, APIErrorResponse } from "..";
 import { DefaultAPIError } from "../requestErrors";
 import { VendorModel } from "../../models/vendor";
-import { TypedOmit } from "../../../common";
+import { DeepOmitKey } from "../../../common";
 
 export namespace CreateVendorListingRequest {
   export type ReqBody = {
-    // vendor: Vendor.VendorWithoutIDs;
-    vendor: TypedOmit<
-      VendorModel.CreationOrUpdateAttributes,
-      "locationGeometry" | "ownerId"
-    >;
+    vendor: VendorModel.CreationParams;
     // TODO: Change to address after testing
     location: [number, number];
   };
@@ -20,10 +16,16 @@ export namespace CreateVendorListingRequest {
 
   export const ErrorCodes = {
     ...DefaultAPIError.Codes,
-  };
+    listingAlreadyExists: "listingAlreadyExists",
+  } as const;
 
-  export const Errors = {
+  export const Errors: APIErrorMap<typeof ErrorCodes> = {
     ...DefaultAPIError.Errors,
+    [ErrorCodes.listingAlreadyExists]: {
+      code: ErrorCodes.listingAlreadyExists,
+      statusCode: 400,
+      msg: "A listing already exists for this account",
+    },
   };
 
   export type ErrorResponse = APIErrorResponse<typeof Errors>;
