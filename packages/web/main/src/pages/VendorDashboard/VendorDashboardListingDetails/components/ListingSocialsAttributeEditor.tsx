@@ -51,7 +51,7 @@ const SocialPlatformSelect = ({
 
 const definition: AttributeEditorDefinition<SocialLinkValue>[] = [
   {
-    label: "Link name",
+    label: "Platform",
     control: (props) => <SocialPlatformSelect {...props} />,
   },
   {
@@ -101,7 +101,7 @@ export const ListingSocialsEditor = () => {
       definition={definition}
       maxRows={Object.keys(SocialMediaPlatform).length}
       items={values[SocialsFieldName]}
-      addButtonText="Add link"
+      addButtonText="Add platform"
       onAddButtonClick={addRow}
       onRemoveButtonClick={removeRow}
     />

@@ -12,11 +12,11 @@ import {
 
 const linksEditorDefinition: AttributeEditorDefinition<LinkValue>[] = [
   {
-    label: "Link name",
+    label: "Link label",
     control: ({ index }) => (
       <AttributeEditorInput
         index={index}
-        placeholder="Name"
+        placeholder="Label"
         fieldName={LinksFieldName}
         updateValue={(v, current: LinkValue) => ({ ...current, name: v })}
         getValue={(v) => v?.name ?? ""}

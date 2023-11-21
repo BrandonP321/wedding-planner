@@ -26,10 +26,8 @@ export namespace MainChoiceModel {
     [MainChoiceAttributeModel.PopulatedName]: MainChoiceAttributeModel.Response[];
   };
 
-  export type CreationOrUpdateParams = DeepOptionalKey<
-    Pick<Attributes, IncludedAttributes> & PopulatedCreationAttributes,
-    "id"
-  >;
+  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> &
+    PopulatedCreationAttributes;
 
   type ResponseAttributes = Pick<Attributes, IncludedAttributes>;
 

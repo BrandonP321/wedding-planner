@@ -1,0 +1,30 @@
+@import "../../styles/webSharedStyles.scss";
+
+$containerPadding: $sizeM;
+$containerBorderRadius: $borderRadiusM;
+$containerBorder: 1px solid gray;
+
+.container {
+  width: 100%;
+  border-radius: $containerBorderRadius;
+  box-shadow: $raisedBoxShadow;
+}
+
+.header {
+  padding: $containerPadding;
+  border-top-right-radius: $containerBorderRadius;
+  border-top-left-radius: $containerBorderRadius;
+  border-left: $containerBorder;
+  border-right: $containerBorder;
+  border-top: $containerBorder;
+  background-color: silver;
+}
+
+.content {
+  border-bottom-left-radius: $containerBorderRadius;
+  border-bottom-right-radius: $containerBorderRadius;
+  border-left: $containerBorder;
+  border-right: $containerBorder;
+  border-bottom: $containerBorder;
+  padding: $containerPadding;
+}

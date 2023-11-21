@@ -45,7 +45,7 @@ export function AttributeEditor<T>({
       <SpaceBetween size="s" vertical stretch>
         {items.map((item, i) => {
           return (
-            <SpaceBetween key={i} stretch>
+            <SpaceBetween key={i} stretch align="end">
               <ListSpaceBetween
                 key={i}
                 classes={{ root: styles.row }}
@@ -56,7 +56,14 @@ export function AttributeEditor<T>({
 
                   return (
                     <SpaceBetweenListItem key={j}>
-                      <Content index={i} item={item} />
+                      <SpaceBetween size="xxs" vertical stretchChildren>
+                        {i === 0 && (
+                          <label>
+                            <strong>{d.label}</strong>
+                          </label>
+                        )}
+                        <Content index={i} item={item} />
+                      </SpaceBetween>
                     </SpaceBetweenListItem>
                   );
                 })}

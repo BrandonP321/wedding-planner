@@ -21,6 +21,7 @@ import {
   VendorDashboardLayout,
   VendorDashboardListingDetails,
   VendorDashboardMedia,
+  VendorDashboardPricingEditor,
 } from "pages/VendorDashboard";
 
 const queryClient = new QueryClient();
@@ -80,6 +81,10 @@ function App() {
                   <Route
                     path={RouteHelper.VendorDashboard.Listing()}
                     element={<VendorDashboardListingDetails />}
+                  />
+                  <Route
+                    path={RouteHelper.VendorDashboard.Pricing()}
+                    element={<VendorDashboardPricingEditor />}
                   />
                   <Route
                     path={RouteHelper.VendorDashboard.Media()}

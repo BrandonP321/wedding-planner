@@ -60,7 +60,7 @@ export const VendorLoginForm = (props: VendorLoginFormProps) => {
           </FormField>
 
           <FormField name={Field.PASSWORD} label="Password">
-            <InputField isPassword />
+            <InputField type="password" />
           </FormField>
         </SpaceBetween>
       </StyledForm>

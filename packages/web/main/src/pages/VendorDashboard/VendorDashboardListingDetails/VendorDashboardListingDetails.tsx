@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import styles from "./VendorDashboardListingDetails.module.scss";
 import {
+  Container,
   FormField,
   FormUtils,
   FormikSubmit,
@@ -122,34 +123,36 @@ export const VendorDashboardListingDetails = (
               <SpaceBetween size="xxl" vertical stretchChildren>
                 <h1>Listing details</h1>
 
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <h3>Basic info</h3>
+                <Container header={<h3>Basic info</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <FormField name={Field.NAME} label="Listing title">
+                      <InputField autoComplete={false} placeholder="Title" />
+                    </FormField>
 
-                  <FormField name={Field.NAME} label="Listing title">
-                    <InputField autoComplete={false} placeholder="Title" />
-                  </FormField>
+                    <FormField name={Field.DESCRIPTION} label="Description">
+                      <InputField
+                        autoComplete={false}
+                        placeholder="Description"
+                      />
+                    </FormField>
 
-                  <FormField name={Field.DESCRIPTION} label="Description">
-                    <InputField
-                      autoComplete={false}
-                      placeholder="Description"
-                    />
-                  </FormField>
+                    <FormField name={Field.CITY} label="City">
+                      <InputField autoComplete={false} placeholder="City" />
+                    </FormField>
+                  </SpaceBetween>
+                </Container>
 
-                  <FormField name={Field.CITY} label="City">
-                    <InputField autoComplete={false} placeholder="City" />
-                  </FormField>
-                </SpaceBetween>
+                <Container header={<h3>Social media</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <ListingSocialsEditor />
+                  </SpaceBetween>
+                </Container>
 
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <h3>Social media</h3>
-                  <ListingSocialsEditor />
-                </SpaceBetween>
-
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <h3>Links</h3>
-                  <ListingLinksEditor />
-                </SpaceBetween>
+                <Container header={<h3>Links</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <ListingLinksEditor />
+                  </SpaceBetween>
+                </Container>
 
                 <SpaceBetween justify="end">
                   <SubmitButton>Save</SubmitButton>

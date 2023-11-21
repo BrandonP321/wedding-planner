@@ -11,7 +11,7 @@ export type InputFieldProps = {
   autoComplete?: boolean;
   suggestions?: JSX.Element;
   isSuggestionFocused?: boolean;
-  isPassword?: boolean;
+  type?: "text" | "password" | "number";
   onChange?: (value: string) => void;
   placeholder?: string;
   value?: string;
@@ -22,7 +22,7 @@ export const InputField = ({
   autoComplete = true,
   suggestions,
   isSuggestionFocused,
-  isPassword = false,
+  type = "text",
   onChange,
   disabled,
   placeholder,
@@ -47,7 +47,7 @@ export const InputField = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => requestAnimationFrame(() => setIsFocused(false))}
         autoComplete={autoComplete ? "on" : "off"}
-        type={isPassword ? "password" : "text"}
+        type={type}
         placeholder={placeholder}
       />
       {(isFocused || isSuggestionFocused) && suggestions}

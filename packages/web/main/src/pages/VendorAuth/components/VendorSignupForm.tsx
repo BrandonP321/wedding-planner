@@ -79,11 +79,11 @@ export const VendorSignupForm = (props: VendorSignupFormProps) => {
           </FormField>
 
           <FormField name={Field.PASSWORD} label="Password">
-            <InputField isPassword />
+            <InputField type="password" />
           </FormField>
 
           <FormField name={Field.PASSWORD_CONFIRM} label="Confirm password">
-            <InputField isPassword />
+            <InputField type="password" />
           </FormField>
         </SpaceBetween>
       </StyledForm>
