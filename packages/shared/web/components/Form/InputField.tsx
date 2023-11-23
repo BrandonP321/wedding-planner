@@ -96,7 +96,7 @@ export type CheckboxFieldProps = {
   label: string;
   classes?: ClassesProp<"root" | "checkbox">;
   inputProps?: HTMLInputProps;
-  onChange?: <T = string>(value: T) => void;
+  onChange?: (value: string) => void;
   checked?: boolean;
 };
 

@@ -1,10 +1,11 @@
 @import "../../styles/webSharedStyles.scss";
 
 .tabs {
+  width: 100%;
 }
 
 .header {
-  padding: 0 $pageHorizontalPadding $sizeS $pageHorizontalPadding;
+  padding-bottom: $sizeS;
 
   @include mobileVW() {
     overflow: auto;
@@ -30,6 +31,8 @@
 }
 
 .content {
+  padding: 0 $sizeXS;
+
   &.hidden {
     display: none;
   }

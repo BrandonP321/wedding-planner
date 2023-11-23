@@ -11,7 +11,7 @@ import {
   VendorDetails,
   VendorSearch,
 } from "./pages";
-import { AppLayout } from "./components";
+import { AppLayout, VendorPricing } from "./components";
 import { HelmetProvider } from "react-helmet-async";
 import { FormSpaceBetween } from "./components/SpaceBetween/SpaceBetween";
 import { useParams } from "react-router-dom";
@@ -45,6 +45,8 @@ function App() {
                   element={<SimpleVendorSearch />}
                 />
                 <Route path={"/test"} element={<Home />} />
+
+                <Route path={"/test/pricing"} element={<VendorPricing />} />
 
                 <Route
                   path={RouteHelper.VendorSearch()}

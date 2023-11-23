@@ -1,20 +1,22 @@
 import React from "react";
 import styles from "./VendorDashboardPricingEditor.module.scss";
 import {
-  Button,
   FormikForm,
+  FormikSubmit,
   PageContent,
   SpaceBetween,
+  Tabs,
   UnstyledForm,
 } from "@wedding-planner/shared";
 import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
-import { PricingContainer } from "./components/PricingContainer";
 import { VenueFilterTypes } from "@wedding-planner/shared/common/types";
-import { ChoiceGroupModel } from "@wedding-planner/shared/api/models/choiceGroup";
+import { MainChoiceTab } from "./components/MainChoices/MainChoiceTab";
+
+type MainChoice = Omit<MainChoiceModel.CreationOrUpdateParams, "id">;
 
 export type PricingEditorValues = {
-  mainChoices: Omit<MainChoiceModel.CreationOrUpdateParams, "id">[];
+  mainChoices: MainChoice[];
 };
 
 const initialValues: PricingEditorValues = {
@@ -44,13 +46,6 @@ const initialValues: PricingEditorValues = {
   ],
 };
 
-const blankChoiceGroup: ChoiceGroupModel.CreationOrUpdateParams = {
-  id: 0,
-  choices: [{ id: 0, filterType: "none", name: "", price: 0, value: 0 }],
-  filterType: "none",
-  name: "",
-};
-
 export type VendorDashboardPricingEditorProps = {};
 
 export const VendorDashboardPricingEditor = (
@@ -60,42 +55,25 @@ export const VendorDashboardPricingEditor = (
 
   if (loading) return <div>loading...</div>;
 
+  const handleSubmit: FormikSubmit<PricingEditorValues> = async (values) => {
+    console.log(values);
+  };
+
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween align="center" vertical stretch>
-        <FormikForm initialValues={initialValues} onSubmit={() => {}}>
-          {({ values, setValues }) => (
+        <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
+          {({ values }) => (
             <UnstyledForm>
               <SpaceBetween size="xxl" vertical stretch>
                 <h1>Pricing</h1>
 
-                <SpaceBetween vertical size="xxl" stretch>
-                  {values.mainChoices[0].choiceGroups.map((mc, i) => (
-                    <PricingContainer
-                      key={i}
-                      mainChoiceIndex={0}
-                      choiceGroupIndex={i}
-                    />
-                  ))}
-
-                  <SpaceBetween classes={{ root: styles.options }}>
-                    <Button
-                      onClick={() => {
-                        const newMainChoices = [...values.mainChoices];
-                        newMainChoices[0].choiceGroups.push({
-                          ...blankChoiceGroup,
-                        });
-
-                        setValues({
-                          ...values,
-                          mainChoices: newMainChoices,
-                        });
-                      }}
-                    >
-                      Add choice group
-                    </Button>
-                  </SpaceBetween>
-                </SpaceBetween>
+                <Tabs
+                  tabs={values.mainChoices.map((mc, i) => ({
+                    title: mc.name || "Untitled",
+                    content: <MainChoiceTab key={i} index={i} />,
+                  }))}
+                />
               </SpaceBetween>
             </UnstyledForm>
           )}

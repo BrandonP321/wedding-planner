@@ -8,6 +8,16 @@ $containerBorder: 1px solid gray;
   width: 100%;
   border-radius: $containerBorderRadius;
   box-shadow: $raisedBoxShadow;
+
+  &.hasFooter {
+  }
+
+  &:not(.hasFooter) {
+    .content {
+      border-bottom-left-radius: $containerBorderRadius;
+      border-bottom-right-radius: $containerBorderRadius;
+    }
+  }
 }
 
 .header {
@@ -17,14 +27,22 @@ $containerBorder: 1px solid gray;
   border-left: $containerBorder;
   border-right: $containerBorder;
   border-top: $containerBorder;
-  background-color: silver;
+  #{$colorBackgroundVar}: rgb(199, 199, 199);
+  background-color: $colorBackground;
 }
 
-.content {
-  border-bottom-left-radius: $containerBorderRadius;
-  border-bottom-right-radius: $containerBorderRadius;
+.content,
+.footer {
   border-left: $containerBorder;
   border-right: $containerBorder;
   border-bottom: $containerBorder;
   padding: $containerPadding;
+}
+
+.content {
+}
+
+.footer {
+  border-bottom-left-radius: $containerBorderRadius;
+  border-bottom-right-radius: $containerBorderRadius;
 }

@@ -6,10 +6,11 @@ import {
 import {
   PricingEditorContextProps,
   usePricingEditorContext,
-} from "../PricingHelpers";
+} from "../../PricingHelpers";
 import { ChoiceNameInput } from "./ChoiceNameInput";
 import { ChoicePriceInput } from "./ChoicePriceInput";
 import { useMemo } from "react";
+import { cloneDeep } from "lodash";
 
 const getDefinition = (
   props: Pick<
@@ -43,7 +44,7 @@ type Props = Pick<
 export const ChoicesAttributeEditor = (props: Props) => {
   const { mainChoiceIndex, choiceGroupIndex } = props;
 
-  const { choiceGroup, values, setValues } = usePricingEditorContext(props);
+  const { choiceGroup, updateChoices } = usePricingEditorContext(props);
 
   const editorDefinition = useMemo(
     () => getDefinition({ choiceGroupIndex, mainChoiceIndex }),
@@ -51,26 +52,14 @@ export const ChoicesAttributeEditor = (props: Props) => {
   );
 
   const removeChoice = (index: number) => {
-    const newMainChoices = [...values.mainChoices];
-    newMainChoices[mainChoiceIndex].choiceGroups[
-      choiceGroupIndex
-    ].choices.splice(index, 1);
-
-    setValues({
-      ...values,
-      mainChoices: newMainChoices,
+    updateChoices((choices) => {
+      choices.splice(index, 1);
     });
   };
 
   const addChoice = () => {
-    const newMainChoices = [...values.mainChoices];
-    newMainChoices[mainChoiceIndex].choiceGroups[choiceGroupIndex].choices.push(
-      { ...blankChoice }
-    );
-
-    setValues({
-      ...values,
-      mainChoices: newMainChoices,
+    updateChoices((choices) => {
+      choices.push(cloneDeep(blankChoice));
     });
   };
 
