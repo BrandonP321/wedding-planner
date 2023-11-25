@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import styles from "./Tabs.module.scss";
 import { ClassesProp } from "../../utils";
 import classNames from "classnames";
 import { SpaceBetween } from "../SpaceBetween/SpaceBetween";
+import { TabsProvider, useTabsContext } from "./TabsProvider/TabsProvider";
 
 export type TabsProps = {
   tabs: TabProps[];
@@ -10,8 +11,23 @@ export type TabsProps = {
   classes?: ClassesProp<"root" | "header" | "content" | "tabBtn">;
 };
 
-export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+export const Tabs = (props: TabsProps) => (
+  <TabsProvider>
+    <TabsInternal {...props} />
+  </TabsProvider>
+);
+
+/**
+ * Returns a <Tabs> component without a <TabsProvider> wrapper.
+ * A <TabsProvider> must be provided somewhere higher up in the component tree.
+ */
+export const TabsWithoutProvider = (props: TabsProps) => (
+  <TabsInternal {...props} />
+);
+
+function TabsInternal({ tabs, classes, onTabChange }: TabsProps) {
+  const { selectedTabIndex, setSelectedTabIndex } = useTabsContext();
+
   const tabBtns = useRef<{ [index: number]: HTMLButtonElement | null }>({});
   const hasTabBeenManuallySelected = useRef(false);
 
@@ -46,6 +62,7 @@ export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
           return (
             <button
               key={i}
+              type="button"
               ref={(ele) => {
                 tabBtns.current[i] = ele;
               }}
@@ -79,7 +96,7 @@ export const Tabs = ({ tabs, classes, onTabChange }: TabsProps) => {
       </div>
     </div>
   );
-};
+}
 
 export type TabProps = {
   title: string;

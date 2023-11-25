@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../VendorDashboardPricingEditor.module.scss";
 import {
   Alert,
   Button,
@@ -14,6 +13,7 @@ import { usePricingEditorContext } from "../../PricingHelpers";
 import { ChoiceGroupFooterActions } from "../ChoiceGroups/ChoiceGroupFooterActions";
 import { FormSpaceBetween } from "components/SpaceBetween/SpaceBetween";
 import { MainChoiceAttributesSelector } from "./MainChoiceAttributesSelector";
+import { MainChoiceOptions } from "./MainChoiceOptions";
 
 export type MainChoiceTabProps = { index: number };
 
@@ -27,11 +27,12 @@ export const MainChoiceTab = ({ index }: MainChoiceTabProps) => {
 
   return (
     <SpaceBetween vertical size="xxl" stretch stretchChildren>
-      <SpaceBetween vertical size="l" stretchChildren>
-        <h2>Main choice info</h2>
+      <MainChoiceOptions mainChoiceIndex={index} />
 
+      <SpaceBetween vertical size="l" stretchChildren>
+        <h3>Main choice info</h3>
         <ContainerSpaceBetween>
-          <Container header={<h3>Basic info</h3>}>
+          <Container header={<h4>Details</h4>}>
             <FormSpaceBetween stretchChildren>
               <FormField label="Title">
                 <InputField
@@ -45,20 +46,20 @@ export const MainChoiceTab = ({ index }: MainChoiceTabProps) => {
                 />
               </FormField>
 
-              <FormField label="Description">
+              {/* <FormField label="Description">
                 <InputField />
-              </FormField>
+              </FormField> */}
             </FormSpaceBetween>
           </Container>
 
-          <Container header={<h3>Attributes</h3>}>
+          <Container header={<h4>Attributes</h4>}>
             <MainChoiceAttributesSelector mainChoiceIndex={index} />
           </Container>
         </ContainerSpaceBetween>
       </SpaceBetween>
 
       <SpaceBetween vertical size="l" stretchChildren>
-        <h2>Choice groups</h2>
+        <h3>Choice groups</h3>
 
         {!!choiceGroups?.length && (
           <ContainerSpaceBetween>

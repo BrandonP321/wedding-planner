@@ -24,10 +24,8 @@ $containerBorder: 1px solid gray;
   padding: $containerPadding;
   border-top-right-radius: $containerBorderRadius;
   border-top-left-radius: $containerBorderRadius;
-  border-left: $containerBorder;
-  border-right: $containerBorder;
-  border-top: $containerBorder;
-  #{$colorBackgroundVar}: rgb(199, 199, 199);
+  border: $containerBorder;
+  #{$colorBackgroundVar}: rgb(213, 213, 213);
   background-color: $colorBackground;
 }
 

@@ -1,5 +1,3 @@
-import React from "react";
-import styles from "./VendorDashboardPricingEditor.module.scss";
 import {
   FormikForm,
   FormikSubmit,
@@ -9,41 +7,12 @@ import {
   UnstyledForm,
 } from "@wedding-planner/shared";
 import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
-import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
-import { VenueFilterTypes } from "@wedding-planner/shared/common/types";
 import { MainChoiceTab } from "./components/MainChoices/MainChoiceTab";
-
-type MainChoice = Omit<MainChoiceModel.CreationOrUpdateParams, "id">;
-
-export type PricingEditorValues = {
-  mainChoices: MainChoice[];
-};
+import { PricingEditorValues, getBlankMainChoice } from "./PricingHelpers";
+import { MainChoiceRequiredAlert } from "./components/MainChoices/MainChoiceRequiredAlert";
 
 const initialValues: PricingEditorValues = {
-  mainChoices: [
-    {
-      name: "Main choice 1",
-      attributes: [
-        { filterName: VenueFilterTypes.MainChoiceFilter.OUTDOOR_VENUE, id: 1 },
-      ],
-      choiceGroups: [
-        {
-          name: "Add-ons",
-          id: 1,
-          filterType: "none",
-          choices: [
-            {
-              id: 1,
-              filterType: "none",
-              name: "Entertainment system",
-              price: 1000,
-              value: 1000,
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  mainChoices: [getBlankMainChoice()],
 };
 
 export type VendorDashboardPricingEditorProps = {};
@@ -63,20 +32,32 @@ export const VendorDashboardPricingEditor = (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween align="center" vertical stretch>
         <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values }) => (
-            <UnstyledForm>
-              <SpaceBetween size="xxl" vertical stretch>
-                <h1>Pricing</h1>
+          {({ values }) => {
+            const mainChoicesLength = values.mainChoices.length;
 
-                <Tabs
-                  tabs={values.mainChoices.map((mc, i) => ({
-                    title: mc.name || "Untitled",
-                    content: <MainChoiceTab key={i} index={i} />,
-                  }))}
-                />
-              </SpaceBetween>
-            </UnstyledForm>
-          )}
+            return (
+              <UnstyledForm>
+                <SpaceBetween size="xxl" vertical stretch>
+                  <h1>Pricing</h1>
+
+                  <SpaceBetween size="m" vertical stretch>
+                    <h2>Main choices</h2>
+
+                    {!!mainChoicesLength && (
+                      <Tabs
+                        tabs={values.mainChoices.map((mc, i) => ({
+                          title: mc.name || "Untitled",
+                          content: <MainChoiceTab key={i} index={i} />,
+                        }))}
+                      />
+                    )}
+
+                    {!mainChoicesLength && <MainChoiceRequiredAlert />}
+                  </SpaceBetween>
+                </SpaceBetween>
+              </UnstyledForm>
+            );
+          }}
         </FormikForm>
       </SpaceBetween>
     </PageContent>

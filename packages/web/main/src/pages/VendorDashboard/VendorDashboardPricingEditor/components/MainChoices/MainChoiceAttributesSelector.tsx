@@ -1,4 +1,3 @@
-import React from "react";
 import {
   CheckboxField,
   CheckboxFormField,
@@ -76,9 +75,11 @@ export const MainChoiceAttributesSelector = (props: Props) => {
   return (
     <SpaceBetween size="m" vertical>
       {tempAttributes.map((group, i) => (
-        <SpaceBetween size="xs" vertical stretch>
-          <h4>{group.groupLabel}</h4>
-          <CheckboxFormField key={i}>
+        <SpaceBetween key={i} size="xs" vertical stretch>
+          <h5>
+            <strong>{group.groupLabel}</strong>
+          </h5>
+          <CheckboxFormField>
             {group.attributes.map((a, j) => {
               const isChecked = mainChoice?.attributes?.some(
                 (att) => att.filterName === a.value

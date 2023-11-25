@@ -10,7 +10,7 @@ export * from "./BasicPage/BasicPage";
 export * from "./UnifiedAppHelmet/UnifiedAppHelmet";
 export * from "./UnifiedToast/UnifiedToast";
 export * from "./FormikForm/FormikForm";
-export * from "./Tabs/Tabs";
+export * from "./Tabs";
 export * from "./AspectRatioImage/AspectRatioImage";
 export * from "./DropdownList/DropdownList";
 export * from "./Scrollable/Scrollable";

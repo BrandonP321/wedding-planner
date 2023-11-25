@@ -1,17 +1,27 @@
 import { useFormikContext } from "formik";
-import { PricingEditorValues } from "./VendorDashboardPricingEditor";
 import { ChoiceGroupModel } from "@wedding-planner/shared/api/models/choiceGroup";
 import { cloneDeep } from "lodash";
+import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
+import { useState } from "react";
 
-const blankChoiceGroup: ChoiceGroupModel.CreationOrUpdateParams = {
+type MainChoice = Omit<MainChoiceModel.CreationOrUpdateParams, "id">;
+
+export type PricingEditorValues = {
+  mainChoices: MainChoice[];
+};
+
+const getBlankChoiceGroup = (): ChoiceGroupModel.CreationOrUpdateParams => ({
   id: 0,
   choices: [{ id: 0, filterType: "none", name: "", price: 0, value: 0 }],
   filterType: "none",
   name: "",
-};
+});
 
-type MainChoices = PricingEditorValues["mainChoices"];
-type MainChoice = MainChoices[number];
+export const getBlankMainChoice = (): MainChoice => ({
+  name: "",
+  attributes: [],
+  choiceGroups: [getBlankChoiceGroup()],
+});
 
 export type PricingEditorContextProps = {
   mainChoiceIndex?: number;
@@ -21,6 +31,7 @@ export type PricingEditorContextProps = {
 
 export const usePricingEditorContext = (props: PricingEditorContextProps) => {
   const context = useFormikContext<PricingEditorValues>();
+  const [mainChoiceTabIndex, setMainChoiceTabIndex] = useState(0);
 
   const { values, setValues } = context;
   const { choiceGroupIndex, mainChoiceIndex, choiceIndex } = props;
@@ -40,17 +51,15 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
       ? choiceGroup.choices[choiceIndex]
       : undefined;
 
-  const updateMainChoices = (cb: (mainChoices: MainChoices) => void) => {
+  const updateMainChoices = (cb: (mainChoices: MainChoice[]) => void) => {
     const newMainChoices = cloneDeep(values.mainChoices);
 
-    if (mainChoiceIndex !== undefined) {
-      cb(newMainChoices);
+    cb(newMainChoices);
 
-      setValues({
-        ...values,
-        mainChoices: newMainChoices,
-      });
-    }
+    setValues({
+      ...values,
+      mainChoices: newMainChoices,
+    });
   };
 
   const updateMainChoice = (cb: (mainChoice: MainChoice) => void) => {
@@ -109,9 +118,15 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
     });
   };
 
+  const addMainChoice = (index: number) => {
+    updateMainChoices((mainChoices) => {
+      mainChoices.splice(index, 0, getBlankMainChoice());
+    });
+  };
+
   const addChoiceGroup = (index: number) => {
     updateChoiceGroups((choiceGroups) => {
-      choiceGroups.splice(index, 0, cloneDeep(blankChoiceGroup));
+      choiceGroups.splice(index, 0, getBlankChoiceGroup());
     });
   };
 
@@ -126,6 +141,9 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
     updateChoices,
     updateChoice,
     addChoiceGroup,
+    addMainChoice,
+    mainChoiceTabIndex,
+    setMainChoiceTabIndex,
     ...context,
   };
 };

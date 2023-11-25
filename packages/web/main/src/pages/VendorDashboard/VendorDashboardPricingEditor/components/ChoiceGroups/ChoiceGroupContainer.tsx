@@ -1,5 +1,3 @@
-import React from "react";
-import styles from "../VendorDashboardPricingEditor.module.scss";
 import {
   Button,
   Container,
@@ -8,6 +6,7 @@ import {
 import { ChoiceGroupNameInput } from "./ChoiceGroupNameInput";
 import { ChoicesAttributeEditor } from "../Choices/ChoicesAttributeEditor";
 import { usePricingEditorContext } from "../../PricingHelpers";
+import { ArrayUtils } from "@wedding-planner/shared";
 
 type Props = {
   mainChoiceIndex: number;
@@ -17,7 +16,8 @@ type Props = {
 export const ChoiceGroupContainer = (props: Props) => {
   const { choiceGroupIndex } = props;
 
-  const { updateChoiceGroups, addChoiceGroup } = usePricingEditorContext(props);
+  const { mainChoice, updateChoiceGroups, addChoiceGroup } =
+    usePricingEditorContext(props);
 
   const removeChoiceGroup = () => {
     updateChoiceGroups((choiceGroups) => {
@@ -25,11 +25,34 @@ export const ChoiceGroupContainer = (props: Props) => {
     });
   };
 
+  const moveChoiceGroup = (index: number) => {
+    updateChoiceGroups((choiceGroups) => {
+      ArrayUtils.move(choiceGroups, choiceGroupIndex, index);
+    });
+  };
+
+  const choiceGroupsLength = mainChoice?.choiceGroups.length ?? 0;
+
+  const canMoveUp = choiceGroupIndex > 0;
+  const canMoveDown = choiceGroupIndex < choiceGroupsLength - 1;
+
   return (
     <Container
       header={<ChoiceGroupNameInput {...props} />}
       footer={
         <SpaceBetween justify="end">
+          <Button
+            onClick={() => moveChoiceGroup(choiceGroupIndex - 1)}
+            disabled={!canMoveUp}
+          >
+            Move up
+          </Button>
+          <Button
+            onClick={() => moveChoiceGroup(choiceGroupIndex + 1)}
+            disabled={!canMoveDown}
+          >
+            Move down
+          </Button>
           <Button onClick={removeChoiceGroup}>Remove</Button>
           <Button onClick={() => addChoiceGroup(choiceGroupIndex + 1)}>
             Add choice group
@@ -38,7 +61,9 @@ export const ChoiceGroupContainer = (props: Props) => {
       }
     >
       <SpaceBetween vertical size="s" stretchChildren>
-        <h3>Choices</h3>
+        <h5>
+          <strong>Choices</strong>
+        </h5>
 
         <ChoicesAttributeEditor {...props} />
       </SpaceBetween>
