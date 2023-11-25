@@ -23,17 +23,18 @@ export namespace ChoiceGroupModel {
   >;
 
   export type PopulatedCreationAttributes = {
-    [ChoiceModel.PopulatedName]: ChoiceModel.CreationOrUpdateParams[];
+    [ChoiceModel.PopulatedName]: ChoiceModel.CreationParams[];
   };
 
   export type PopulatedAttributes = {
     [ChoiceModel.PopulatedName]: ChoiceModel.Response[];
   };
 
-  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> &
-    PopulatedCreationAttributes & {
-      id?: number;
-    };
+  export type CreationParams = Pick<
+    Attributes,
+    Exclude<IncludedAttributes, "id">
+  > &
+    PopulatedCreationAttributes;
 
   export namespace Response {
     export type Unpopulated = Pick<Attributes, IncludedAttributes>;

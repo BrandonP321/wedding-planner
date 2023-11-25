@@ -5,6 +5,8 @@ export namespace DefaultAPIError {
     InternalServerError: "InternalServerError",
     NotAuthenticated: "NotAuthenticated",
     NetworkError: "NetworkError",
+    VendorNotFound: "VendorNotFound",
+    UnauthorizedAccess: "UnauthorizedAccess",
   } as const;
 
   export const Errors: APIErrorMap<typeof Codes> = {
@@ -22,6 +24,16 @@ export namespace DefaultAPIError {
       statusCode: 500,
       msg: "Network Error",
       code: Codes.NetworkError,
+    },
+    VendorNotFound: {
+      code: Codes.VendorNotFound,
+      msg: "Vendor not found",
+      statusCode: 404,
+    },
+    UnauthorizedAccess: {
+      code: Codes.UnauthorizedAccess,
+      msg: "You are unauthorized to modify this listing",
+      statusCode: 401,
     },
   };
 

@@ -1,29 +1,20 @@
 import { Controller } from "../../utils/ControllerUtils";
 import { UpdateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/updateVendorListing.request";
 import db, { sequelize } from "../../models";
-import { JWTResLocals, VendorUtils } from "../../utils";
+import { VendorUtils } from "../../utils";
+import { AuthedVendorResLocals } from "../../middleware/GetAuthedVendor.middleware";
 
 const controller = new Controller<
   UpdateVendorListingRequest.ReqBody,
   UpdateVendorListingRequest.ResBody,
-  JWTResLocals,
+  AuthedVendorResLocals,
   typeof UpdateVendorListingRequest.Errors
 >(UpdateVendorListingRequest.Errors);
 
 export const UpdateVendorListingController = controller.handler(
   async (req, res, errors) => {
     const { vendor, location } = req.body;
-    const { ownerId } = res.locals;
-
-    const vendorToUpdate = await db.Vendor.findOne({ where: { ownerId } });
-
-    if (!vendorToUpdate) {
-      return errors.VendorNotFound();
-    } else if (!vendorToUpdate.validateOwnership(ownerId)) {
-      return errors.UnauthorizedAccess();
-    }
-
-    const vendorId = vendorToUpdate.dataValues.id;
+    const { ownerId, vendorId, vendor: vendorToUpdate } = res.locals;
 
     await sequelize.transaction(async (transaction) => {
       await vendorToUpdate.update(

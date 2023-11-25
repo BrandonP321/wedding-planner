@@ -17,7 +17,7 @@ const getDefinition = (
     Required<PricingEditorContextProps>,
     "choiceGroupIndex" | "mainChoiceIndex"
   >
-): AttributeEditorDefinition<ChoiceModel.CreationOrUpdateParams>[] => [
+): AttributeEditorDefinition<ChoiceModel.CreationParams>[] => [
   {
     label: "Option label",
     control: ({ index }) => <ChoiceNameInput {...props} choiceIndex={index} />,
@@ -28,9 +28,8 @@ const getDefinition = (
   },
 ];
 
-const blankChoice: ChoiceModel.CreationOrUpdateParams = {
+const blankChoice: ChoiceModel.CreationParams = {
   filterType: "none",
-  id: 0,
   name: "",
   price: 0,
   value: 0,

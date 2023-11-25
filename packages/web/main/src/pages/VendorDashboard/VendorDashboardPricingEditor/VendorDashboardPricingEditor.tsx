@@ -10,6 +10,7 @@ import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
 import { MainChoiceTab } from "./components/MainChoices/MainChoiceTab";
 import { PricingEditorValues, getBlankMainChoice } from "./PricingHelpers";
 import { MainChoiceRequiredAlert } from "./components/MainChoices/MainChoiceRequiredAlert";
+import { APIFetcher } from "utils";
 
 const initialValues: PricingEditorValues = {
   mainChoices: [getBlankMainChoice()],
@@ -25,7 +26,11 @@ export const VendorDashboardPricingEditor = (
   if (loading) return <div>loading...</div>;
 
   const handleSubmit: FormikSubmit<PricingEditorValues> = async (values) => {
+    const { mainChoices } = values;
+
     console.log(values);
+
+    return await APIFetcher.updateMainChoices({ mainChoices });
   };
 
   return (

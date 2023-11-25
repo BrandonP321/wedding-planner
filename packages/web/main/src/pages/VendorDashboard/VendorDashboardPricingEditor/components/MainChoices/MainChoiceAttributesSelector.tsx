@@ -61,7 +61,6 @@ export const MainChoiceAttributesSelector = (props: Props) => {
       updateMainChoice((mc) => {
         mc.attributes.push({
           filterName: v as any,
-          id: 0,
         });
       });
     } else {

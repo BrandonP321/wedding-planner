@@ -19,22 +19,10 @@ export namespace UpdateVendorListingRequest {
 
   export const ErrorCodes = {
     ...DefaultAPIError.Codes,
-    VendorNotFound: "VendorNotFound",
-    UnauthorizedAccess: "UnauthorizedAccess",
   } as const;
 
   export const Errors: APIErrorMap<typeof ErrorCodes> = {
     ...DefaultAPIError.Errors,
-    VendorNotFound: {
-      code: ErrorCodes.VendorNotFound,
-      msg: "Vendor not found",
-      statusCode: 404,
-    },
-    UnauthorizedAccess: {
-      code: ErrorCodes.UnauthorizedAccess,
-      msg: "You are unauthorized to modify this listing",
-      statusCode: 401,
-    },
   };
 
   export type ErrorResponse = APIErrorResponse<typeof Errors>;

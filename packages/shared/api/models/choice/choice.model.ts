@@ -24,9 +24,10 @@ export namespace ChoiceModel {
     "id" | "name" | "value" | "price" | "filterType"
   >;
 
-  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> & {
-    id?: number;
-  };
+  export type CreationParams = Pick<
+    Attributes,
+    Exclude<IncludedAttributes, "id">
+  >;
 
   export type Response = Pick<Attributes, IncludedAttributes>;
 }

@@ -3,16 +3,16 @@ import { ChoiceGroupModel } from "@wedding-planner/shared/api/models/choiceGroup
 import { cloneDeep } from "lodash";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
 import { useState } from "react";
+import { ChoiceModel } from "@wedding-planner/shared/api/models/choice/choice.model";
 
-type MainChoice = Omit<MainChoiceModel.CreationOrUpdateParams, "id">;
+type MainChoice = MainChoiceModel.CreationParams;
 
 export type PricingEditorValues = {
   mainChoices: MainChoice[];
 };
 
-const getBlankChoiceGroup = (): ChoiceGroupModel.CreationOrUpdateParams => ({
-  id: 0,
-  choices: [{ id: 0, filterType: "none", name: "", price: 0, value: 0 }],
+const getBlankChoiceGroup = (): ChoiceGroupModel.CreationParams => ({
+  choices: [{ filterType: "none", name: "", price: 0, value: 0 }],
   filterType: "none",
   name: "",
 });
@@ -73,7 +73,7 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
   };
 
   const updateChoiceGroups = (
-    cb: (choiceGroups: ChoiceGroupModel.CreationOrUpdateParams[]) => void
+    cb: (choiceGroups: ChoiceGroupModel.CreationParams[]) => void
   ) => {
     updateMainChoice((mainChoice) => {
       const choiceGroups = mainChoice.choiceGroups;
@@ -83,7 +83,7 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
   };
 
   const updateChoiceGroup = (
-    cb: (choiceGroup: ChoiceGroupModel.CreationOrUpdateParams) => void
+    cb: (choiceGroup: ChoiceGroupModel.CreationParams) => void
   ) => {
     updateChoiceGroups((choiceGroups) => {
       if (choiceGroupIndex !== undefined) {
@@ -95,7 +95,7 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
   };
 
   const updateChoices = (
-    cb: (choices: ChoiceGroupModel.CreationOrUpdateParams["choices"]) => void
+    cb: (choices: ChoiceModel.CreationParams[]) => void
   ) => {
     updateChoiceGroup((choiceGroup) => {
       const choices = choiceGroup.choices;
@@ -104,11 +104,7 @@ export const usePricingEditorContext = (props: PricingEditorContextProps) => {
     });
   };
 
-  const updateChoice = (
-    cb: (
-      choice: ChoiceGroupModel.CreationOrUpdateParams["choices"][number]
-    ) => void
-  ) => {
+  const updateChoice = (cb: (choice: ChoiceModel.CreationParams) => void) => {
     updateChoices((choices) => {
       if (choiceIndex !== undefined) {
         const choice = choices[choiceIndex];

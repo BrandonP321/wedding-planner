@@ -10,6 +10,8 @@ export namespace MainChoiceModel {
   export type Base = {
     name: string;
     vendorId: number;
+    /** If false, main choice will not be presented to users */
+    isLive: boolean;
   };
 
   export type Attributes = Base & DefaultModel.Attributes;
@@ -17,8 +19,8 @@ export namespace MainChoiceModel {
   export type IncludedAttributes = KeyOf<Attributes, "id" | "name">;
 
   export type PopulatedCreationAttributes = {
-    [ChoiceGroupModel.PopulatedName]: ChoiceGroupModel.CreationOrUpdateParams[];
-    [MainChoiceAttributeModel.PopulatedName]: MainChoiceAttributeModel.CreationOrUpdateParams[];
+    [ChoiceGroupModel.PopulatedName]: ChoiceGroupModel.CreationParams[];
+    [MainChoiceAttributeModel.PopulatedName]: MainChoiceAttributeModel.CreationParams[];
   };
 
   export type PopulatedResponseAttributes = {
@@ -26,7 +28,10 @@ export namespace MainChoiceModel {
     [MainChoiceAttributeModel.PopulatedName]: MainChoiceAttributeModel.Response[];
   };
 
-  export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> &
+  export type CreationParams = Pick<
+    Attributes,
+    Exclude<IncludedAttributes, "id">
+  > &
     PopulatedCreationAttributes;
 
   type ResponseAttributes = Pick<Attributes, IncludedAttributes>;

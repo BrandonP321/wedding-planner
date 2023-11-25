@@ -26,20 +26,12 @@ export default class MainChoice extends BaseModel<
     as: MainChoiceModel.PopulatedName,
     required: false,
     attributes: this.includedAttributes,
+    where: { isLive: true },
   };
 
   public static populatedIncludable: IncludeOptions = {
     ...MainChoice.includable,
     include: [ChoiceGroup.populatedIncludable, MainChoiceAttribute.includable],
-  };
-
-  public static getCreateAttributesJSON = ({
-    model,
-    vendorId,
-  }: CreationOrUpdateParams): MainChoiceModel.Base => ({ ...model, vendorId });
-
-  public static createOrUpdate = (params: CreationOrUpdateParams) => {
-    return this._createOrUpdate(params);
   };
 }
 
@@ -47,6 +39,10 @@ export const tempMainChoiceInit = (sequelize: Sequelize) =>
   MainChoice.init(
     {
       ...BaseModel.SchemaAttributes,
+      isLive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       vendorId: {
         type: DataTypes.INTEGER,
         references: {

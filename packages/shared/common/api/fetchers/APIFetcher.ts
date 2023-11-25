@@ -6,6 +6,7 @@ import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/reque
 import { CreateVendorListingRequest } from "../../../api/requests/vendor/createVendorListing.request";
 import { GetAuthedVendorListingRequest } from "../../../api/requests/vendor/getAuthedVendorListing.request";
 import { SearchVendorListingRequest } from "../../../api/requests/vendor/searchVendorListings.request";
+import { UpdateMainChoicesRequest } from "../../../api/requests/vendor/updateMainChoices.request";
 import { UpdateVendorListingRequest } from "../../../api/requests/vendor/updateVendorListing.request";
 import { APIFetcherBase } from "../../utils";
 import { APIRoute } from "../routes";
@@ -69,5 +70,11 @@ export class APIFetcherInternal extends APIFetcherBase {
     this.post<GetAuthedVendorListingRequest.ResBody>(
       APIRoute.Vendor.GetAuthedListing,
       {}
+    );
+
+  updateMainChoices = (params: UpdateMainChoicesRequest.ReqBody) =>
+    this.post<UpdateMainChoicesRequest.ResBody>(
+      APIRoute.Vendor.UpdateMainChoices,
+      params
     );
 }
