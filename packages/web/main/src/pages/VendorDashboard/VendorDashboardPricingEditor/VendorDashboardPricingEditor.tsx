@@ -11,17 +11,20 @@ import { MainChoiceTab } from "./components/MainChoices/MainChoiceTab";
 import { PricingEditorValues, getBlankMainChoice } from "./PricingHelpers";
 import { MainChoiceRequiredAlert } from "./components/MainChoices/MainChoiceRequiredAlert";
 import { APIFetcher } from "utils";
+import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
 
-const initialValues: PricingEditorValues = {
-  mainChoices: [getBlankMainChoice()],
-};
+const getInitialValues = (
+  mainChoices?: MainChoiceModel.CreationParams[]
+): PricingEditorValues => ({
+  mainChoices: mainChoices ?? [getBlankMainChoice()],
+});
 
 export type VendorDashboardPricingEditorProps = {};
 
 export const VendorDashboardPricingEditor = (
   props: VendorDashboardPricingEditorProps
 ) => {
-  const { loading } = useAuthedVendorListing();
+  const { loading, listing } = useAuthedVendorListing();
 
   if (loading) return <div>loading...</div>;
 
@@ -36,7 +39,10 @@ export const VendorDashboardPricingEditor = (
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween align="center" vertical stretch>
-        <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
+        <FormikForm
+          initialValues={getInitialValues(listing?.mainChoices)}
+          onSubmit={handleSubmit}
+        >
           {({ values }) => {
             const mainChoicesLength = values.mainChoices.length;
 
