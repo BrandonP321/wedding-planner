@@ -32,7 +32,7 @@ export class MainChoiceUtils {
       props.mainChoices.map(
         async (mc) =>
           await db.MainChoice.create(
-            { ...mc, vendorId: props.vendorId, isLive: false },
+            { name: mc.name, vendorId: props.vendorId, isLive: false },
             { transaction: props.transaction }
           )
       )
@@ -42,7 +42,7 @@ export class MainChoiceUtils {
   public static createAttributes = (props: CreateAttributesProps) =>
     db.MainChoiceAttribute.bulkCreate(
       props.attributes.map((a) => ({
-        ...a,
+        filterName: a.filterName,
         mainChoiceId: props.mainChoiceId,
       })),
       { transaction: props.transaction }
@@ -53,7 +53,11 @@ export class MainChoiceUtils {
       props.choiceGroups.map(
         async (cg) =>
           await db.ChoiceGroup.create(
-            { ...cg, mainChoiceId: props.mainChoiceId },
+            {
+              filterType: cg.filterType,
+              name: cg.name,
+              mainChoiceId: props.mainChoiceId,
+            },
             { transaction: props.transaction }
           )
       )
@@ -62,7 +66,13 @@ export class MainChoiceUtils {
   /** Choices can be bulk created since nothing depends on their IDs */
   public static createChoices = (props: CreateChoicesProps) =>
     db.Choice.bulkCreate(
-      props.choices.map((c) => ({ ...c, choiceGroupId: props.choiceGroupId })),
+      props.choices.map((c) => ({
+        filterType: c.filterType,
+        name: c.name,
+        price: c.price,
+        value: c.value,
+        choiceGroupId: props.choiceGroupId,
+      })),
       { transaction: props.transaction }
     );
 }
