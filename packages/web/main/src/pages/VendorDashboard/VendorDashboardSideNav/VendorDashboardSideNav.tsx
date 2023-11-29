@@ -8,7 +8,7 @@ import classNames from "classnames";
 const links: { href: string; label: string }[] = [
   { href: RouteHelper.VendorDashboard.Listing(), label: "Listing" },
   { href: RouteHelper.VendorDashboard.Pricing(), label: "Pricing" },
-  { href: RouteHelper.VendorDashboard.Media(), label: "Media" },
+  { href: RouteHelper.VendorDashboard.Images(), label: "Images" },
 ];
 
 export type VendorDashboardSideNavProps = {};

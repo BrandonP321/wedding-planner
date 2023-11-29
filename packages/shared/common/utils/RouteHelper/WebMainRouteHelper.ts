@@ -37,7 +37,7 @@ export class WebMainRouteHelper extends RouteHelperInternal {
 
   public VendorDashboard = {
     Listing: this.CreateRoute(`/vendor/dashboard/listing`),
-    Media: this.CreateRoute(`/vendor/dashboard/media`),
+    Images: this.CreateRoute(`/vendor/dashboard/images`),
     Pricing: this.CreateRoute(`/vendor/dashboard/pricing`),
   };
 

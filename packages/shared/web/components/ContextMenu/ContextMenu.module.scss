@@ -1,0 +1,47 @@
+@import "../../styles/webSharedStyles.scss";
+
+$verticalOffset: -0.5rem;
+$menuBgColor: $colorBackground;
+
+.menu {
+  position: absolute;
+  background-color: $menuBgColor;
+  border: 1px solid gray;
+  border-radius: $borderRadiusS;
+  box-shadow: $darkBoxShadow;
+  z-index: 1;
+
+  &.top {
+    top: $verticalOffset;
+    transform: translateY(-100%);
+  }
+
+  &.right {
+    left: 0;
+  }
+
+  &.bottom {
+    bottom: $verticalOffset;
+    transform: translateY(100%);
+  }
+
+  &.left {
+    right: 0;
+  }
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.option {
+  padding: $sizeXS $sizeS;
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: gray;
+  }
+}

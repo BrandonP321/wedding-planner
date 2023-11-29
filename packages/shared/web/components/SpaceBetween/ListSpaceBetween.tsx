@@ -4,7 +4,7 @@ import { SpaceBetween, SpaceBetweenProps } from "./SpaceBetween";
 import { ResponsiveBreakpoint } from "../../types/repsonsive";
 import classNames from "classnames";
 import { useResponsive } from "../../store";
-import { ResponsiveUtils } from "../../utils";
+import { ClassesProp, ResponsiveUtils } from "../../utils";
 
 export type ListSpaceBetweenProps = Omit<SpaceBetweenProps, "vertical"> & {
   /** Supports up to 10 items per row */
@@ -44,10 +44,13 @@ export const ListSpaceBetween = ({
   );
 };
 
-type SpaceBetweenListItemProps = React.PropsWithChildren<{}>;
+type SpaceBetweenListItemProps = React.PropsWithChildren<{
+  classes?: ClassesProp<"root">;
+}>;
 
 export const SpaceBetweenListItem = ({
   children,
+  classes,
 }: SpaceBetweenListItemProps) => (
-  <div className={styles.listItem}>{children}</div>
+  <div className={classNames(styles.listItem, classes?.root)}>{children}</div>
 );

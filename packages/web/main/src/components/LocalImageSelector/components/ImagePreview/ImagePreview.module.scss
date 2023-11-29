@@ -1,0 +1,93 @@
+@import "../../LocalImageSelector.module.scss";
+
+$actionsPadding: $sizeS;
+$actionsPaddingStart: $sizeXS;
+$actionBtnWidth: 2.5rem;
+$actionFontSize: 1.25rem;
+
+.outerWrapper {
+  position: relative;
+
+  &:hover .actions,
+  .actions.showMenu {
+    opacity: 1;
+    bottom: $actionsPadding;
+  }
+}
+
+.thumbWrapper {
+  cursor: grab;
+  position: relative;
+  width: 100%;
+}
+
+.thumb {
+  border-radius: $borderRadiusM;
+  box-shadow: 0 0 0.5rem rgba(black, 0.25);
+}
+
+.showcaseIndicator,
+.showcaseIcon.active {
+  color: gold;
+}
+
+.showcaseIndicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(30%, -30%);
+  font-size: 1.5rem;
+  pointer-events: none;
+
+  .icon {
+    opacity: 0;
+    filter: drop-shadow(0 0 0.25rem black);
+
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+
+.actions {
+  position: absolute;
+  bottom: $actionsPaddingStart;
+  right: $actionsPadding;
+  left: $actionsPadding;
+  pointer-events: none;
+  opacity: 0;
+  transition: $transition;
+
+  .action {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorBackground;
+    box-shadow: 0 0 0.5rem rgba(black, 0.5);
+    width: $actionBtnWidth;
+    height: $actionBtnWidth;
+    border-radius: 50%;
+    pointer-events: all;
+    transition: $transition;
+
+    &:disabled {
+      opacity: 0.75;
+    }
+
+    &:hover {
+      background-color: lightgray;
+    }
+
+    &.delete .icon {
+      color: $colorDanger;
+    }
+  }
+
+  .icon {
+    font-size: $actionFontSize;
+  }
+}
+
+.showcaseIcon {
+}

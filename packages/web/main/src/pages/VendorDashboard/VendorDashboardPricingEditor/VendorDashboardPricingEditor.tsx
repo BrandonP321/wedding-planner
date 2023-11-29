@@ -31,8 +31,6 @@ export const VendorDashboardPricingEditor = (
   const handleSubmit: FormikSubmit<PricingEditorValues> = async (values) => {
     const { mainChoices } = values;
 
-    console.log(values);
-
     return await APIFetcher.updateMainChoices({ mainChoices });
   };
 

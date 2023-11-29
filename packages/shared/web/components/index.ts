@@ -30,3 +30,5 @@ export * from "./AttributeEditor";
 export * from "./Container/Container";
 export * from "./FormActions/FormActions";
 export * from "./SpaceBetween";
+export * from "./Header/Header";
+export * from "./ContextMenu/ContextMenu";

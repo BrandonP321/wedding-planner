@@ -20,7 +20,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import {
   VendorDashboardLayout,
   VendorDashboardListingDetails,
-  VendorDashboardMedia,
+  VendorDashboardImages,
   VendorDashboardPricingEditor,
 } from "pages/VendorDashboard";
 
@@ -89,8 +89,8 @@ function App() {
                     element={<VendorDashboardPricingEditor />}
                   />
                   <Route
-                    path={RouteHelper.VendorDashboard.Media()}
-                    element={<VendorDashboardMedia />}
+                    path={RouteHelper.VendorDashboard.Images()}
+                    element={<VendorDashboardImages />}
                   />
                 </Route>
 

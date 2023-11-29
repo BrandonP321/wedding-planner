@@ -27,6 +27,7 @@ export const InputField = ({
   disabled,
   placeholder,
   value,
+  ...rest
 }: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -36,6 +37,7 @@ export const InputField = ({
   return (
     <div className={styles.inputWrapper}>
       <Field
+        {...rest}
         {...context}
         {...(onChange && {
           onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
