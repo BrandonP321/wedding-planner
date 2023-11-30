@@ -86,11 +86,11 @@ const ImageActions = (props: ImagePreviewProps) => {
           </button>
         </div>
       )}
-      <div className={classNames(styles.action)}>
+      {/* <div className={classNames(styles.action)}>
         <button onClick={onShowcaseClick} disabled={disableShowcaseBtn}>
           <StarIcon {...props} />
         </button>
-      </div>
+      </div> */}
       {!!onEditClick && (
         <div className={styles.action}>
           <button onClick={onEditClick}>
