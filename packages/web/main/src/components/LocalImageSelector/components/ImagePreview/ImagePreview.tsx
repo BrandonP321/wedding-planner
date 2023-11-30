@@ -8,7 +8,6 @@ import {
   SpaceBetween,
   SpaceBetweenListItem,
 } from "@wedding-planner/shared/web/components";
-import { ImageForUpload } from "components/LocalImageSelector/LocalImageSelector";
 import {
   faPenToSquare,
   faStar as faStarFilled,
@@ -18,6 +17,7 @@ import {
 import { faStar as faStarOutline } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
+import { ImageForUpload } from "components/LocalImageSelector/imageSelectorHelpers";
 
 export type ImagePreviewProps = {
   file: ImageForUpload;

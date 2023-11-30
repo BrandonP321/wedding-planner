@@ -4,8 +4,10 @@ import { DefaultAPIError } from "../requestErrors";
 export namespace AssociateVendorTempAssetsRequest {
   export type ReqBody = {
     assets: {
+      /** Object key in AWS S3 */
       objectKey: string;
-      order: number;
+      showcaseOrder: number | null;
+      isInShowcase: boolean;
     }[];
   };
 

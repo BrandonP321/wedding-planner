@@ -2,13 +2,17 @@ import { CopyObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { s3 } from "../../services";
 import { Controller, S3Utils } from "../../utils";
 import { AssociateVendorTempAssetsRequest } from "@wedding-planner/shared/api/requests/s3/associateVendorTempAssets.request";
-import db from "../../models";
+import db, { sequelize } from "../../models";
 import { last } from "lodash";
+import { AuthedVendorResLocals } from "../../middleware/GetAuthedVendor.middleware";
+import { Op, Transaction } from "sequelize";
+
+type ReqBody = AssociateVendorTempAssetsRequest.ReqBody;
 
 const controller = new Controller<
-  AssociateVendorTempAssetsRequest.ReqBody,
+  ReqBody,
   AssociateVendorTempAssetsRequest.ResBody,
-  {},
+  AuthedVendorResLocals,
   typeof AssociateVendorTempAssetsRequest.Errors
 >(AssociateVendorTempAssetsRequest.Errors);
 
@@ -19,63 +23,110 @@ const controller = new Controller<
 export const AssociateVendorTempAssetsController = controller.handler(
   async (req, res, errors) => {
     const { assets } = req.body;
+    const { vendorId } = res.locals;
 
-    const tempVendorId = 1;
+    // Find all existing assets for this vendor, these will be deleted
+    const imagesToDelete = await db.VendorImageAsset.findAll({
+      where: { vendorId },
+    });
 
-    // Copy objects to new key without 'temp/' prefix
-    const copiedAssets = await Promise.all(
-      assets.map(async ({ objectKey: tempObjectKey, order }, i) => {
-        try {
-          const encodedTempObjectKey = encodeURIComponent(tempObjectKey);
-          const newObjectKey = S3Utils.removeObjectKeyTempPrefix(tempObjectKey);
+    const idsToDelete = imagesToDelete.map((i) => i.dataValues.id);
 
-          const copyCommand = new CopyObjectCommand({
-            Bucket: S3Utils.assetsBucket,
-            CopySource: `${S3Utils.assetsBucket}/${encodedTempObjectKey}`,
-            Key: newObjectKey,
-          });
+    await sequelize.transaction(async (transaction) => {
+      // Bulk create assets in DB with isLive set to false
+      await db.VendorImageAsset.bulkCreate(
+        assets?.map((a, i) => {
+          const newObjectKey = S3Utils.removeObjectKeyTempPrefix(a.objectKey);
 
-          await s3.send(copyCommand);
-
-          // Create image asset in DB that is associated with its vendor
-          await db.VendorImageAsset.create({
-            vendorId: tempVendorId,
-            s3Bucket: S3Utils.assetsBucket,
-            isShowcaseImage: false,
+          return {
+            isLive: false,
+            isShowcaseImage: a.isInShowcase,
             name: last(newObjectKey.split("/")) ?? "",
-            order,
+            order: i + 1,
+            s3Bucket: S3Utils.assetsBucket,
             s3ObjectKey: newObjectKey,
-            showcaseOrder: null,
-          });
+            vendorId,
+            showcaseOrder: a.showcaseOrder,
+          };
+        }),
+        { transaction }
+      );
 
-          return { objectKey: tempObjectKey, successful: true };
-        } catch (err) {
-          console.error(err);
-          return { objectKey: tempObjectKey, successful: false };
-        }
-      })
-    );
+      // Copy objects to new key without 'temp/' prefix
+      await copyObjectsToNewKeys(assets.map(({ objectKey }) => objectKey));
+
+      // Bulk delete old assets and mark new assets as live
+      await Promise.all([
+        markAssetsAsLive(idsToDelete, transaction),
+        db.VendorImageAsset.destroy({
+          where: { id: { [Op.in]: idsToDelete } },
+          transaction,
+        }),
+      ]);
+    });
 
     // Delete old temp objects asynchonously.  We don't care if this
     // fails since lifecycle rules will delete them eventually.
-    Promise.all(
-      assets.map(async ({ objectKey }) => {
-        const command = new DeleteObjectCommand({
-          Bucket: S3Utils.assetsBucket,
-          Key: objectKey,
-        });
+    try {
+      const tempAssetObjectKeys = assets.map(({ objectKey }) => objectKey);
+      const oldAssetObjectKeys = imagesToDelete.map(
+        (img) => img.dataValues.s3ObjectKey
+      );
 
-        await s3.send(command);
-      })
-    ).catch((err) => {
-      // TODO: Log this error
-      console.error(err);
-    });
+      deleteOldObjects([...tempAssetObjectKeys, ...oldAssetObjectKeys]);
+    } catch (err) {
+      // TODO: Log this error so we can identify if it's a problem
+      // noop
+    }
 
     return res
       .json({
-        unsuccessfulAssociations: copiedAssets.filter((a) => !a.successful),
+        // TODO: Decide if this is worth keeping
+        unsuccessfulAssociations: [],
       })
       .end();
   }
 );
+
+const copyObjectsToNewKeys = async (objectKeys: string[]) => {
+  await Promise.all(
+    objectKeys.map(async (tempObjectKey) => {
+      const encodedTempObjectKey = encodeURIComponent(tempObjectKey);
+      const newObjectKey = S3Utils.removeObjectKeyTempPrefix(tempObjectKey);
+
+      const copyCommand = new CopyObjectCommand({
+        Bucket: S3Utils.assetsBucket,
+        CopySource: `${S3Utils.assetsBucket}/${encodedTempObjectKey}`,
+        Key: newObjectKey,
+      });
+
+      await s3.send(copyCommand);
+    })
+  );
+};
+
+const markAssetsAsLive = async (
+  idsBeingDeleted: number[],
+  transaction: Transaction
+) => {
+  await db.VendorImageAsset.update(
+    { isLive: true },
+    { where: { id: { [Op.notIn]: idsBeingDeleted } }, transaction }
+  );
+};
+
+const deleteOldObjects = (objectKeys: string[]) => {
+  Promise.all(
+    objectKeys.map(async (Key) => {
+      const command = new DeleteObjectCommand({
+        Bucket: S3Utils.assetsBucket,
+        Key,
+      });
+
+      await s3.send(command);
+    })
+  ).catch((err) => {
+    // TODO: Log this error
+    console.error(err);
+  });
+};

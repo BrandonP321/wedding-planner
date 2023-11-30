@@ -39,7 +39,10 @@ export class ImageCompressionUtils {
         image.src = URL.createObjectURL(img);
 
         // Wait for image to load
-        await new Promise((resolve) => (image.onload = resolve));
+        await new Promise((resolve, reject) => {
+          image.onload = resolve;
+          image.onerror = reject;
+        });
 
         // TODO: Only resize images if resolution is greater than 1920x1080
         // Resize image to 1920x1080

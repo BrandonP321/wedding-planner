@@ -9,7 +9,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactCrop, { Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import styles from "./ImageCropModal.module.scss";
 import "react-image-crop/dist/ReactCrop.css";
-import { ImageForUpload } from "components/LocalImageSelector/LocalImageSelector";
+import { ImageForUpload } from "components/LocalImageSelector/imageSelectorHelpers";
 
 export type ImageCropModalProps = {
   file: ImageForUpload | null;

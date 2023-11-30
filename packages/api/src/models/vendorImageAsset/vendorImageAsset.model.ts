@@ -21,10 +21,18 @@ export default class VendorImageAsset extends BaseModel<
   VendorImageAssetModel.Base
 > {
   public static includedAttributes: VendorImageAssetModel.IncludedAttributes[] =
-    ["id", "order", "s3Bucket", "s3ObjectKey"];
+    [
+      "id",
+      "order",
+      "s3Bucket",
+      "s3ObjectKey",
+      "name",
+      "isShowcaseImage",
+      "showcaseOrder",
+    ];
 
   public static showcaseIncludedAttributes: VendorImageAssetModel.ShowcaseIncludedAttributes[] =
-    ["id", "s3Bucket", "s3ObjectKey", "showcaseOrder"];
+    ["id", "s3Bucket", "s3ObjectKey", "showcaseOrder", "name"];
 
   public static includable: IncludeOptions = {
     model: VendorImageAsset,
@@ -67,6 +75,10 @@ export const tempVendorImageAssetInit = (sequelize: Sequelize) =>
           key: DefaultModel.Field.ID,
         },
       },
+      isLive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       isShowcaseImage: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -87,5 +99,6 @@ export const tempVendorImageAssetInit = (sequelize: Sequelize) =>
       sequelize,
       modelName: VendorImageAssetModel.Name,
       tableName: VendorImageAssetModel.Name,
+      indexes: [{ fields: ["vendorId"] }],
     }
   );

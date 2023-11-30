@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./LocalImageSelector.module.scss";
 import { ImageCropModal } from "components/ImageCropModal/ImageCropModal";
 import {
@@ -11,20 +11,15 @@ import {
   ArrayUtils,
 } from "@wedding-planner/shared";
 import { useDropzone } from "react-dropzone";
-import { APIFetcher, ImageCompressionUtils } from "utils";
-import { Crop } from "react-image-crop";
-import axios from "axios";
 import { ImagePreview } from "./components/ImagePreview/ImagePreview";
 import { MoveImageModal } from "./components/MoveImageModal/MoveImageModal";
-
-export type ImageForUpload = File & {
-  original: string;
-  preview: string;
-  crop?: Crop;
-  final?: File;
-  showcaseOrder?: number;
-  isInShowcase?: boolean;
-};
+import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
+import {
+  ImageForUpload,
+  getFileObjectsFromImages,
+  getSortedShowcaseImages,
+  uploadImages,
+} from "./imageSelectorHelpers";
 
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -35,6 +30,8 @@ const maxShowcaseImages = 5;
 export type LocalImageSelectorProps = {};
 
 export const LocalImageSelector = (props: LocalImageSelectorProps) => {
+  const { listing } = useAuthedVendorListing();
+
   const [files, setFiles] = useState<ImageForUpload[]>([]);
   const [showCropModal, setShowCropModal] = useState(false);
   const [showMoveImageModal, setShowMoveImageModal] = useState(false);
@@ -44,6 +41,16 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
+
+  useEffect(() => {
+    const listingImages = listing?.images;
+
+    if (listingImages?.length) {
+      getFileObjectsFromImages(listingImages).then((images) => {
+        setFiles(images);
+      });
+    }
+  }, []);
 
   const selectedImage = useMemo(
     () => (selectedImageIndex !== null ? files[selectedImageIndex] : null),
@@ -73,50 +80,6 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     },
   });
 
-  const uploadImages = async () => {
-    const startTime = Date.now();
-
-    // Comrpess images
-    const images = await ImageCompressionUtils.compressImages(
-      // TODO: Ensure all images have been cropped to 1920x1080 before reaching this point
-      files.map((f) => f.final ?? f)
-    );
-
-    const compressionEndTime = Date.now();
-
-    // Get unique S3 signed URLs for each image
-    const { signedURLs } = await APIFetcher.getVendorImageUploadPresignedUrl({
-      imageNames: images.map((img) => img.name),
-    });
-
-    console.log(`Compression time: ${compressionEndTime - startTime}ms`);
-
-    // Upload all images to S3
-    await Promise.all(
-      signedURLs.map(async ({ signedUrl }, i) => {
-        const image = images[i];
-
-        await axios.put(signedUrl, image, {
-          headers: {
-            "Content-Type": image.type,
-          },
-        });
-      })
-    );
-
-    const endTime = Date.now();
-    console.log(`Upload time: ${endTime - startTime}ms`);
-
-    console.log("all images uploaded");
-
-    await APIFetcher.associateVendorTempAssets({
-      assets: signedURLs.map(({ objectKey }, i) => ({ objectKey, order: i })),
-    });
-
-    const endTime2 = Date.now();
-    console.log(`Total time: ${endTime2 - startTime}ms`);
-  };
-
   const updateImages = (cb: (images: ImageForUpload[]) => void) => {
     const newImages = [...files];
     cb(newImages);
@@ -130,11 +93,6 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
   const removeImage = (index: number) => {
     updateImages((images) => images.splice(index, 1));
   };
-
-  const getSortedShowcaseImages = (images: ImageForUpload[]) =>
-    images
-      .filter((i) => i.isInShowcase)
-      .sort((a, b) => (a.showcaseOrder ?? 0) - (b.showcaseOrder ?? 0));
 
   const removeShowcaseImage = (index: number) => {
     updateImages((images) => {
@@ -264,7 +222,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
       </SpaceBetween>
 
       <SpaceBetween justify="end">
-        <Button variant="primary" onClick={uploadImages}>
+        <Button variant="primary" onClick={() => uploadImages(files)}>
           Publish changes
         </Button>
       </SpaceBetween>
