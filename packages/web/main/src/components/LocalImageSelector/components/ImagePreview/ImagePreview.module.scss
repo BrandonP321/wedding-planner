@@ -16,7 +16,6 @@ $actionFontSize: 1.25rem;
 }
 
 .thumbWrapper {
-  cursor: grab;
   position: relative;
   width: 100%;
 }
@@ -58,29 +57,44 @@ $actionFontSize: 1.25rem;
   opacity: 0;
   transition: $transition;
 
+  @include mobileVW() {
+    bottom: $actionsPadding;
+    opacity: 1;
+  }
+
   .action {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $colorBackground;
-    box-shadow: 0 0 0.5rem rgba(black, 0.5);
-    width: $actionBtnWidth;
-    height: $actionBtnWidth;
-    border-radius: 50%;
     pointer-events: all;
     transition: $transition;
 
-    &:disabled {
-      opacity: 0.75;
-    }
+    > button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: $actionBtnWidth;
+      height: $actionBtnWidth;
+      border-radius: 50%;
+      background-color: $colorBackground;
+      box-shadow: 0 0 0.5rem rgba(black, 0.5);
+      transition: $transition;
 
-    &:hover {
-      background-color: lightgray;
+      &:disabled {
+        opacity: 0.75;
+      }
+
+      &:hover {
+        background-color: lightgray;
+      }
     }
 
     &.delete .icon {
       color: $colorDanger;
+    }
+
+    @include mobileVW() {
+      &:not(.moreOptions) {
+        display: none;
+      }
     }
   }
 

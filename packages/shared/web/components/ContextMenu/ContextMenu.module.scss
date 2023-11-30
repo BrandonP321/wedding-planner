@@ -41,7 +41,15 @@ $menuBgColor: $colorBackground;
   width: 100%;
   white-space: nowrap;
 
+  @include mobileVW() {
+    padding: $sizeS $sizeM;
+  }
+
   &:hover {
     background-color: gray;
   }
+}
+
+.modal {
+  padding: 0 !important;
 }

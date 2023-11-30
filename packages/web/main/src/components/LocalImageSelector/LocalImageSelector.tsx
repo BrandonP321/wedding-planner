@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./LocalImageSelector.module.scss";
 import { ImageCropModal } from "components/ImageCropModal/ImageCropModal";
 import {
@@ -8,39 +8,46 @@ import {
   Header,
   Alert,
   Container,
-  ArrayUtils,
+  VendorMediaUtils,
 } from "@wedding-planner/shared";
-import { useDropzone } from "react-dropzone";
 import { ImagePreview } from "./components/ImagePreview/ImagePreview";
 import { MoveImageModal } from "./components/MoveImageModal/MoveImageModal";
 import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
-import {
-  ImageForUpload,
-  getFileObjectsFromImages,
-  getSortedShowcaseImages,
-  uploadImages,
-} from "./imageSelectorHelpers";
+import { getFileObjectsFromImages, uploadImages } from "./imageSelectorHelpers";
+import { useLocalImageSelector } from "./LocalImageSelectorProvider";
+import { ImageDragNDrop } from "./components/ImageDragNDrop/ImageDragNDrop";
+
+const maxImages = VendorMediaUtils.maxImages;
+const maxShowcaseImages = VendorMediaUtils.maxShowcaseImages;
 
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
-const maxImages = 100;
-const maxShowcaseImages = 5;
 
 export type LocalImageSelectorProps = {};
 
 export const LocalImageSelector = (props: LocalImageSelectorProps) => {
   const { listing } = useAuthedVendorListing();
-
-  const [files, setFiles] = useState<ImageForUpload[]>([]);
-  const [showCropModal, setShowCropModal] = useState(false);
-  const [showMoveImageModal, setShowMoveImageModal] = useState(false);
-  const [showMoveShowcaseImageModal, setShowMoveShowcaseImageModal] =
-    useState(false);
-  const imageToMoveIndex = useRef<number>(-1);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
-    null
-  );
+  const {
+    files,
+    setFiles,
+    selectedImageIndex,
+    selectedImage,
+    showcaseImages,
+    setShowMoveImageModal,
+    setShowCropModal,
+    setShowMoveShowcaseImageModal,
+    imageToMoveIndex,
+    removeShowcaseImage,
+    removeImage,
+    setSelectedImageIndex,
+    updateImage,
+    canAddShowcaseImage,
+    showCropModal,
+    showMoveImageModal,
+    moveImage,
+    showMoveShowcaseImageModal,
+    moveShowcaseImage,
+  } = useLocalImageSelector();
 
   useEffect(() => {
     const listingImages = listing?.images;
@@ -52,96 +59,9 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     }
   }, []);
 
-  const selectedImage = useMemo(
-    () => (selectedImageIndex !== null ? files[selectedImageIndex] : null),
-    [selectedImageIndex, files]
-  );
-
-  const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: Math.max(maxImages - files.length, 0),
-    disabled: files.length >= maxImages,
-    onDropRejected: (rejectedFiles) => {
-      const isMaxFilesError = files.length + rejectedFiles.length > maxImages;
-
-      if (isMaxFilesError) {
-        alert(`You can only upload ${maxImages} images`);
-      }
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles([
-        ...files,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-            original: URL.createObjectURL(file),
-          })
-        ),
-      ]);
-    },
-  });
-
-  const updateImages = (cb: (images: ImageForUpload[]) => void) => {
-    const newImages = [...files];
-    cb(newImages);
-    setFiles(newImages);
-  };
-
-  const updateImage = (index: number, cb: (img: ImageForUpload) => void) => {
-    updateImages((images) => cb(images[index]));
-  };
-
-  const removeImage = (index: number) => {
-    updateImages((images) => images.splice(index, 1));
-  };
-
-  const removeShowcaseImage = (index: number) => {
-    updateImages((images) => {
-      images[index].isInShowcase = false;
-      images[index].showcaseOrder = undefined;
-
-      const showcaseImages = getSortedShowcaseImages(images);
-
-      showcaseImages.forEach((img, i) => {
-        img.showcaseOrder = i + 1;
-      });
-    });
-  };
-
-  const moveImage = (from: number, to: number) => {
-    updateImages((images) => {
-      ArrayUtils.move(images, from, to);
-    });
-  };
-
-  const moveShowcaseImage = (from: number, to: number) => {
-    updateImages((images) => {
-      const showcaseImages = getSortedShowcaseImages(images);
-
-      ArrayUtils.move(showcaseImages, from, to);
-
-      showcaseImages.forEach((img, i) => {
-        img.showcaseOrder = i + 1;
-      });
-    });
-  };
-
-  const showcaseImages = useMemo(
-    () =>
-      files
-        .filter((f) => f.isInShowcase)
-        .map((f) => ({ ...f, index: files.indexOf(f) }))
-        .sort((a, b) => (a.showcaseOrder ?? 0) - (b.showcaseOrder ?? 0)),
-    [files]
-  );
-
-  const canAddShowcaseImage = showcaseImages.length < maxShowcaseImages;
-
   return (
     <SpaceBetween size="xxl" vertical stretch stretchChildren>
-      <div {...getRootProps({ className: styles.dropArea })}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select some files</p>
-      </div>
+      <ImageDragNDrop />
 
       <Container
         header={
@@ -161,11 +81,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
           </Alert>
         )}
 
-        <ListSpaceBetween
-          itemsPerRow={4}
-          classes={{ root: styles.previewThumbs }}
-          stretch
-        >
+        <ImagesList>
           {showcaseImages.map((file, i) => (
             <ImagePreview
               key={file.name}
@@ -180,7 +96,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
               onShowcaseClick={() => removeShowcaseImage(file.index)}
             />
           ))}
-        </ListSpaceBetween>
+        </ImagesList>
       </Container>
 
       <SpaceBetween vertical stretchChildren>
@@ -190,10 +106,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
           description={lorem}
         />
 
-        <ListSpaceBetween
-          itemsPerRow={4}
-          classes={{ root: styles.previewThumbs }}
-        >
+        <ImagesList>
           {files.map((file, i) => (
             <ImagePreview
               key={i}
@@ -218,7 +131,7 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
               }
             />
           ))}
-        </ListSpaceBetween>
+        </ImagesList>
       </SpaceBetween>
 
       <SpaceBetween justify="end">
@@ -273,3 +186,22 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     </SpaceBetween>
   );
 };
+
+function ImagesList(props: React.PropsWithChildren) {
+  const { children } = props;
+
+  return (
+    <ListSpaceBetween
+      itemsPerRow={4}
+      responsiveItemsPerRow={{
+        large: 3,
+        medium: 2,
+        tiny: 1,
+      }}
+      classes={{ root: styles.previewThumbs }}
+      stretch
+    >
+      {children}
+    </ListSpaceBetween>
+  );
+}

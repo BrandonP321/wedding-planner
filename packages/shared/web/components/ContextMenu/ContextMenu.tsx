@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import styles from "./ContextMenu.module.scss";
 import { ClassesProp } from "../../utils";
 import classNames from "classnames";
+import { useResponsive } from "../../store";
+import { Modal } from "../Modal/Modal";
 
 export type ContextMenuOption = {
   label: string;
@@ -9,6 +11,7 @@ export type ContextMenuOption = {
 };
 
 export type ContextMenuProps = {
+  title: string;
   show: boolean;
   hide: () => void;
   options: ContextMenuOption[];
@@ -16,6 +19,17 @@ export type ContextMenuProps = {
 };
 
 export const ContextMenu = (props: ContextMenuProps) => {
+  const { mobile } = useResponsive();
+
+  return (
+    <>
+      {!mobile && <ContextMenuPopover {...props} />}
+      {mobile && <ContextMenuModal {...props} />}
+    </>
+  );
+};
+
+const ContextMenuPopover = (props: ContextMenuProps) => {
   const { options, show, classes, hide } = props;
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -54,5 +68,24 @@ export const ContextMenu = (props: ContextMenuProps) => {
         </button>
       ))}
     </div>
+  );
+};
+
+const ContextMenuModal = (props: ContextMenuProps) => {
+  const { show, hide, options, title } = props;
+
+  return (
+    <Modal
+      title={title}
+      show={show}
+      toggleShow={hide}
+      classes={{ childrenWrapper: styles.modal }}
+    >
+      {options.map((option, i) => (
+        <button key={i} className={styles.option} onClick={option.onClick}>
+          {option.label}
+        </button>
+      ))}
+    </Modal>
   );
 };

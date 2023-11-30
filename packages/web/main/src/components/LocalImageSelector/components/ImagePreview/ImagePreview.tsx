@@ -77,42 +77,45 @@ const ImageActions = (props: ImagePreviewProps) => {
       justify="end"
     >
       {!!onDeleteClick && (
-        <button
-          onClick={onDeleteClick}
-          className={classNames(styles.action, styles.delete)}
-        >
-          <FontAwesomeIcon
-            icon={faTrash}
-            className={classNames(styles.icon, styles.delete)}
-          />
-        </button>
+        <div className={classNames(styles.action, styles.delete)}>
+          <button onClick={onDeleteClick}>
+            <FontAwesomeIcon
+              icon={faTrash}
+              className={classNames(styles.icon, styles.delete)}
+            />
+          </button>
+        </div>
       )}
-      <button
-        onClick={onShowcaseClick}
-        className={classNames(styles.action)}
-        disabled={disableShowcaseBtn}
-      >
-        <StarIcon {...props} />
-      </button>
-      {!!onEditClick && (
-        <button onClick={onEditClick} className={styles.action}>
-          <FontAwesomeIcon icon={faPenToSquare} className={styles.icon} />
+      <div className={classNames(styles.action)}>
+        <button onClick={onShowcaseClick} disabled={disableShowcaseBtn}>
+          <StarIcon {...props} />
         </button>
+      </div>
+      {!!onEditClick && (
+        <div className={styles.action}>
+          <button onClick={onEditClick}>
+            <FontAwesomeIcon icon={faPenToSquare} className={styles.icon} />
+          </button>
+        </div>
       )}
       {!hideMoreOptions && (
-        <button
-          onClick={() =>
-            requestAnimationFrame(() => setShowContextMenu(!showContextMenu))
-          }
-          className={classNames(styles.action, styles.moreOptions)}
-        >
-          <FontAwesomeIcon icon={faEllipsisVertical} className={styles.icon} />
+        <div className={classNames(styles.action, styles.moreOptions)}>
+          <button
+            onClick={() =>
+              requestAnimationFrame(() => setShowContextMenu(!showContextMenu))
+            }
+          >
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              className={styles.icon}
+            />
+          </button>
           <ImageContextMenu
             {...props}
             show={showContextMenu}
             hide={() => setShowContextMenu(false)}
           />
-        </button>
+        </div>
       )}
     </SpaceBetween>
   );
@@ -134,6 +137,7 @@ const ImageContextMenu = (
 
   return (
     <ContextMenu
+      title="Image options"
       show={show}
       hide={hide}
       options={[

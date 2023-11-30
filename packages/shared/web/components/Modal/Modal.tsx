@@ -10,7 +10,9 @@ import { PageContent } from "../PageContent/PageContent";
 export type ModalProps = React.PropsWithChildren<{
   show: boolean;
   toggleShow: () => void;
-  classes?: ClassesProp<"root" | "overaly" | "content" | "exitIcon" | "header">;
+  classes?: ClassesProp<
+    "root" | "overaly" | "content" | "exitIcon" | "header" | "childrenWrapper"
+  >;
   title?: React.ReactNode;
   footer?: JSX.Element;
   fullSize?: boolean;
@@ -55,7 +57,12 @@ export const Modal = ({
           </button>
         </SpaceBetween>
         <div className={styles.children}>
-          <PageContent verticalPadding horizontalPadding stretch={fullSize}>
+          <PageContent
+            classes={{ root: classes?.childrenWrapper }}
+            verticalPadding
+            horizontalPadding
+            stretch={fullSize}
+          >
             {children}
           </PageContent>
         </div>
