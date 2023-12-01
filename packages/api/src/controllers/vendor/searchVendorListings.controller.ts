@@ -70,11 +70,13 @@ JOIN
 JOIN 
   (${attributeFilterSubQuery}) AS "FilteredMainChoices" ON "mainChoice"."id" = "FilteredMainChoices"."mainChoiceId"
 WHERE
-  ST_DWithin(
-    "vendor"."locationGeometry",
-    ST_GeomFromText('POINT(${lng} ${lat})', 4326),
-    ${locationGeographyUtils.milesToMeters(clampedSearchRadius)}
-  )
+ST_DWithin(
+  "vendor"."locationGeometry",
+  ST_GeomFromText('POINT(${lng} ${lat})', 4326),
+  ("vendor"."serviceableRadius" + ${locationGeographyUtils.milesToMeters(
+    clampedSearchRadius
+  )})
+)
 GROUP BY 
   "vendor"."id"
 HAVING 

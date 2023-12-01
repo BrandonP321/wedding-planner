@@ -16,6 +16,7 @@ export const UpdateVendorListingController = controller.handler(
     const { vendor, location: tempLocation } = req.body;
     const { ownerId, vendorId, vendor: vendorToUpdate } = res.locals;
 
+    // Temp location for Seattle
     const location: [number, number] = [-122.3328481, 47.6061389];
 
     await sequelize.transaction(async (transaction) => {

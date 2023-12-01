@@ -6,6 +6,7 @@ import {
   FormUtils,
   FormikSubmit,
   InputField,
+  NumberInput,
   PageContent,
   SpaceBetween,
   SubmitButton,
@@ -26,6 +27,10 @@ enum Field {
   CITY = "city",
 }
 
+enum NumberField {
+  SERVICEABLE_RADIUS = "serviceableRadius",
+}
+
 export type LinkValue = { name: string; url: string };
 export type SocialLinkValue = {
   platform?: SocialMediaPlatform;
@@ -36,6 +41,7 @@ export const LinksFieldName = "links";
 export const SocialsFieldName = "socials";
 
 export type Values = Record<Field, string> &
+  Record<NumberField, number> &
   Record<SocialMediaPlatform, string> & {
     [LinksFieldName]: LinkValue[];
     [SocialsFieldName]: SocialLinkValue[];
@@ -108,6 +114,7 @@ export const VendorDashboardListingDetails = (
       city: listing?.city ?? "",
       links,
       socials,
+      serviceableRadius: listing?.serviceableRadius ?? 0,
       ...FormUtils.getEmptyTextFieldsFromEnum(SocialMediaPlatform),
     };
   }, [listing]);
@@ -138,6 +145,13 @@ export const VendorDashboardListingDetails = (
 
                     <FormField name={Field.CITY} label="City">
                       <InputField autoComplete={false} placeholder="City" />
+                    </FormField>
+
+                    <FormField
+                      name={NumberField.SERVICEABLE_RADIUS}
+                      label="Serviceable radius"
+                    >
+                      <NumberInput min={0} />
                     </FormField>
                   </SpaceBetween>
                 </Container>

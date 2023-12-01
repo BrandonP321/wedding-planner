@@ -14,6 +14,8 @@ export namespace VendorModel {
     city: string;
     /** ID of vendor account that owns this listing */
     ownerId: number;
+    /** Distance in meters that the vendor is willing to travel */
+    serviceableRadius: number;
     locationGeometry: {
       type: "Point";
       coordinates: [number, number];
@@ -25,7 +27,7 @@ export namespace VendorModel {
 
   export type IncludedAttributes = KeyOf<
     Attributes,
-    "city" | "id" | "description" | "name" | "ownerId"
+    "city" | "id" | "description" | "name" | "ownerId" | "serviceableRadius"
   >;
 
   export type PopulatedCreationAttributes = {

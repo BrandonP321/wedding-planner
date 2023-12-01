@@ -3,6 +3,7 @@ import db from "../models";
 import { VendorModel } from "@wedding-planner/shared/api/models/vendor";
 import { LinkModel } from "@wedding-planner/shared/api/models/Link";
 import { Transaction } from "sequelize";
+import { locationGeographyUtils } from "./LocationGeographyUtils";
 
 export class VendorUtils {
   public static getVendorCreationOrUpdateParams = (
@@ -14,6 +15,9 @@ export class VendorUtils {
     name: vendor.name,
     description: vendor.description,
     city: vendor.city,
+    serviceableRadius: Math.round(
+      locationGeographyUtils.milesToMeters(vendor.serviceableRadius)
+    ),
     locationGeometry: {
       type: "Point",
       coordinates: location,

@@ -7,6 +7,7 @@ import { VendorAccountModel } from "@wedding-planner/shared/api/models/vendorAcc
 import MainChoice from "../mainChoice/mainChoice.model";
 import VendorImageAsset from "../vendorImageAsset/vendorImageAsset.model";
 import Link from "../link/link.model";
+import { locationGeographyUtils } from "../../utils";
 
 export default class Vendor extends BaseModel<
   VendorModel.Attributes,
@@ -18,6 +19,7 @@ export default class Vendor extends BaseModel<
     "id",
     "name",
     "ownerId",
+    "serviceableRadius",
   ];
 
   public static defaultFindOptions: FindOptions<VendorModel.Attributes> = {
@@ -38,7 +40,13 @@ export default class Vendor extends BaseModel<
     db.Vendor.findOne({ ...this.defaultFindOptions, where: { ownerId } });
 
   public toPopulatedJSON = (): VendorModel.APIResponse.Populated => {
-    return this.toJSON() as any;
+    const json: VendorModel.APIResponse.Populated = this.toJSON() as any;
+
+    json.serviceableRadius = Math.round(
+      locationGeographyUtils.metersToMiles(json.serviceableRadius)
+    );
+
+    return json;
   };
 
   public validateOwnership = (ownerId: number) => {
@@ -53,6 +61,10 @@ export const tempVendorInit = (sequelize: Sequelize) =>
       name: DataTypes.STRING,
       city: DataTypes.STRING,
       description: DataTypes.STRING,
+      serviceableRadius: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       ownerId: {
         type: DataTypes.INTEGER,
         references: {
