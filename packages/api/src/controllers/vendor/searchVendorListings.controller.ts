@@ -1,8 +1,7 @@
 import { Controller } from "../../utils/ControllerUtils";
 import { SearchVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/searchVendorListings.request";
 import db, { sequelize } from "../../models";
-import { DataTypes, QueryTypes, Sequelize } from "sequelize";
-import MainChoice from "../../models/mainChoice/mainChoice.model";
+import { QueryTypes } from "sequelize";
 import { MapsAPIFetcher, locationGeographyUtils } from "../../utils";
 
 const controller = new Controller<
@@ -23,23 +22,24 @@ FROM (
 GROUP BY "mainChoiceId"
 `;
 
-// const rawQuery = `
-// SELECT
-//   "vendor"."id",
-//   "vendor"."name",
-//   SUM("MinChoicePrices"."total_min_price") AS "TotalMinPrice"
-// FROM
-//   "vendor"
-// JOIN
-//   "mainChoice" ON "vendor"."id" = "mainChoice"."vendorId"
-// JOIN
-//   (${minPriceSubQuery}) AS "MinChoicePrices" ON "mainChoice"."id" = "MinChoicePrices"."mainChoiceId"
-// GROUP BY
-//   "vendor"."id"
-// HAVING
-//   SUM("MinChoicePrices"."total_min_price") <= 5000
-// `;
+const requiredAttributes = [
+  "traditional",
+  "photojournalistic",
+  "artistic",
+  "videography",
+];
 
+const attributeFilterSubQuery = `
+SELECT "mainChoiceId"
+FROM "mainChoiceAttribute"
+WHERE "filterName" IN (${requiredAttributes
+  .map((attr) => `'${attr}'`)
+  .join(", ")})
+GROUP BY "mainChoiceId"
+HAVING COUNT(DISTINCT "filterName") = ${requiredAttributes.length}
+`;
+
+// TODO: Add measures to prevent SQL injection with parameterized queries
 export const SearchVendorListingsController = controller.handler(
   async (req, res, errors) => {
     const filters = req.body;
@@ -66,6 +66,8 @@ JOIN
   "mainChoice" ON "vendor"."id" = "mainChoice"."vendorId"
 JOIN 
   (${minPriceSubQuery}) AS "MinChoicePrices" ON "mainChoice"."id" = "MinChoicePrices"."mainChoiceId"
+JOIN 
+  (${attributeFilterSubQuery}) AS "FilteredMainChoices" ON "mainChoice"."id" = "FilteredMainChoices"."mainChoiceId"
 WHERE
   ST_DWithin(
     "vendor"."locationGeometry",
