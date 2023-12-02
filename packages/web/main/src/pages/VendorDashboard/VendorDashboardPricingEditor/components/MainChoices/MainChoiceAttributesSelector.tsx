@@ -9,48 +9,6 @@ import {
 } from "../../PricingHelpers";
 import { vendorMainChoiceAttributesMap } from "@wedding-planner/shared/common/vendors/vendorAttributes";
 
-// TODO: Replace with real data
-// const tempAttributes = [
-//   {
-//     groupLabel: "Photography style",
-//     attributes: [
-//       {
-//         label: "Traditional",
-//         value: "traditional",
-//       },
-//       {
-//         label: "Photojournalistic",
-//         value: "photojournalistic",
-//       },
-//       {
-//         label: "Artistic",
-//         value: "artistic",
-//       },
-//       {
-//         label: "Editorial",
-//         value: "editorial",
-//       },
-//     ],
-//   },
-//   {
-//     groupLabel: "Other",
-//     attributes: [
-//       {
-//         label: "Videography",
-//         value: "videography",
-//       },
-//       {
-//         label: "Drone footage",
-//         value: "drone-footage",
-//       },
-//       {
-//         label: "Wedding album",
-//         value: "wedding-album",
-//       },
-//     ],
-//   },
-// ];
-
 const tempVendorType = "photographer";
 
 type Props = Required<Pick<PricingEditorContextProps, "mainChoiceIndex">>;
