@@ -10,6 +10,8 @@ export type EnumValue<T extends Record<string, string>> = keyof InvertedEnum<
   string
 >;
 
+export type ObjectValues<T> = T[keyof T];
+
 export type SomePartial<T extends {}, PartialFields extends keyof T> = Omit<
   T,
   PartialFields

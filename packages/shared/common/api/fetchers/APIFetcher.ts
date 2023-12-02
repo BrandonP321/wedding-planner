@@ -1,5 +1,7 @@
+import { GetAuthedVendorAccountRequest } from "../../../api/requests/auth/GetAuthedVendorAccount.request";
 import { LoginVendorAccountRequest } from "../../../api/requests/auth/LoginVendorAccount.request";
 import { RegisterVendorAccountRequest } from "../../../api/requests/auth/RegisterVendorAccount.request";
+import { UpdateVendorAccountRequest } from "../../../api/requests/auth/UpdateVendorAccount.request";
 import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCitySuggestions.request";
 import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
@@ -75,6 +77,18 @@ export class APIFetcherInternal extends APIFetcherBase {
   updateMainChoices = (params: UpdateMainChoicesRequest.ReqBody) =>
     this.post<UpdateMainChoicesRequest.ResBody>(
       APIRoute.Vendor.UpdateMainChoices,
+      params
+    );
+
+  getAuthedVendorAccount = () =>
+    this.post<GetAuthedVendorAccountRequest.ResBody>(
+      APIRoute.VendorAuth.GetAuthedAccount,
+      {}
+    );
+
+  updateVendorAccount = (params: UpdateVendorAccountRequest.ReqBody) =>
+    this.post<UpdateVendorAccountRequest.ResBody>(
+      APIRoute.VendorAuth.UpdateAccount,
       params
     );
 }

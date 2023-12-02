@@ -23,6 +23,7 @@ import {
   VendorDashboardImages,
   VendorDashboardPricingEditor,
 } from "pages/VendorDashboard";
+import { VendorDashboardAccount } from "pages/VendorDashboard/VendorDashboardAccount/VendorDashboardAccount";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +92,10 @@ function App() {
                   <Route
                     path={RouteHelper.VendorDashboard.Images()}
                     element={<VendorDashboardImages />}
+                  />
+                  <Route
+                    path={RouteHelper.VendorDashboard.Account()}
+                    element={<VendorDashboardAccount />}
                   />
                 </Route>
 

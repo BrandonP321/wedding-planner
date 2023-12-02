@@ -6,7 +6,7 @@ import {
   notificationsSlice,
   responsiveSlice,
 } from "@wedding-planner/shared/web/store";
-import { vendorSlice } from "./slices";
+import { vendorSlice, vendorAccountSlice } from "./slices";
 import { useDispatch } from "react-redux";
 
 export const store = configureStore({
@@ -15,6 +15,7 @@ export const store = configureStore({
     ...appLayoutSlice.reducer,
     ...notificationsSlice.reducer,
     ...vendorSlice.reducer,
+    ...vendorAccountSlice.reducer,
   },
 });
 

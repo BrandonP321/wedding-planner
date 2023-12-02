@@ -16,6 +16,12 @@
   padding: $sizeXS;
   border: 2px solid black;
   border-radius: $borderRadiusS;
+
+  &:disabled {
+    // TODO: Store disabled bg color in variable
+    background-color: lightgray;
+    color: rgba(0, 0, 0, 0.6);
+  }
 }
 
 .fieldLabel {

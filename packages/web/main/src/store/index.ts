@@ -3,7 +3,7 @@ import {
   NotificationActions,
   ResponsiveActions,
 } from "@wedding-planner/shared/web/store";
-import { vendorSlice } from "./slices";
+import { vendorAccountSlice, vendorSlice } from "./slices";
 
 export * from "./store";
 export * from "./hooks";
@@ -19,4 +19,5 @@ export const Actions = {
   ...AppLayoutActions,
   ...NotificationActions,
   Vendor: vendorSlice.actions,
+  VendorAccount: vendorAccountSlice.actions,
 };

@@ -9,6 +9,7 @@ const links: { href: string; label: string }[] = [
   { href: RouteHelper.VendorDashboard.Listing(), label: "Listing" },
   { href: RouteHelper.VendorDashboard.Pricing(), label: "Pricing" },
   { href: RouteHelper.VendorDashboard.Images(), label: "Images" },
+  { href: RouteHelper.VendorDashboard.Account(), label: "Account" },
 ];
 
 export type VendorDashboardSideNavProps = {};
