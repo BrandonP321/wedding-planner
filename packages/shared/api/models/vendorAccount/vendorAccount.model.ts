@@ -18,7 +18,16 @@ export namespace VendorAccountModel {
 
   export type Attributes = Base & DefaultModel.Attributes;
 
-  export type IncludedAttributes = KeyOf<Attributes, keyof Attributes>;
+  export type IncludedAttributes = KeyOf<
+    Attributes,
+    | "businessName"
+    | "createdAt"
+    | "email"
+    | "fullName"
+    | "id"
+    | "phoneNumber"
+    | "updatedAt"
+  >;
 
   export type CreationOrUpdateParams = Pick<Attributes, IncludedAttributes> & {
     id?: number;

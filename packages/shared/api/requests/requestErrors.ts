@@ -6,6 +6,7 @@ export namespace DefaultAPIError {
     NotAuthenticated: "NotAuthenticated",
     NetworkError: "NetworkError",
     VendorNotFound: "VendorNotFound",
+    VendorAccountNotFound: "VendorAccountNotFound",
     UnauthorizedAccess: "UnauthorizedAccess",
   } as const;
 
@@ -28,6 +29,11 @@ export namespace DefaultAPIError {
     VendorNotFound: {
       code: Codes.VendorNotFound,
       msg: "Vendor not found",
+      statusCode: 404,
+    },
+    VendorAccountNotFound: {
+      code: Codes.VendorAccountNotFound,
+      msg: "Vendor account not found",
       statusCode: 404,
     },
     UnauthorizedAccess: {

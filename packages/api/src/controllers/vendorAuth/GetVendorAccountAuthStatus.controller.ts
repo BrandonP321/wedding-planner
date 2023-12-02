@@ -1,5 +1,5 @@
 import { Controller } from "../../utils/ControllerUtils";
-import { JWTResLocals, JWTUtils } from "../../utils";
+import { JWTResLocals } from "../../utils";
 import { DefaultAPIError } from "@wedding-planner/shared/api/requests/requestErrors";
 
 type ReqBody = {};

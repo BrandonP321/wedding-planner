@@ -5,9 +5,10 @@ import {
   UpdateVendorAccountController,
 } from "../controllers/vendorAuth";
 import { APIRoute } from "@wedding-planner/shared/common/api/routes";
-import { VendorAuth } from "../middleware";
+import { GetAuthedVendorAccountMiddleware, VendorAuth } from "../middleware";
 import { LoginVendorAccountController } from "../controllers/vendorAuth/LoginVendorAccount.controller";
 import { SignoutVendorAccountController } from "../controllers/vendorAuth/SignoutVendorAccount.controller";
+import { GetAuthedVendorAccountController } from "../controllers/vendorAuth/GetAuthedVendorAccount.controller";
 
 const router = express.Router();
 
@@ -27,7 +28,15 @@ router.post(
 router.post(
   APIRoute.VendorAuth.UpdateAccount,
   VendorAuth,
+  GetAuthedVendorAccountMiddleware,
   UpdateVendorAccountController
+);
+// Get authed account
+router.post(
+  APIRoute.VendorAuth.GetAuthedAccount,
+  VendorAuth,
+  GetAuthedVendorAccountMiddleware,
+  GetAuthedVendorAccountController
 );
 
 export const vendorAuthRouter = router;

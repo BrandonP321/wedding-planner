@@ -18,13 +18,24 @@ export default class VendorAccount extends Model<
     "email",
     "fullName",
     // "jwtHash",
-    "password",
     "phoneNumber",
     "updatedAt",
   ];
 
   public validatePassword(password: string) {
     return bcrypt.compare(password, this.dataValues.password);
+  }
+
+  public toJSON(): VendorAccountModel.Response {
+    return {
+      id: this.dataValues.id,
+      email: this.dataValues.email,
+      fullName: this.dataValues.fullName,
+      businessName: this.dataValues.businessName,
+      phoneNumber: this.dataValues.phoneNumber,
+      createdAt: this.dataValues.createdAt,
+      updatedAt: this.dataValues.updatedAt,
+    };
   }
 }
 

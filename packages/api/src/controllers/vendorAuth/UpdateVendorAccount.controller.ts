@@ -1,5 +1,5 @@
-import db from "../../models";
-import { Controller, JWTResLocals } from "../../utils";
+import { VendorAccountResLocals } from "../../middleware";
+import { Controller } from "../../utils";
 import { UpdateVendorAccountRequest } from "@wedding-planner/shared/api/requests/auth/UpdateVendorAccount.request";
 
 type ReqBody = UpdateVendorAccountRequest.ReqBody;
@@ -7,14 +7,14 @@ type ReqBody = UpdateVendorAccountRequest.ReqBody;
 const controller = new Controller<
   ReqBody,
   UpdateVendorAccountRequest.ResBody,
-  JWTResLocals,
+  VendorAccountResLocals,
   typeof UpdateVendorAccountRequest.Errors
 >(UpdateVendorAccountRequest.Errors);
 
 export const UpdateVendorAccountController = controller.handler(
   async (req, res, errors) => {
     const body = req.body;
-    const { ownerId } = res.locals;
+    const { vendorAccount } = res.locals;
 
     const request: ReqBody = {
       businessName: body.businessName,
@@ -22,14 +22,6 @@ export const UpdateVendorAccountController = controller.handler(
       fullName: body.fullName,
       phoneNumber: body.phoneNumber,
     };
-
-    const vendorAccount = await db.VendorAccount.findOne({
-      where: { id: ownerId },
-    });
-
-    if (!vendorAccount) {
-      return errors.VendorNotFound("Account not found");
-    }
 
     await vendorAccount.update(request);
 
