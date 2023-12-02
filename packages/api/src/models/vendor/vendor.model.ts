@@ -8,6 +8,8 @@ import MainChoice from "../mainChoice/mainChoice.model";
 import VendorImageAsset from "../vendorImageAsset/vendorImageAsset.model";
 import Link from "../link/link.model";
 import { locationGeographyUtils } from "../../utils";
+import { values } from "lodash";
+import { Vendor as V } from "@wedding-planner/shared/common/types/vendor";
 
 export default class Vendor extends BaseModel<
   VendorModel.Attributes,
@@ -20,6 +22,7 @@ export default class Vendor extends BaseModel<
     "name",
     "ownerId",
     "serviceableRadius",
+    "vendorType",
   ];
 
   public static defaultFindOptions: FindOptions<VendorModel.Attributes> = {
@@ -61,6 +64,7 @@ export const tempVendorInit = (sequelize: Sequelize) =>
       name: DataTypes.STRING,
       city: DataTypes.STRING,
       description: DataTypes.STRING,
+      vendorType: DataTypes.ENUM(...values(V.VendorType)),
       serviceableRadius: {
         type: DataTypes.INTEGER,
         defaultValue: 0,

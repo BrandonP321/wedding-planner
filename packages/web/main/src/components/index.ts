@@ -6,3 +6,4 @@ export * from "./VendorCard/VendorCard";
 export * from "./VendorPricing/VendorPricing";
 export * from "./ImageCropModal/ImageCropModal";
 export * from "./LocalImageSelector/LocalImageSelector";
+export * from "./VendorTypeSelect/VendorTypeSelect";

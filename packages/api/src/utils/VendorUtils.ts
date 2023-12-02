@@ -15,6 +15,7 @@ export class VendorUtils {
     name: vendor.name,
     description: vendor.description,
     city: vendor.city,
+    vendorType: vendor.vendorType,
     serviceableRadius: Math.round(
       locationGeographyUtils.milesToMeters(vendor.serviceableRadius)
     ),

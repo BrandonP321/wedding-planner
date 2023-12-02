@@ -18,6 +18,7 @@ import {
 import { VendorCityFilter } from "./components/CityFilterInput";
 import { VenueFilterForm } from "./FilterForms/VenueFilterForm";
 import { useEffect } from "react";
+import { VendorTypeSelect } from "components/VendorTypeSelect/VendorTypeSelect";
 
 const VendorFilterFormMap: Vendor.VendorTypeMap<() => JSX.Element> = {
   [Vendor.VendorType.PHOTOGRAPHER]: PhotographerFilterForm,
@@ -56,16 +57,7 @@ export const VendorSearchFilterContent = (
         align="n"
       >
         <FormField name={FilterField.VENDOR_TYPE} label="Vendor type">
-          <Select
-            options={[
-              { label: "Venue", value: Vendor.VendorType.VENUE },
-              {
-                label: "Photographer",
-                value: Vendor.VendorType.PHOTOGRAPHER,
-              },
-              // { label: "Caterer", value: Vendor.VendorType.CATERER },
-            ]}
-          />
+          <VendorTypeSelect />
         </FormField>
 
         <VendorCityFilter />

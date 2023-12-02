@@ -1,5 +1,5 @@
 import { DeepOmitKey, KeyOf } from "../../../common";
-import { DefaultModel } from "../../../common/types";
+import { DefaultModel, Vendor } from "../../../common/types";
 import { LinkModel } from "../Link";
 import { MainChoiceModel } from "../mainChoice";
 import { VendorImageAssetModel } from "../vendorImageAsset";
@@ -12,6 +12,7 @@ export namespace VendorModel {
     name: string;
     description: string;
     city: string;
+    vendorType: Vendor.VendorType;
     /** ID of vendor account that owns this listing */
     ownerId: number;
     /** Distance in meters that the vendor is willing to travel */
@@ -27,7 +28,13 @@ export namespace VendorModel {
 
   export type IncludedAttributes = KeyOf<
     Attributes,
-    "city" | "id" | "description" | "name" | "ownerId" | "serviceableRadius"
+    | "city"
+    | "id"
+    | "description"
+    | "name"
+    | "ownerId"
+    | "serviceableRadius"
+    | "vendorType"
   >;
 
   export type PopulatedCreationAttributes = {

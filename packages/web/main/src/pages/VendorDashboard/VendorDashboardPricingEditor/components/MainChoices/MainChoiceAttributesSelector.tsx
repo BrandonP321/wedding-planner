@@ -7,53 +7,58 @@ import {
   PricingEditorContextProps,
   usePricingEditorContext,
 } from "../../PricingHelpers";
+import { vendorMainChoiceAttributesMap } from "@wedding-planner/shared/common/vendors/vendorAttributes";
 
 // TODO: Replace with real data
-const tempAttributes = [
-  {
-    groupLabel: "Photography style",
-    attributes: [
-      {
-        label: "Traditional",
-        value: "traditional",
-      },
-      {
-        label: "Photojournalistic",
-        value: "photojournalistic",
-      },
-      {
-        label: "Artistic",
-        value: "artistic",
-      },
-      {
-        label: "Editorial",
-        value: "editorial",
-      },
-    ],
-  },
-  {
-    groupLabel: "Other",
-    attributes: [
-      {
-        label: "Videography",
-        value: "videography",
-      },
-      {
-        label: "Drone footage",
-        value: "drone-footage",
-      },
-      {
-        label: "Wedding album",
-        value: "wedding-album",
-      },
-    ],
-  },
-];
+// const tempAttributes = [
+//   {
+//     groupLabel: "Photography style",
+//     attributes: [
+//       {
+//         label: "Traditional",
+//         value: "traditional",
+//       },
+//       {
+//         label: "Photojournalistic",
+//         value: "photojournalistic",
+//       },
+//       {
+//         label: "Artistic",
+//         value: "artistic",
+//       },
+//       {
+//         label: "Editorial",
+//         value: "editorial",
+//       },
+//     ],
+//   },
+//   {
+//     groupLabel: "Other",
+//     attributes: [
+//       {
+//         label: "Videography",
+//         value: "videography",
+//       },
+//       {
+//         label: "Drone footage",
+//         value: "drone-footage",
+//       },
+//       {
+//         label: "Wedding album",
+//         value: "wedding-album",
+//       },
+//     ],
+//   },
+// ];
+
+const tempVendorType = "photographer";
 
 type Props = Required<Pick<PricingEditorContextProps, "mainChoiceIndex">>;
 
 export const MainChoiceAttributesSelector = (props: Props) => {
   const { updateMainChoice, mainChoice } = usePricingEditorContext(props);
+
+  const mainChoiceAttributes = vendorMainChoiceAttributesMap[tempVendorType];
 
   const handleChange = (v: string, isChecked: boolean) => {
     // If not currently checked, add it to list of attributes
@@ -73,10 +78,10 @@ export const MainChoiceAttributesSelector = (props: Props) => {
 
   return (
     <SpaceBetween size="m" vertical>
-      {tempAttributes.map((group, i) => (
+      {mainChoiceAttributes.map((group, i) => (
         <SpaceBetween key={i} size="xs" vertical stretch>
           <h5>
-            <strong>{group.groupLabel}</strong>
+            <strong>{group.groupName}</strong>
           </h5>
           <CheckboxFormField>
             {group.attributes.map((a, j) => {

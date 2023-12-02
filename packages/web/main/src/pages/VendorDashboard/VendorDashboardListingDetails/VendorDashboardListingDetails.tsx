@@ -13,12 +13,16 @@ import {
   UnstyledForm,
 } from "@wedding-planner/shared";
 import { Formik } from "formik";
-import { SocialMediaPlatform } from "@wedding-planner/shared/common/types";
+import {
+  SocialMediaPlatform,
+  Vendor,
+} from "@wedding-planner/shared/common/types";
 import { ListingLinksEditor } from "./components/ListingLinksAttributeEditor";
 import { ListingSocialsEditor } from "./components/ListingSocialsAttributeEditor";
 import { APIFetcher } from "utils";
 import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
 import { CreateVendorListingRequest } from "@wedding-planner/shared/api/requests/vendor/createVendorListing.request";
+import { VendorTypeSelect } from "components";
 
 enum Field {
   NAME = "name",
@@ -39,12 +43,14 @@ export type SocialLinkValue = {
 
 export const LinksFieldName = "links";
 export const SocialsFieldName = "socials";
+const VendorTypeFieldName = "vendorType";
 
 export type Values = Record<Field, string> &
   Record<NumberField, number> &
   Record<SocialMediaPlatform, string> & {
     [LinksFieldName]: LinkValue[];
     [SocialsFieldName]: SocialLinkValue[];
+    [VendorTypeFieldName]: Vendor.VendorType | undefined;
   };
 
 const blankLink: LinkValue = { name: "", url: "" };
@@ -58,6 +64,13 @@ export const VendorDashboardListingDetails = (
   const { listing, loading } = useAuthedVendorListing();
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
+    const vendorType = values[VendorTypeFieldName];
+
+    if (!vendorType) {
+      // TODO: Consider handling this even though Yup should have caught it
+      return;
+    }
+
     // remove empty links & socials
     const links = values[LinksFieldName].filter((l) => l.name && l.url);
     const socials = values[SocialsFieldName].filter(
@@ -68,6 +81,7 @@ export const VendorDashboardListingDetails = (
       location: [0, 0],
       vendor: {
         ...values,
+        vendorType,
         links: links.map((l) => ({
           label: l.name,
           url: l.url,
@@ -112,6 +126,7 @@ export const VendorDashboardListingDetails = (
       name: listing?.name ?? "",
       description: listing?.description ?? "",
       city: listing?.city ?? "",
+      vendorType: listing?.vendorType,
       links,
       socials,
       serviceableRadius: listing?.serviceableRadius ?? 0,
@@ -132,6 +147,10 @@ export const VendorDashboardListingDetails = (
 
                 <Container header={<h3>Basic info</h3>}>
                   <SpaceBetween size="s" vertical stretchChildren>
+                    <FormField name={VendorTypeFieldName} label="Vendor type">
+                      <VendorTypeSelect />
+                    </FormField>
+
                     <FormField name={Field.NAME} label="Listing title">
                       <InputField autoComplete={false} placeholder="Title" />
                     </FormField>
