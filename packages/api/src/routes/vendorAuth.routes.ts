@@ -2,6 +2,7 @@ import express from "express";
 import {
   GetVendorAccountAuthStatusController,
   RegisterVendorAccountController,
+  UpdateVendorAccountController,
 } from "../controllers/vendorAuth";
 import { APIRoute } from "@wedding-planner/shared/common/api/routes";
 import { VendorAuth } from "../middleware";
@@ -21,6 +22,12 @@ router.post(
   "/vendor-auth/status",
   VendorAuth,
   GetVendorAccountAuthStatusController
+);
+// Update account
+router.post(
+  APIRoute.VendorAuth.UpdateAccount,
+  VendorAuth,
+  UpdateVendorAccountController
 );
 
 export const vendorAuthRouter = router;
