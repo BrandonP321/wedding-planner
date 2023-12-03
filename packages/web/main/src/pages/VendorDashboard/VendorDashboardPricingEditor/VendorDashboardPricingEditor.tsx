@@ -16,7 +16,10 @@ import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
 const getInitialValues = (
   mainChoices?: MainChoiceModel.CreationParams[]
 ): PricingEditorValues => ({
-  mainChoices: mainChoices ?? [getBlankMainChoice()],
+  mainChoices:
+    mainChoices && mainChoices.length > 0
+      ? mainChoices
+      : [getBlankMainChoice()],
 });
 
 export type VendorDashboardPricingEditorProps = {};
