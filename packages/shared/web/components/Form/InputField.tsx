@@ -1,9 +1,10 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useId, useState } from "react";
 import styles from "./Form.module.scss";
 import { useFormFieldContext } from "./FormField";
 import { Field, useFormikContext } from "formik";
 import { ClassesProp, HTMLInputProps } from "../../utils";
 import classNames from "classnames";
+import { useCustomFormContext } from "../FormikForm/CustomFormHooks";
 
 type MapOfStrings = { [key: string]: string };
 
@@ -32,6 +33,7 @@ export const InputField = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const context = useFormFieldContext();
+  const { isEditable = true } = useCustomFormContext();
   const {} = useFormikContext<{ [key: string]: string }>();
 
   return (
@@ -44,7 +46,7 @@ export const InputField = ({
             onChange(e.target.value),
         })}
         {...(value !== undefined && { value })}
-        disabled={disabled}
+        disabled={disabled || !isEditable}
         className={styles.input}
         onFocus={() => setIsFocused(true)}
         onBlur={() => requestAnimationFrame(() => setIsFocused(false))}

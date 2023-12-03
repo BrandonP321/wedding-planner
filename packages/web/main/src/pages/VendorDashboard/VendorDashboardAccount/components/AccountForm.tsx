@@ -14,6 +14,7 @@ import {
   SpaceBetween,
   SubmitButton,
   UnstyledForm,
+  useCustomFormContext,
 } from "@wedding-planner/shared";
 import { APIFetcher } from "utils";
 import { FormSpaceBetween } from "components/SpaceBetween/SpaceBetween";
@@ -34,7 +35,7 @@ export type Values = ReqBody;
 
 export const AccountForm = () => {
   const { account } = useAuthedVendorAccount();
-  const [isEditing, setIsEditing] = useState(false);
+  const { setIsEditable } = useCustomFormContext();
 
   const initialValues = useMemo<Values>(
     () => ({
@@ -50,7 +51,7 @@ export const AccountForm = () => {
     return await APIFetcher.updateVendorAccount(values)
       .then(() => {
         formik.resetForm({ values });
-        setIsEditing(false);
+        setIsEditable(false);
       })
       .catch((err) => console.error(err));
   };
@@ -63,28 +64,23 @@ export const AccountForm = () => {
 
           <Container
             header={<Header title="Basic info" variant="h3" />}
-            footer={
-              <AccountFormActions
-                isEditing={isEditing}
-                toggleEditing={() => setIsEditing(!isEditing)}
-              />
-            }
+            footer={<AccountFormActions />}
           >
             <FormSpaceBetween stretchChildren>
               <FormField name={Field.email} label="Email">
-                <InputField placeholder="Email" disabled={!isEditing} />
+                <InputField placeholder="Email" />
               </FormField>
 
               <FormField name={Field.fullName} label="Full name">
-                <InputField placeholder="Full name" disabled={!isEditing} />
+                <InputField placeholder="Full name" />
               </FormField>
 
               <FormField name={Field.phoneNumber} label="Phone number">
-                <InputField placeholder="Phone number" disabled={!isEditing} />
+                <InputField placeholder="Phone number" />
               </FormField>
 
               <FormField name={Field.businessName} label="Business name">
-                <InputField placeholder="Business name" disabled={!isEditing} />
+                <InputField placeholder="Business name" />
               </FormField>
             </FormSpaceBetween>
           </Container>
@@ -94,30 +90,23 @@ export const AccountForm = () => {
   );
 };
 
-type AccountFormActionsProps = {
-  toggleEditing: () => void;
-  isEditing: boolean;
-};
-
-const AccountFormActions = ({
-  isEditing,
-  toggleEditing,
-}: AccountFormActionsProps) => {
+const AccountFormActions = () => {
   const { resetForm } = useFormikContext<Values>();
+  const { setIsEditable, isEditable } = useCustomFormContext();
 
   const cancelEditing = () => {
-    toggleEditing();
+    setIsEditable(false);
     resetForm();
   };
 
   return (
     <FormActions>
-      {!isEditing && (
-        <Button onClick={toggleEditing} variant="primary">
+      {!isEditable && (
+        <Button onClick={() => setIsEditable(true)} variant="primary">
           Edit
         </Button>
       )}
-      {isEditing && (
+      {isEditable && (
         <>
           <Button onClick={cancelEditing}>Cancel</Button>
           <SubmitButton>Save</SubmitButton>

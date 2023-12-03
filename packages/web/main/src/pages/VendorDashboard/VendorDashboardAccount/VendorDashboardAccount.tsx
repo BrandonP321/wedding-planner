@@ -1,6 +1,7 @@
 import React from "react";
 import { AccountForm } from "./components/AccountForm";
 import {
+  CustomFormProvider,
   PageContent,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
@@ -14,8 +15,10 @@ export const VendorDashboardAccount = (props: VendorDashboardAccountProps) => {
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween align="center" vertical>
-        {loading && <div>Loading...</div>}
-        {!loading && <AccountForm />}
+        <CustomFormProvider isEditableDefaultValue={false}>
+          {loading && <div>Loading...</div>}
+          {!loading && <AccountForm />}
+        </CustomFormProvider>
       </SpaceBetween>
     </PageContent>
   );
