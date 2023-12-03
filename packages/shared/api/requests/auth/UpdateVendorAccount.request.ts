@@ -13,7 +13,6 @@ export namespace UpdateVendorAccountRequest {
   export const ErrorCodes = {
     ...DefaultAPIError.Codes,
     EmailTaken: "EmailTaken",
-    IncorrectPassword: "IncorrectPassword",
   } as const;
 
   export const Errors: APIErrorMap<typeof ErrorCodes> = {
@@ -21,11 +20,6 @@ export namespace UpdateVendorAccountRequest {
     [ErrorCodes.EmailTaken]: {
       statusCode: 400,
       msg: "Email already in use by another account",
-      code: ErrorCodes.EmailTaken,
-    },
-    [ErrorCodes.IncorrectPassword]: {
-      statusCode: 401,
-      msg: "Incorrect password was provided",
       code: ErrorCodes.EmailTaken,
     },
   } as const;

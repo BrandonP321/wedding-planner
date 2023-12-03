@@ -1,6 +1,7 @@
 import { VendorAccountResLocals } from "../../middleware";
 import { Controller } from "../../utils";
 import { UpdateVendorAccountRequest } from "@wedding-planner/shared/api/requests/auth/UpdateVendorAccount.request";
+import db from "../../models";
 
 type ReqBody = UpdateVendorAccountRequest.ReqBody;
 
@@ -22,6 +23,17 @@ export const UpdateVendorAccountController = controller.handler(
       fullName: body.fullName,
       phoneNumber: body.phoneNumber,
     };
+
+    // Ensure email is not taken if changed
+    if (request.email !== vendorAccount.dataValues.email) {
+      const vendorAccountWithEmail = await db.VendorAccount.findOne({
+        where: { email: request.email },
+      });
+
+      if (vendorAccountWithEmail) {
+        return errors.EmailTaken();
+      }
+    }
 
     await vendorAccount.update(request);
 
