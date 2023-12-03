@@ -6,8 +6,6 @@ import { DeepOmitKey } from "../../../common";
 export namespace CreateVendorListingRequest {
   export type ReqBody = {
     vendor: VendorModel.CreationParams;
-    // TODO: Change to address after testing
-    location: [number, number];
   };
 
   export type ResBody = {

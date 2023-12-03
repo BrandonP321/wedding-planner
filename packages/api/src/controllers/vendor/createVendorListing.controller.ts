@@ -12,7 +12,7 @@ const controller = new Controller<
 
 export const CreateVendorListingController = controller.handler(
   async (req, res, errors) => {
-    const { vendor: reqVendor, location } = req.body;
+    const { vendor: reqVendor } = req.body;
     const { ownerId } = res.locals;
 
     const existingVendor = await db.Vendor.findOne({ where: { ownerId } });
@@ -23,11 +23,10 @@ export const CreateVendorListingController = controller.handler(
 
     const { vendorId } = await sequelize.transaction(async (transaction) => {
       const newVendor = await db.Vendor.create(
-        VendorUtils.getVendorCreationOrUpdateParams(
-          reqVendor,
-          ownerId,
-          location
-        ),
+        VendorUtils.getVendorCreationOrUpdateParams(reqVendor, ownerId, [
+          reqVendor.lng,
+          reqVendor.lat,
+        ]),
         { transaction }
       );
 

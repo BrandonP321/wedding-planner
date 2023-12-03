@@ -17,8 +17,13 @@ export default class Vendor extends BaseModel<
 > {
   public static includedAttributes: VendorModel.IncludedAttributes[] = [
     "city",
+    "state",
+    "streetAddress",
+    "zipCode",
     "description",
     "id",
+    "lat",
+    "lng",
     "name",
     "ownerId",
     "serviceableRadius",
@@ -62,7 +67,12 @@ export const tempVendorInit = (sequelize: Sequelize) =>
     {
       ...BaseModel.SchemaAttributes,
       name: DataTypes.STRING,
+      streetAddress: DataTypes.STRING,
       city: DataTypes.STRING,
+      state: DataTypes.STRING,
+      zipCode: DataTypes.STRING,
+      lat: DataTypes.FLOAT,
+      lng: DataTypes.FLOAT,
       description: DataTypes.STRING,
       vendorType: DataTypes.ENUM(...values(V.VendorType)),
       serviceableRadius: {

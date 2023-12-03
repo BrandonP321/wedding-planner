@@ -1,13 +1,33 @@
 import { Stage } from "../types/environment";
 import { APIFetcherBase } from "./APIFetcherBase";
 
-type GoogleMapsPlacePrediction = {
+export type GoogleMapsPlacePrediction = {
   description: string;
   place_id: string;
 };
 
 type MapsPlaceAutoCompleteResponse = {
   predictions: GoogleMapsPlacePrediction[];
+};
+
+type AddressComponent = {
+  long_name: string;
+  short_name: string;
+  types: string[];
+};
+
+type GeocodeGeometry = {
+  location: {
+    lat: number;
+    lng: number;
+  };
+};
+
+export type MapsPlaceGeocodeResponse = {
+  results: {
+    address_components: AddressComponent[];
+    geometry: GeocodeGeometry;
+  }[];
 };
 
 type ReverseGeocodePlaceResponse = {
@@ -52,9 +72,17 @@ export class MapsAPIFetcherInternal extends APIFetcherBase {
     );
   };
 
-  public getPlaceDetails = (placeId: string) => {
-    return this.get<MapsPlaceDetailsResponse>(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${this.apiKey}`
+  public getAddressSuggestions = (address: string) => {
+    return this.get<MapsPlaceAutoCompleteResponse>(
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(
+        address
+      )}&types=address&key=${this.apiKey}&components=country:us`
+    );
+  };
+
+  public getAddressDetails = (placeId: string) => {
+    return this.get<MapsPlaceGeocodeResponse>(
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${this.apiKey}`
     );
   };
 

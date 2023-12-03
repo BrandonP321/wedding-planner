@@ -11,7 +11,12 @@ export namespace VendorModel {
   export type Base = {
     name: string;
     description: string;
+    streetAddress: string;
     city: string;
+    state: string;
+    zipCode: string;
+    lat: number;
+    lng: number;
     vendorType: Vendor.VendorType;
     /** ID of vendor account that owns this listing */
     ownerId: number;
@@ -29,7 +34,12 @@ export namespace VendorModel {
   export type IncludedAttributes = KeyOf<
     Attributes,
     | "city"
+    | "state"
+    | "streetAddress"
+    | "zipCode"
     | "id"
+    | "lat"
+    | "lng"
     | "description"
     | "name"
     | "ownerId"

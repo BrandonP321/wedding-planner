@@ -2,6 +2,8 @@ import { GetAuthedVendorAccountRequest } from "../../../api/requests/auth/GetAut
 import { LoginVendorAccountRequest } from "../../../api/requests/auth/LoginVendorAccount.request";
 import { RegisterVendorAccountRequest } from "../../../api/requests/auth/RegisterVendorAccount.request";
 import { UpdateVendorAccountRequest } from "../../../api/requests/auth/UpdateVendorAccount.request";
+import { GetAddressDetailsRequest } from "../../../api/requests/places/getAddressDetails.request";
+import { GetAddressSuggestionsRequest } from "../../../api/requests/places/getAddressSuggestions.request";
 import { GetCitySuggestionsRequest } from "../../../api/requests/places/getCitySuggestions.request";
 import { AssociateVendorTempAssetsRequest } from "../../../api/requests/s3/associateVendorTempAssets.request";
 import { GetS3PresignedUrlForVendorImageUploadRequest } from "../../../api/requests/s3/getS3PresignedUrlForVendorImageUpload.request";
@@ -17,6 +19,18 @@ export class APIFetcherInternal extends APIFetcherBase {
   getCitySuggestions = (params: GetCitySuggestionsRequest.ReqBody) =>
     this.post<GetCitySuggestionsRequest.ResBody>(
       APIRoute.Places.GetCitySuggestions,
+      params
+    );
+
+  getAddressSuggestions = (params: GetAddressSuggestionsRequest.ReqBody) =>
+    this.post<GetAddressSuggestionsRequest.ResBody>(
+      APIRoute.Places.GetAddressSuggestions,
+      params
+    );
+
+  getAddressDetails = (params: GetAddressDetailsRequest.ReqBody) =>
+    this.post<GetAddressDetailsRequest.ResBody>(
+      APIRoute.Places.GetAddressDetails,
       params
     );
 

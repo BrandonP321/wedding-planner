@@ -7,5 +7,5 @@ import {
 export type CustomSpaceBetweenProps = Partial<SpaceBetweenProps>;
 
 export const FormSpaceBetween = (props: CustomSpaceBetweenProps) => {
-  return <SpaceBetween size="m" vertical {...props} />;
+  return <SpaceBetween size="s" vertical {...props} />;
 };
