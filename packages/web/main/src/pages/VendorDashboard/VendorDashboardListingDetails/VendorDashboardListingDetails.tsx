@@ -9,6 +9,7 @@ import {
   NumberInput,
   PageContent,
   SpaceBetween,
+  SpinnerWrapper,
   SubmitButton,
   UnstyledForm,
 } from "@wedding-planner/shared";
@@ -62,7 +63,7 @@ export type VendorDashboardListingDetailsProps = {};
 export const VendorDashboardListingDetails = (
   props: VendorDashboardListingDetailsProps
 ) => {
-  const { listing, loading } = useAuthedVendorListing();
+  const { listing, loading } = useAuthedVendorListing({ reFetchOnMount: true });
 
   const handleSubmit: FormikSubmit<Values> = async ({
     location,
@@ -148,63 +149,63 @@ export const VendorDashboardListingDetails = (
     };
   }, [listing]);
 
-  if (loading) return <div>Loading...</div>;
-
   return (
     <PageContent verticalPadding horizontalPadding>
-      <SpaceBetween vertical align="center">
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <UnstyledForm>
-            <SpaceBetween size="xxl" vertical stretchChildren>
-              <h1>Listing details</h1>
+      <SpinnerWrapper isLoading={loading} align="start">
+        <SpaceBetween vertical align="center">
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            <UnstyledForm>
+              <SpaceBetween size="xxl" vertical stretchChildren>
+                <h1>Listing details</h1>
 
-              <Container header={<h3>Basic info</h3>}>
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <FormField name={VendorTypeFieldName} label="Vendor type">
-                    <VendorTypeSelect />
-                  </FormField>
+                <Container header={<h3>Basic info</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <FormField name={VendorTypeFieldName} label="Vendor type">
+                      <VendorTypeSelect />
+                    </FormField>
 
-                  <FormField name={Field.NAME} label="Listing title">
-                    <InputField autoComplete={false} placeholder="Title" />
-                  </FormField>
+                    <FormField name={Field.NAME} label="Listing title">
+                      <InputField autoComplete={false} placeholder="Title" />
+                    </FormField>
 
-                  <FormField name={Field.DESCRIPTION} label="Description">
-                    <InputField
-                      autoComplete={false}
-                      placeholder="Description"
-                    />
-                  </FormField>
+                    <FormField name={Field.DESCRIPTION} label="Description">
+                      <InputField
+                        autoComplete={false}
+                        placeholder="Description"
+                      />
+                    </FormField>
 
-                  <FormField
-                    name={NumberField.SERVICEABLE_RADIUS}
-                    label="Serviceable radius"
-                  >
-                    <NumberInput min={0} />
-                  </FormField>
+                    <FormField
+                      name={NumberField.SERVICEABLE_RADIUS}
+                      label="Serviceable radius"
+                    >
+                      <NumberInput min={0} />
+                    </FormField>
+                  </SpaceBetween>
+                </Container>
+
+                <ListingLocationContainer />
+
+                <Container header={<h3>Social media</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <ListingSocialsEditor />
+                  </SpaceBetween>
+                </Container>
+
+                <Container header={<h3>Links</h3>}>
+                  <SpaceBetween size="s" vertical stretchChildren>
+                    <ListingLinksEditor />
+                  </SpaceBetween>
+                </Container>
+
+                <SpaceBetween justify="end">
+                  <SubmitButton>Save</SubmitButton>
                 </SpaceBetween>
-              </Container>
-
-              <ListingLocationContainer />
-
-              <Container header={<h3>Social media</h3>}>
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <ListingSocialsEditor />
-                </SpaceBetween>
-              </Container>
-
-              <Container header={<h3>Links</h3>}>
-                <SpaceBetween size="s" vertical stretchChildren>
-                  <ListingLinksEditor />
-                </SpaceBetween>
-              </Container>
-
-              <SpaceBetween justify="end">
-                <SubmitButton>Save</SubmitButton>
               </SpaceBetween>
-            </SpaceBetween>
-          </UnstyledForm>
-        </Formik>
-      </SpaceBetween>
+            </UnstyledForm>
+          </Formik>
+        </SpaceBetween>
+      </SpinnerWrapper>
     </PageContent>
   );
 };

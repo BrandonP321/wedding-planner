@@ -34,3 +34,5 @@ export * from "./Header/Header";
 export * from "./ContextMenu/ContextMenu";
 export * from "./FormikForm/CustomFormHooks";
 export { CustomFormProvider } from "./FormikForm/CustomFormProvider";
+export * from "./Spinner/Spinner";
+export * from "./SpinnerWrapper/SpinnerWrapper";

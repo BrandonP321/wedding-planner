@@ -4,6 +4,9 @@
   padding: $sizeXS;
   border-radius: $borderRadiusS;
   text-align: center;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
 
   &:hover {
     background-color: $colorAccentSilver;
@@ -20,7 +23,7 @@
   }
 
   &.secondary {
-    border: 2px solid black;
+    border-color: black;
     color: $colorTextPrimary;
   }
 

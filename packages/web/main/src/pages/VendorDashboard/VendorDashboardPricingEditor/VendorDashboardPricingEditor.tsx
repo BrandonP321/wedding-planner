@@ -3,6 +3,7 @@ import {
   FormikSubmit,
   PageContent,
   SpaceBetween,
+  SpinnerWrapper,
   Tabs,
   UnstyledForm,
 } from "@wedding-planner/shared";
@@ -27,9 +28,7 @@ export type VendorDashboardPricingEditorProps = {};
 export const VendorDashboardPricingEditor = (
   props: VendorDashboardPricingEditorProps
 ) => {
-  const { loading, listing } = useAuthedVendorListing();
-
-  if (loading) return <div>loading...</div>;
+  const { loading, listing } = useAuthedVendorListing({ reFetchOnMount: true });
 
   const handleSubmit: FormikSubmit<PricingEditorValues> = async (values) => {
     const { mainChoices } = values;
@@ -39,39 +38,41 @@ export const VendorDashboardPricingEditor = (
 
   return (
     <PageContent verticalPadding horizontalPadding>
-      <SpaceBetween align="center" vertical stretch>
-        <FormikForm
-          initialValues={getInitialValues(listing?.mainChoices)}
-          onSubmit={handleSubmit}
-        >
-          {({ values }) => {
-            const mainChoicesLength = values.mainChoices.length;
+      <SpinnerWrapper isLoading={loading} align="start">
+        <SpaceBetween align="center" vertical stretch>
+          <FormikForm
+            initialValues={getInitialValues(listing?.mainChoices)}
+            onSubmit={handleSubmit}
+          >
+            {({ values }) => {
+              const mainChoicesLength = values.mainChoices.length;
 
-            return (
-              <UnstyledForm>
-                <SpaceBetween size="xxl" vertical stretch>
-                  <h1>Pricing</h1>
+              return (
+                <UnstyledForm>
+                  <SpaceBetween size="xxl" vertical stretch>
+                    <h1>Pricing</h1>
 
-                  <SpaceBetween size="m" vertical stretch>
-                    <h2>Main choices</h2>
+                    <SpaceBetween size="m" vertical stretch>
+                      <h2>Main choices</h2>
 
-                    {!!mainChoicesLength && (
-                      <Tabs
-                        tabs={values.mainChoices.map((mc, i) => ({
-                          title: mc.name || "Untitled",
-                          content: <MainChoiceTab key={i} index={i} />,
-                        }))}
-                      />
-                    )}
+                      {!!mainChoicesLength && (
+                        <Tabs
+                          tabs={values.mainChoices.map((mc, i) => ({
+                            title: mc.name || "Untitled",
+                            content: <MainChoiceTab key={i} index={i} />,
+                          }))}
+                        />
+                      )}
 
-                    {!mainChoicesLength && <MainChoiceRequiredAlert />}
+                      {!mainChoicesLength && <MainChoiceRequiredAlert />}
+                    </SpaceBetween>
                   </SpaceBetween>
-                </SpaceBetween>
-              </UnstyledForm>
-            );
-          }}
-        </FormikForm>
-      </SpaceBetween>
+                </UnstyledForm>
+              );
+            }}
+          </FormikForm>
+        </SpaceBetween>
+      </SpinnerWrapper>
     </PageContent>
   );
 };

@@ -4,20 +4,22 @@ import {
   CustomFormProvider,
   PageContent,
   SpaceBetween,
+  SpinnerWrapper,
 } from "@wedding-planner/shared/web/components";
 import { useAuthedVendorAccount } from "store/slices/vendorAccount/vendorAccountHooks";
 
 export type VendorDashboardAccountProps = {};
 
 export const VendorDashboardAccount = (props: VendorDashboardAccountProps) => {
-  const { loading } = useAuthedVendorAccount();
+  const { loading } = useAuthedVendorAccount({ reFetchOnMount: true });
 
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween align="center" vertical>
         <CustomFormProvider isEditableDefaultValue={false}>
-          {loading && <div>Loading...</div>}
-          {!loading && <AccountForm />}
+          <SpinnerWrapper isLoading={loading} align="start">
+            <AccountForm />
+          </SpinnerWrapper>
         </CustomFormProvider>
       </SpaceBetween>
     </PageContent>

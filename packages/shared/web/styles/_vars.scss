@@ -86,6 +86,10 @@ $zIndexToastVar: --z-index-toast;
 $zIndexToast: var(#{$zIndexToastVar});
 @include SetRootValue($zIndexToastVar, 900);
 
+$zIndexLoadingSpinnerVar: --z-index-loading-spinner;
+$zIndexLoadingSpinner: var(#{$zIndexLoadingSpinnerVar});
+@include SetRootValue($zIndexLoadingSpinnerVar, 850);
+
 // ======================================================================================================
 // Widths
 // ======================================================================================================

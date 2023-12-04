@@ -4,6 +4,7 @@ import {
   Header,
   PageContent,
   SpaceBetween,
+  SpinnerWrapper,
 } from "@wedding-planner/shared/web/components";
 import { LocalImageSelector } from "components";
 import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
@@ -15,18 +16,17 @@ const lorem =
 export type VendorDashboardImagesProps = {};
 
 export const VendorDashboardImages = (props: VendorDashboardImagesProps) => {
-  const { loading } = useAuthedVendorListing();
+  const { loading } = useAuthedVendorListing({ reFetchOnMount: true });
 
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpaceBetween size="l" vertical stretch>
         <Header title="Images" description={lorem} />
-        {loading && <div>Loading...</div>}
-        {!loading && (
+        <SpinnerWrapper isLoading={loading} align="start">
           <LocalImageSelectorProvider>
             <LocalImageSelector />
           </LocalImageSelectorProvider>
-        )}
+        </SpinnerWrapper>
       </SpaceBetween>
     </PageContent>
   );

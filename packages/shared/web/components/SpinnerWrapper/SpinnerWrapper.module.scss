@@ -1,0 +1,18 @@
+@import "../../styles/webSharedStyles.scss";
+
+.spinnerOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $colorBackground;
+  z-index: $zIndexLoadingSpinner;
+  padding: 10rem 2rem;
+
+  &.hide {
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+}
