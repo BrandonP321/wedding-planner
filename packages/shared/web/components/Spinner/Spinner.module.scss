@@ -1,7 +1,16 @@
 @import "../../styles/webSharedStyles.scss";
 
-.spinner {
+.wrapper,
+.text {
   @include generateSizeClassNamesForProperty(font-size);
+}
 
+.wrapper {
+}
+
+.text {
+}
+
+.spinner {
   animation: Spin 1s linear infinite;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./LocalImageSelector.module.scss";
 import { ImageCropModal } from "components/ImageCropModal/ImageCropModal";
 import {
@@ -9,6 +9,7 @@ import {
   Alert,
   Container,
   VendorMediaUtils,
+  Spinner,
 } from "@wedding-planner/shared";
 import { ImagePreview } from "./components/ImagePreview/ImagePreview";
 import { MoveImageModal } from "./components/MoveImageModal/MoveImageModal";
@@ -49,12 +50,16 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
     moveShowcaseImage,
   } = useLocalImageSelector();
 
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
+
   useEffect(() => {
     const listingImages = listing?.images;
 
     if (listingImages?.length) {
+      setIsLoadingImages(true);
       getFileObjectsFromImages(listingImages).then((images) => {
         setFiles(images);
+        setIsLoadingImages(false);
       });
     }
   }, []);
@@ -105,6 +110,12 @@ export const LocalImageSelector = (props: LocalImageSelectorProps) => {
           variant="h2"
           description={lorem}
         />
+
+        {isLoadingImages && (
+          <SpaceBetween stretch justify="center">
+            <Spinner text="Loading images" />
+          </SpaceBetween>
+        )}
 
         <ImagesList>
           {files.map((file, i) => (
