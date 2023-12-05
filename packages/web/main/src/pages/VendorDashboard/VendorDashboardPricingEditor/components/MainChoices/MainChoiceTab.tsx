@@ -4,53 +4,39 @@ import {
   Button,
   Container,
   ContainerSpaceBetween,
-  FormField,
-  InputField,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
 import { ChoiceGroupContainer } from "../ChoiceGroups/ChoiceGroupContainer";
 import { usePricingEditorContext } from "../../PricingHelpers";
 import { ChoiceGroupFooterActions } from "../ChoiceGroups/ChoiceGroupFooterActions";
-import { FormSpaceBetween } from "components/SpaceBetween/SpaceBetween";
 import { MainChoiceAttributesSelector } from "./MainChoiceAttributesSelector";
 import { MainChoiceOptions } from "./MainChoiceOptions";
+import { useAuthedVendorListing } from "store/slices/vendor/vendorHooks";
+import { vendorHasSingleMainChoice } from "@wedding-planner/shared/common/vendors";
+import { MainChoiceDetailsContainer } from "./MainChoiceDetailsContainer";
 
 export type MainChoiceTabProps = { index: number };
 
 export const MainChoiceTab = ({ index }: MainChoiceTabProps) => {
-  const { mainChoice, addChoiceGroup, updateMainChoice } =
-    usePricingEditorContext({
-      mainChoiceIndex: index,
-    });
+  const { mainChoice, addChoiceGroup } = usePricingEditorContext({
+    mainChoiceIndex: index,
+  });
+  const { listing } = useAuthedVendorListing();
 
   const choiceGroups = mainChoice?.choiceGroups;
 
+  const hasSingleMainChoice = vendorHasSingleMainChoice(listing?.vendorType!);
+
   return (
     <SpaceBetween vertical size="xxl" stretch stretchChildren>
-      <MainChoiceOptions mainChoiceIndex={index} />
+      {!hasSingleMainChoice && <MainChoiceOptions mainChoiceIndex={index} />}
 
       <SpaceBetween vertical size="l" stretchChildren>
-        <h3>Main choice info</h3>
+        {!hasSingleMainChoice && <h3>Main choice info</h3>}
         <ContainerSpaceBetween>
-          <Container header={<h4>Details</h4>}>
-            <FormSpaceBetween stretchChildren>
-              <FormField label="Title">
-                <InputField
-                  value={mainChoice?.name}
-                  placeholder="Title"
-                  onChange={(v) =>
-                    updateMainChoice((mc) => {
-                      mc.name = v;
-                    })
-                  }
-                />
-              </FormField>
-
-              {/* <FormField label="Description">
-                <InputField />
-              </FormField> */}
-            </FormSpaceBetween>
-          </Container>
+          {!hasSingleMainChoice && (
+            <MainChoiceDetailsContainer mainChoiceIndex={index} />
+          )}
 
           <Container header={<h4>Attributes</h4>}>
             <MainChoiceAttributesSelector mainChoiceIndex={index} />

@@ -8,6 +8,7 @@ import { TabsProvider, useTabsContext } from "./TabsProvider/TabsProvider";
 export type TabsProps = {
   tabs: TabProps[];
   onTabChange?: (index: number) => void;
+  hideTabs?: boolean;
   classes?: ClassesProp<"root" | "header" | "content" | "tabBtn">;
 };
 
@@ -25,7 +26,7 @@ export const TabsWithoutProvider = (props: TabsProps) => (
   <TabsInternal {...props} />
 );
 
-function TabsInternal({ tabs, classes, onTabChange }: TabsProps) {
+function TabsInternal({ tabs, classes, onTabChange, hideTabs }: TabsProps) {
   const { selectedTabIndex, setSelectedTabIndex } = useTabsContext();
 
   const tabBtns = useRef<{ [index: number]: HTMLButtonElement | null }>({});
@@ -52,35 +53,37 @@ function TabsInternal({ tabs, classes, onTabChange }: TabsProps) {
 
   return (
     <div className={classNames(styles.tabs, classes?.root)}>
-      <SpaceBetween
-        classes={{ root: classNames(styles.header, classes?.header) }}
-        responsiveWrap={{ mobile: false }}
-      >
-        {tabs?.map((tab, i) => {
-          const isSelected = i === selectedTabIndex;
+      {!hideTabs && (
+        <SpaceBetween
+          classes={{ root: classNames(styles.header, classes?.header) }}
+          responsiveWrap={{ mobile: false }}
+        >
+          {tabs?.map((tab, i) => {
+            const isSelected = i === selectedTabIndex;
 
-          return (
-            <button
-              key={i}
-              type="button"
-              ref={(ele) => {
-                tabBtns.current[i] = ele;
-              }}
-              className={classNames(
-                styles.tabBtn,
-                isSelected && styles.selected,
-                classes?.tabBtn
-              )}
-              onClick={() => {
-                hasTabBeenManuallySelected.current = true;
-                setSelectedTabIndex(i);
-              }}
-            >
-              {tab.title}
-            </button>
-          );
-        })}
-      </SpaceBetween>
+            return (
+              <button
+                key={i}
+                type="button"
+                ref={(ele) => {
+                  tabBtns.current[i] = ele;
+                }}
+                className={classNames(
+                  styles.tabBtn,
+                  isSelected && styles.selected,
+                  classes?.tabBtn
+                )}
+                onClick={() => {
+                  hasTabBeenManuallySelected.current = true;
+                  setSelectedTabIndex(i);
+                }}
+              >
+                {tab.title}
+              </button>
+            );
+          })}
+        </SpaceBetween>
+      )}
       <div className={classNames(styles.content, classes?.content)}>
         {tabContents?.map((c, i) => (
           <div

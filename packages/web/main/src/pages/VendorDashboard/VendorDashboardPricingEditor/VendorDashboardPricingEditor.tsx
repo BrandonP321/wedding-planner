@@ -13,6 +13,7 @@ import { PricingEditorValues, getBlankMainChoice } from "./PricingHelpers";
 import { MainChoiceRequiredAlert } from "./components/MainChoices/MainChoiceRequiredAlert";
 import { APIFetcher } from "utils";
 import { MainChoiceModel } from "@wedding-planner/shared/api/models/mainChoice";
+import { vendorHasSingleMainChoice } from "@wedding-planner/shared/common/vendors";
 
 const getInitialValues = (
   mainChoices?: MainChoiceModel.CreationParams[]
@@ -36,6 +37,8 @@ export const VendorDashboardPricingEditor = (
     return await APIFetcher.updateMainChoices({ mainChoices });
   };
 
+  const hasSingleMainChoice = vendorHasSingleMainChoice(listing?.vendorType!);
+
   return (
     <PageContent verticalPadding horizontalPadding>
       <SpinnerWrapper isLoading={loading} align="start">
@@ -53,10 +56,11 @@ export const VendorDashboardPricingEditor = (
                     <h1>Pricing</h1>
 
                     <SpaceBetween size="m" vertical stretch>
-                      <h2>Main choices</h2>
+                      {!hasSingleMainChoice && <h2>Main choices</h2>}
 
                       {!!mainChoicesLength && (
                         <Tabs
+                          hideTabs={hasSingleMainChoice}
                           tabs={values.mainChoices.map((mc, i) => ({
                             title: mc.name || "Untitled",
                             content: <MainChoiceTab key={i} index={i} />,
