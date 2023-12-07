@@ -15,9 +15,16 @@ export namespace WebMainRouteHelper {
 }
 
 export class WebMainRouteHelper extends RouteHelperInternal {
+  public SearchParamKeys = {
+    RedirectTo: "redirectTo",
+  } as const;
+
   public Home = this.CreateRoute(`/`);
 
-  public VendorLogin = this.CreateRoute(`/vendor/login`);
+  public VendorLogin = this.CreateRoute<
+    undefined,
+    typeof this.SearchParamKeys.RedirectTo
+  >(`/vendor/login`);
   public VendorSignup = this.CreateRoute(`/vendor/signup`);
   public VendorVerifyEmail = this.CreateRoute(`/vendor/verify-email`);
 

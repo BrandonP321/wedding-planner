@@ -7,11 +7,12 @@ import {
   FormikSubmit,
   SubmitButton,
   StyledForm,
+  UrlUtils,
 } from "@wedding-planner/shared";
 import { APIFetcher } from "utils";
 import { LoginVendorAccountRequest } from "@wedding-planner/shared/api/requests/auth/LoginVendorAccount.request";
 import { RouteHelper } from "utils/RouteHelper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 enum Field {
   EMAIL = "email",
@@ -24,15 +25,24 @@ export type VendorLoginFormProps = {};
 
 export const VendorLoginForm = (props: VendorLoginFormProps) => {
   const [errMsg, setErrMsg] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     setErrMsg(null);
 
-    return APIFetcher.loginVendorAccount(values).catch(
-      (err: LoginVendorAccountRequest.ErrorResponse) => {
-        setErrMsg(err.msg);
-      }
+    const redirectTo = UrlUtils.getParam(
+      RouteHelper.SearchParamKeys.RedirectTo
     );
+
+    return APIFetcher.loginVendorAccount(values)
+      .then(() => {
+        navigate(redirectTo ?? RouteHelper.VendorDashboard.Listing(), {
+          replace: !!redirectTo,
+        });
+      })
+      .catch((err: LoginVendorAccountRequest.ErrorResponse) => {
+        setErrMsg(err.msg);
+      });
   };
 
   return (

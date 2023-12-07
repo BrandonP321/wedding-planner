@@ -52,4 +52,12 @@ export class UrlUtils {
   public static getParam = (key: string, url?: string) => {
     return UrlUtils.url(url).getParam(key);
   };
+
+  public static navigateTo = (url: string) => {
+    window.location.href = url;
+  };
+
+  public static replace = (url: string) => {
+    window.location.replace(url);
+  };
 }

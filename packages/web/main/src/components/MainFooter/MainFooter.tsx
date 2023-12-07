@@ -17,7 +17,7 @@ const legalLinks: FooterLink[] = [
 ];
 
 const siteLinks: FooterLink[] = [
-  { href: RouteHelper.Home(), label: "Vendor portal" },
+  { href: RouteHelper.VendorDashboard.Listing(), label: "Vendor portal" },
   { href: RouteHelper.Home(), label: "Advertising" },
   { href: RouteHelper.Home(), label: "About" },
 ];
