@@ -6,7 +6,9 @@ export namespace RegisterVendorAccountRequest {
   export type ReqBody = Pick<
     VendorAccountModel.Base,
     "businessName" | "email" | "fullName" | "password" | "phoneNumber"
-  >;
+  > & {
+    passwordConfirm: string;
+  };
 
   export type ResBody = {
     accountId: number;

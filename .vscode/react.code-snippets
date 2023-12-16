@@ -13,5 +13,21 @@
       "}",
       ""
     ]
+  },
+  "Yup schema": {
+    "scope": "typescript",
+    "prefix": "tsys",
+    "body": [
+      "import { object, ObjectSchema } from \"yup\";",
+      "import { SchemaUtils } from \"../utils/SchemaUtils\";"
+      "",
+      "type ValidationInput = {};",
+      "",
+      "export const ${TM_FILENAME_BASE}: ObjectSchema<ValidationInput> = object().shape({",
+      "\t",
+      "});",
+      "",
+      "export const validate${TM_FILENAME_BASE} = SchemaUtils.getValidationFunc<ValidationInput>(${TM_FILENAME_BASE});"
+    ]
   }
 }

@@ -4,30 +4,34 @@ import classNames from "classnames";
 import { ClassesProp, HTMLButtonProps } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { SpinnerIcon } from "../Spinner/Spinner";
 
 type ButtonVariant = "primary" | "secondary";
 
 export type SharedButtonProps = ButtonContentProps & {
   variant?: ButtonVariant;
-  classes?: ClassesProp<"root">;
 };
 
 export type ButtonProps = Omit<HTMLButtonProps, "className"> &
   SharedButtonProps;
 
-export const Button = ({
-  variant = "secondary",
-  type = "button",
-  classes,
-  ...props
-}: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
+  const {
+    variant = "secondary",
+    type = "button",
+    classes,
+    disabled,
+    loading,
+  } = props;
+
   return (
     <button
       {...props}
+      disabled={disabled || loading}
       type={type}
       className={classNames(styles.button, classes?.root, styles[variant])}
     >
-      <ButtonContent {...props} />
+      <ButtonContent {...props} loading={loading} />
     </button>
   );
 };
@@ -35,13 +39,21 @@ export const Button = ({
 export type ButtonContentProps = React.PropsWithChildren<{
   rightIcon?: IconProp;
   leftIcon?: IconProp;
+  loading?: boolean;
+  loadingText?: string;
+  classes?: ClassesProp<"root" | "leftIcon" | "rightIcon" | "rightIconWrapper">;
 }>;
 
 export const ButtonContent = ({
   children,
   rightIcon,
   leftIcon,
+  loading,
+  loadingText,
+  classes,
 }: ButtonContentProps) => {
+  const text = loading ? loadingText : children;
+
   return (
     <>
       {leftIcon && (
@@ -50,11 +62,19 @@ export const ButtonContent = ({
           &nbsp;
         </>
       )}
-      {children}
+      <span className={styles.text}>
+        {loading && <SpinnerIcon classes={{ spinner: styles.spinner }} />}
+        {text}
+      </span>
       {rightIcon && (
         <>
           &nbsp;
-          <FontAwesomeIcon icon={rightIcon} className={styles.rightIcon} />
+          <span className={classes?.rightIconWrapper}>
+            <FontAwesomeIcon
+              icon={rightIcon}
+              className={classNames(styles.rightIcon, classes?.rightIcon)}
+            />
+          </span>
         </>
       )}
     </>

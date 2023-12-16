@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./Dropdown.module.scss";
 import { Button } from "../Button";
 import { DropdownList } from "../DropdownList/DropdownList";
+import { faCaretDown } from "@fortawesome/pro-solid-svg-icons";
+import classNames from "classnames";
 
 export type DropdownOption<Value> = {
   label: string;
@@ -43,7 +45,15 @@ export const Dropdown = <V extends string>({
 
   return (
     <div className={styles.wrapper}>
-      <Button classes={{ root: styles.dropdown }} onClick={toggleDropdown}>
+      <Button
+        classes={{
+          root: classNames(styles.dropdown, showOptions && styles.active),
+          rightIcon: styles.arrowIcon,
+          rightIconWrapper: styles.arrowIconWrapper,
+        }}
+        onClick={toggleDropdown}
+        rightIcon={faCaretDown}
+      >
         {selectedOption?.label ?? placeholder}
       </Button>
       {showOptions && (

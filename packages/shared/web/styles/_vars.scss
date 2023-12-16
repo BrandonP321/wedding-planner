@@ -4,31 +4,24 @@
 // XXL
 $sizeXXLVar: --size-xxl;
 $sizeXXL: var(#{$sizeXXLVar});
-@include SetRootValue($sizeXXLVar, 3rem);
 // XL
 $sizeXLVar: --size-xl;
 $sizeXL: var(#{$sizeXLVar});
-@include SetRootValue($sizeXLVar, 2.5rem);
 // L
 $sizeLVar: --size-l;
 $sizeL: var(#{$sizeLVar});
-@include SetRootValue($sizeLVar, 2rem);
 // M
 $sizeMVar: --size-m;
 $sizeM: var(#{$sizeMVar});
-@include SetRootValue($sizeMVar, 1.5rem);
 // S
 $sizeSVar: --size-s;
 $sizeS: var(#{$sizeSVar});
-@include SetRootValue($sizeSVar, 1rem);
 // XS
 $sizeXSVar: --size-xs;
 $sizeXS: var(#{$sizeXSVar});
-@include SetRootValue($sizeXSVar, 0.5rem);
 // XXS
 $sizeXXSVar: --size-xxs;
 $sizeXXS: var(#{$sizeXXSVar});
-@include SetRootValue($sizeXXSVar, 0.25rem);
 
 $sizeMap: (
   "xxl": $sizeXXL,
@@ -46,87 +39,73 @@ $sizeMap: (
 // L
 $borderRadiusLVar: --border-radius-l;
 $borderRadiusL: var(#{$borderRadiusLVar});
-@include SetRootValue($borderRadiusLVar, 1rem);
 // M
 $borderRadiusMVar: --border-radius-m;
 $borderRadiusM: var(#{$borderRadiusMVar});
-@include SetRootValue($borderRadiusMVar, 0.5rem);
 // S
 $borderRadiusSVar: --border-radius-s;
 $borderRadiusS: var(#{$borderRadiusSVar});
-@include SetRootValue($borderRadiusSVar, 0.25rem);
 // XS
 $borderRadiusXSVar: --border-radius-xs;
 $borderRadiusXS: var(#{$borderRadiusXSVar});
-@include SetRootValue($borderRadiusXSVar, 0.125rem);
+
+// Form borders
+$formInputBorderVar: --form-input-border;
+$formInputBorder: var(#{$formInputBorderVar});
 
 // ======================================================================================================
 // Forms
 // ======================================================================================================
 $checkboxHeightVar: --checkbox-height;
 $checkboxHeight: var(#{$checkboxHeightVar});
-@include SetRootValue($checkboxHeightVar, 1.5rem);
 
 $radioInnerScaleVar: --radio-inner-size;
 $radioInnerScale: var(#{$radioInnerScaleVar});
-@include SetRootValue($radioInnerScaleVar, 0.7);
 
 // ======================================================================================================
 // Z Index
 // ======================================================================================================
 $zIndexModalVar: --z-index-modal;
 $zIndexModal: var(#{$zIndexModalVar});
-@include SetRootValue($zIndexModalVar, 1000);
 
 $zIndexHeaderVar: --z-index-header;
 $zIndexHeader: var(#{$zIndexHeaderVar});
-@include SetRootValue($zIndexHeaderVar, 950);
 
 $zIndexToastVar: --z-index-toast;
 $zIndexToast: var(#{$zIndexToastVar});
-@include SetRootValue($zIndexToastVar, 900);
 
 $zIndexLoadingSpinnerVar: --z-index-loading-spinner;
 $zIndexLoadingSpinner: var(#{$zIndexLoadingSpinnerVar});
-@include SetRootValue($zIndexLoadingSpinnerVar, 850);
 
 // ======================================================================================================
 // Widths
 // ======================================================================================================
 $maxWidthXLVar: --max-width-xl;
 $maxWidthXL: var(#{$maxWidthXLVar});
-@include SetRootValue($maxWidthXLVar, 70rem);
 
 $maxWidthLVar: --max-width-l;
 $maxWidthL: var(#{$maxWidthLVar});
-@include SetRootValue($maxWidthLVar, 50rem);
 
 $maxWidthMVar: --max-width-m;
 $maxWidthM: var(#{$maxWidthMVar});
-@include SetRootValue($maxWidthMVar, 40rem);
 
 $maxWidthSVar: --max-width-s;
 $maxWidthS: var(#{$maxWidthSVar});
-@include SetRootValue($maxWidthSVar, 25rem);
 
 $pageContentWidthVar: --page-content-width;
 $pageContentWidth: var(#{$pageContentWidthVar});
-@include SetRootValue($pageContentWidthVar, 90%);
 
 // ======================================================================================================
 // Transitions
 // ======================================================================================================
 $transitionVar: --transition;
 $transition: var(#{$transitionVar});
-@include SetRootValue($transitionVar, all 0.15s);
 
 $transitionSlowVar: --transition-slow;
 $transitionSlow: var(#{$transitionSlowVar});
-@include SetRootValue($transitionSlowVar, all 0.3s);
 
 $transitionLinearVar: --transition-linear;
 $transitionLinear: var(#{$transitionLinearVar});
-@include SetRootValue($transitionLinearVar, all 0.15s linear);
 
 // ======================================================================================================
 // Aspect ratio
@@ -138,16 +117,47 @@ $aspectRatioPadding1080: 56.25%;
 // ======================================================================================================
 $listCardsPerRowVar: --list-cards-per-row;
 $listCardsPerRow: var(#{$listCardsPerRowVar});
-@include SetRootValue($listCardsPerRowVar, 4);
 
 $listFlexGapVar: --list-flex-gap;
 $listFlexGap: var(#{$listFlexGapVar});
-@include SetRootValue($listFlexGapVar, $sizeL);
 
 $pageVerticalPaddingVar: --page-vertical-padding;
 $pageVerticalPadding: var(#{$pageVerticalPaddingVar});
-@include SetRootValue($pageVerticalPaddingVar, $sizeL);
 
 $pageHorizontalPaddingVar: --page-horizontal-padding;
 $pageHorizontalPadding: var(#{$pageHorizontalPaddingVar});
-@include SetRootValue($pageHorizontalPaddingVar, $sizeL);
+
+@mixin SetVarsPartialValues() {
+  :root {
+    #{$sizeXXLVar}: 3rem;
+    #{$sizeXLVar}: 2.5rem;
+    #{$sizeLVar}: 2rem;
+    #{$sizeMVar}: 1.5rem;
+    #{$sizeSVar}: 1rem;
+    #{$sizeXSVar}: 0.5rem;
+    #{$sizeXXSVar}: 0.25rem;
+    #{$borderRadiusLVar}: 1rem;
+    #{$borderRadiusMVar}: 0.5rem;
+    #{$borderRadiusSVar}: 0.25rem;
+    #{$borderRadiusXSVar}: 0.125rem;
+    #{$checkboxHeightVar}: 1.5rem;
+    #{$radioInnerScaleVar}: 0.7;
+    #{$zIndexModalVar}: 1000;
+    #{$zIndexHeaderVar}: 950;
+    #{$zIndexToastVar}: 900;
+    #{$zIndexLoadingSpinnerVar}: 850;
+    #{$maxWidthXLVar}: 70rem;
+    #{$maxWidthLVar}: 50rem;
+    #{$maxWidthMVar}: 40rem;
+    #{$maxWidthSVar}: 25rem;
+    #{$pageContentWidthVar}: 90%;
+    #{$transitionVar}: all 0.15s;
+    #{$transitionSlowVar}: all 0.3s;
+    #{$transitionLinearVar}: all 0.15s linear;
+    #{$listCardsPerRowVar}: 4;
+    #{$listFlexGapVar}: $sizeL;
+    #{$pageVerticalPaddingVar}: $sizeL;
+    #{$pageHorizontalPaddingVar}: $sizeL;
+    #{$formInputBorderVar}: 2px solid $colorBorderGray;
+  }
+}

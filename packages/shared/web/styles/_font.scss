@@ -5,7 +5,6 @@ $fontSizeXXLVar: --font-size-xxl;
 $lineHeightXXLVar: --line-height-xxl;
 $fontSizeXXL: var(#{$fontSizeXXLVar});
 $lineHeightXXL: var(#{$lineHeightXXLVar});
-@include SetRootValue($fontSizeXXLVar, 2.8rem);
 @mixin FontSizeXXL {
   font-size: $fontSizeXXL;
   line-height: $lineHeightXXL;
@@ -15,8 +14,6 @@ $fontSizeXLVar: --font-size-xl;
 $lineHeightXLVar: --line-height-xl;
 $fontSizeXL: var(#{$fontSizeXLVar});
 $lineHeightXL: var(#{$lineHeightXLVar});
-@include SetRootValue($fontSizeXLVar, 2.2rem);
-@include SetRootValue($lineHeightXLVar, 2.7rem);
 @mixin FontSizeXL {
   font-size: $fontSizeXL;
   line-height: $lineHeightXL;
@@ -26,8 +23,6 @@ $fontSizeLVar: --font-size-l;
 $lineHeightLVar: --line-height-l;
 $fontSizeL: var(#{$fontSizeLVar});
 $lineHeightL: var(#{$lineHeightLVar});
-@include SetRootValue($fontSizeLVar, 1.85rem);
-@include SetRootValue($lineHeightLVar, 2.1rem);
 @mixin FontSizeL {
   font-size: $fontSizeL;
   line-height: $lineHeightL;
@@ -37,8 +32,6 @@ $fontSizeMVar: --font-size-m;
 $lineHeightMVar: --line-height-m;
 $fontSizeM: var(#{$fontSizeMVar});
 $lineHeightM: var(#{$lineHeightMVar});
-@include SetRootValue($fontSizeMVar, 1.4rem);
-@include SetRootValue($lineHeightMVar, 1.9rem);
 @mixin FontSizeM {
   font-size: $fontSizeM;
   line-height: $lineHeightM;
@@ -48,8 +41,6 @@ $fontSizeSVar: --font-size-s;
 $lineHeightSVar: --line-height-s;
 $fontSizeS: var(#{$fontSizeSVar});
 $lineHeightS: var(#{$lineHeightSVar});
-@include SetRootValue($fontSizeSVar, 1.1rem);
-@include SetRootValue($lineHeightSVar, 1.6rem);
 @mixin FontSizeS {
   font-size: $fontSizeS;
   line-height: $lineHeightS;
@@ -59,8 +50,6 @@ $fontSizeXSVar: --font-size-xs;
 $lineHeightXSVar: --line-height-xs;
 $fontSizeXS: var(#{$fontSizeXSVar});
 $lineHeightXS: var(#{$lineHeightXSVar});
-@include SetRootValue($fontSizeXSVar, 0.75rem);
-@include SetRootValue($lineHeightXSVar, 1rem);
 @mixin FontSizeXS {
   font-size: $fontSizeXS;
   line-height: $lineHeightXS;
@@ -71,4 +60,23 @@ $lineHeightXS: var(#{$lineHeightXSVar});
 // =============================================================================
 $fontFamilyPrimaryVar: --font-family-primary;
 $fontFamilyPrimary: var(#{$fontFamilyPrimaryVar});
-@include SetRootValue($fontFamilyPrimaryVar, #{Arial, Helvetica, sans-serif});
+
+$fontFamilyRoboto: "Roboto";
+
+@mixin SetFontPartialValues() {
+  :root {
+    #{$fontSizeXXLVar}: 2.8rem;
+    #{$lineHeightXXLVar}: 3.3rem;
+    #{$fontSizeXLVar}: 2.2rem;
+    #{$lineHeightXLVar}: 2.7rem;
+    #{$fontSizeLVar}: 1.85rem;
+    #{$lineHeightLVar}: 2.1rem;
+    #{$fontSizeMVar}: 1.4rem;
+    #{$lineHeightMVar}: 1.9rem;
+    #{$fontSizeSVar}: 1.1rem;
+    #{$lineHeightSVar}: 1.6rem;
+    #{$fontSizeXSVar}: 0.75rem;
+    #{$lineHeightXSVar}: 1rem;
+    #{$fontFamilyPrimaryVar}: #{$fontFamilyRoboto}, Arial, Helvetica, sans-serif;
+  }
+}

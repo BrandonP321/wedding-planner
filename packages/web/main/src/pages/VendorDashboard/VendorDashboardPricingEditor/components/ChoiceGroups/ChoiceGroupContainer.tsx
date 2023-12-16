@@ -16,7 +16,7 @@ type Props = {
 export const ChoiceGroupContainer = (props: Props) => {
   const { choiceGroupIndex } = props;
 
-  const { mainChoice, updateChoiceGroups, addChoiceGroup } =
+  const { mainChoice, choiceGroup, updateChoiceGroups, addChoiceGroup } =
     usePricingEditorContext(props);
 
   const removeChoiceGroup = () => {
@@ -38,7 +38,7 @@ export const ChoiceGroupContainer = (props: Props) => {
 
   return (
     <Container
-      header={<ChoiceGroupNameInput {...props} />}
+      header={<h3>{choiceGroup?.name || "Untitled choice group"}</h3>}
       footer={
         <SpaceBetween justify="end">
           <Button
@@ -60,12 +60,14 @@ export const ChoiceGroupContainer = (props: Props) => {
         </SpaceBetween>
       }
     >
-      <SpaceBetween vertical size="s" stretchChildren>
-        <h5>
-          <strong>Choices</strong>
-        </h5>
+      <SpaceBetween vertical size="l" stretchChildren>
+        <ChoiceGroupNameInput {...props} />
 
-        <ChoicesAttributeEditor {...props} />
+        <SpaceBetween vertical size="s" stretchChildren>
+          <h3>Choices</h3>
+
+          <ChoicesAttributeEditor {...props} />
+        </SpaceBetween>
       </SpaceBetween>
     </Container>
   );

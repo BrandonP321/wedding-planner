@@ -12,6 +12,7 @@ $topSpacer: 1px;
   z-index: 10;
   overflow: auto;
   max-height: 40vh;
+  position: relative;
 
   &.fixed {
     width: initial;
@@ -32,7 +33,7 @@ $topSpacer: 1px;
 
   &.normal {
     background-color: $colorBackground;
-    border: 2px solid black;
+    border: 2px solid $colorBtnSecondaryBorder;
   }
 
   &.raised {
@@ -45,11 +46,10 @@ $topSpacer: 1px;
   width: 100%;
   display: block;
   padding: $sizeS;
-  color: $baseColorBlack;
 
   &:hover,
   &:focus {
-    background-color: $baseColorSilver;
+    background-color: $baseColorDark0;
     text-decoration: none;
     outline: none;
   }

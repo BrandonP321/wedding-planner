@@ -10,17 +10,30 @@
   }
 }
 
+.formFieldWrapper.error {
+  .input,
+  .textarea {
+    border-color: $colorDanger;
+  }
+}
+
 .input,
 .textarea {
   width: 100%;
   padding: $sizeXS;
-  border: 2px solid black;
+  border: $formInputBorder;
   border-radius: $borderRadiusS;
+  background-color: $baseColorDark1;
+  transition: $transition;
 
   &:disabled {
-    // TODO: Store disabled bg color in variable
-    background-color: lightgray;
-    color: rgba(0, 0, 0, 0.6);
+    background-color: $colorDisabledInputBg;
+    color: $colorDisabledInputText;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $baseColorGold;
   }
 }
 
@@ -78,7 +91,8 @@
 }
 
 .checkboxInput {
-  border: 2px solid black;
+  border: 2px solid $colorBtnSecondaryBorder;
+  background-color: $baseColorDark0;
   border-radius: $sizeXXS;
   margin-right: $sizeXS;
 
@@ -111,4 +125,9 @@
       }
     }
   }
+}
+
+.errorMsg {
+  font-weight: bold;
+  color: $colorDanger;
 }

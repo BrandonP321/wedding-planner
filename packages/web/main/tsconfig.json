@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
+"target": "es6",
     "baseUrl": "./src",
     "lib": [
       "dom",
@@ -11,7 +11,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
+"module": "esnext",
     "paths": {}
   },
   "include": [

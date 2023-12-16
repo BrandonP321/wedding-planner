@@ -12,6 +12,21 @@ export type SpinnerProps = {
   text?: string;
 };
 
+export type SpinnerIconProps = Partial<Pick<SpinnerProps, "size">> & {
+  classes?: ClassesProp<"spinner">;
+};
+
+export const SpinnerIcon = ({ classes, size }: SpinnerIconProps) => (
+  <FontAwesomeIcon
+    icon={faRingsWedding}
+    className={classNames(
+      styles.spinner,
+      size && styles[size],
+      classes?.spinner
+    )}
+  />
+);
+
 export const Spinner = (props: SpinnerProps) => {
   const { classes, size = "m", text } = props;
   return (
@@ -20,10 +35,7 @@ export const Spinner = (props: SpinnerProps) => {
       size="s"
       align="center"
     >
-      <FontAwesomeIcon
-        icon={faRingsWedding}
-        className={classNames(styles.spinner, styles[size], classes?.spinner)}
-      />
+      <SpinnerIcon classes={{ spinner: styles.spinner }} size={size} />
       {text && <p className={classNames(styles.text, styles[size])}>{text}</p>}
     </SpaceBetween>
   );

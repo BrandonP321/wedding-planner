@@ -1,0 +1,35 @@
+@import "colors";
+
+$gradientGoldLightened: radial-gradient(
+    ellipse farthest-corner at right bottom,
+    #fee47a 0%,
+    #fecf60 8%,
+    #a58b3b 30%,
+    #8e7540 40%,
+    transparent 80%
+  ),
+  radial-gradient(
+    ellipse farthest-corner at left top,
+    #ffffff 0%,
+    #ffffc1 8%,
+    #d7c276 25%,
+    #6d5c43 62.5%,
+    #6d5c43 100%
+  );
+
+$gradientGoldDeepTones: radial-gradient(
+    ellipse farthest-corner at right bottom,
+    #f4c32f 0%,
+    #f4a820 8%,
+    #8f6d29 30%,
+    #7a622e 40%,
+    transparent 80%
+  ),
+  radial-gradient(
+    ellipse farthest-corner at left top,
+    #ffffff 0%,
+    #ffff99 8%,
+    #c8a855 25%,
+    #5a4b2f 62.5%,
+    #5a4b2f 100%
+  );

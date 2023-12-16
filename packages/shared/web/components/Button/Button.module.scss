@@ -1,15 +1,32 @@
 @import "../../styles/webSharedStyles.scss";
 
 .button {
-  padding: $sizeXS;
-  border-radius: $borderRadiusS;
+  padding: $sizeXS $sizeL;
+  border-radius: $borderRadiusL;
   text-align: center;
+  overflow: hidden;
+  position: relative;
+  transition: $transition;
   border-width: 2px;
-  border-style: solid;
-  border-color: transparent;
 
-  &:hover {
-    background-color: $colorAccentSilver;
+  &::before,
+  &::after {
+    z-index: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: $transition;
+  }
+
+  &:not(:disabled):hover {
+    box-shadow: 0 0 1rem rgba(black, 0.25);
+
+    &::after {
+      opacity: 0;
+    }
   }
 
   &:hover,
@@ -18,19 +35,54 @@
   }
 
   &.primary {
-    background-color: $colorSecondary;
     color: $colorTextOppositePrimary;
+    font-weight: bold;
+
+    &::after {
+      background: $gradientGoldLightened;
+    }
+
+    &::before {
+      background: $gradientGoldDeepTones;
+    }
   }
 
   &.secondary {
-    border-color: black;
     color: $colorTextPrimary;
+    border: 2px solid $colorBtnSecondaryBorder;
+
+    &::after {
+      background: linear-gradient(
+        to bottom right,
+        $baseColorDark2,
+        $baseColorDark3,
+        $baseColorDark2
+      );
+    }
+
+    &::before {
+      background: linear-gradient(
+        to bottom right,
+        $baseColorDark1,
+        $baseColorDark2,
+        $baseColorDark1
+      );
+    }
   }
 
   &.disabled,
   &:disabled {
     opacity: 0.5;
   }
+}
+
+.spinner {
+  margin-right: $sizeXS;
+}
+
+.text {
+  position: relative;
+  z-index: 2;
 }
 
 .leftIcon {

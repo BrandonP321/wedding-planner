@@ -13,6 +13,7 @@ import { LoginVendorAccountRequest } from "@wedding-planner/shared/api/requests/
 import { RouteHelper } from "utils/RouteHelper";
 import { Link } from "react-router-dom";
 import { values } from "lodash";
+import { VENDOR_SIGN_UP_SCHEMA } from "@wedding-planner/shared/common/schemas/VENDOR_SIGN_UP_SCHEMA";
 
 enum Field {
   EMAIL = "email",
@@ -46,10 +47,18 @@ export const VendorSignupForm = (props: VendorSignupFormProps) => {
   };
 
   return (
-    <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
+    <FormikForm
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={VENDOR_SIGN_UP_SCHEMA}
+    >
       <StyledForm
         errorMsg={errMsg}
-        formActions={<SubmitButton>Create account</SubmitButton>}
+        formActions={
+          <SubmitButton loadingText="Creating account">
+            Create account
+          </SubmitButton>
+        }
         footer={
           <SpaceBetween justify="center">
             <p>
@@ -71,7 +80,7 @@ export const VendorSignupForm = (props: VendorSignupFormProps) => {
           </FormField>
 
           <FormField name={Field.PHONE_NUMBER} label="Phone number">
-            <InputField />
+            <InputField placeholder="(012) 345-6789" />
           </FormField>
 
           <FormField name={Field.BUSINESS_NAME} label="Business name">

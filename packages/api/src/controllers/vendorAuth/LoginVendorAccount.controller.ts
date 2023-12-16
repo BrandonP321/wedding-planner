@@ -1,4 +1,5 @@
 import { LoginVendorAccountRequest } from "@wedding-planner/shared/api/requests/auth/LoginVendorAccount.request";
+import { validateVendorLoginSchema } from "@wedding-planner/shared/common/schemas/VENDOR_LOGIN_SCHEMA";
 import { Controller } from "../../utils/ControllerUtils";
 import db from "../../models";
 import { JWTUtils } from "../../utils";
@@ -13,6 +14,10 @@ const controller = new Controller<
 export const LoginVendorAccountController = controller.handler(
   async (req, res, errors) => {
     const { email, password } = req.body;
+
+    const inputError = await validateVendorLoginSchema({ email, password });
+
+    if (inputError) return errors.InvalidInput(inputError);
 
     const account = await db.VendorAccount.findOne({
       where: { email: email.toLowerCase() },

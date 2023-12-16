@@ -36,3 +36,4 @@ export * from "./FormikForm/CustomFormHooks";
 export { CustomFormProvider } from "./FormikForm/CustomFormProvider";
 export * from "./Spinner/Spinner";
 export * from "./SpinnerWrapper/SpinnerWrapper";
+export * from "./Text/Text";

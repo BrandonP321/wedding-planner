@@ -9,6 +9,8 @@ $alertPadding: $sizeS;
   padding: $alertPadding;
   border-radius: $borderRadiusM;
   border: 2px solid $colorInfo;
+  #{$colorBackgroundVar}: $baseColorDark0;
+  background-color: $colorBackground;
   width: 100%;
 
   &.info {

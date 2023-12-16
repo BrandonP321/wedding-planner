@@ -4,7 +4,9 @@
   @include notMobileVW() {
     padding: $sizeXL;
     border-radius: $borderRadiusL;
-    box-shadow: $darkBoxShadow;
+    box-shadow: $raisedBoxShadow;
+    #{$colorBackgroundVar}: $colorRaisedPlatformBg1;
+    background-color: $colorBackground;
   }
 
   h1,

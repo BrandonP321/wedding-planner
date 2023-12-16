@@ -13,6 +13,7 @@ import { APIFetcher } from "utils";
 import { LoginVendorAccountRequest } from "@wedding-planner/shared/api/requests/auth/LoginVendorAccount.request";
 import { RouteHelper } from "utils/RouteHelper";
 import { Link, useNavigate } from "react-router-dom";
+import { VENDOR_LOGIN_SCHEMA } from "@wedding-planner/shared/common/schemas/VENDOR_LOGIN_SCHEMA";
 
 enum Field {
   EMAIL = "email",
@@ -48,6 +49,7 @@ export const VendorLoginForm = (props: VendorLoginFormProps) => {
   return (
     <FormikForm
       initialValues={{ email: "", password: "" }}
+      validationSchema={VENDOR_LOGIN_SCHEMA}
       onSubmit={handleSubmit}
     >
       <StyledForm

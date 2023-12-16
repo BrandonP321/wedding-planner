@@ -49,25 +49,27 @@ export const FormField = (props: FormFieldProps) => {
         error && styles.error
       )}
     >
-      <SpaceBetween size="xxs" vertical>
-        {label && (
-          <label
-            className={classNames(styles.fieldLabel, classes?.label)}
-            htmlFor={disableLabel ? undefined : inputId}
-          >
-            {label}
-          </label>
+      <SpaceBetween size="xxs" stretchChildren vertical>
+        <SpaceBetween size="xxs" vertical>
+          {label && (
+            <label
+              className={classNames(styles.fieldLabel, classes?.label)}
+              htmlFor={disableLabel ? undefined : inputId}
+            >
+              {label}
+            </label>
+          )}
+
+          <FormFieldContext.Provider value={{ name, id: inputId }}>
+            {children}
+          </FormFieldContext.Provider>
+        </SpaceBetween>
+
+        {(error ?? errorText) && (
+          <p className={styles.errorMsg}>{errorText ?? error}</p>
         )}
-
-        <FormFieldContext.Provider value={{ name, id: inputId }}>
-          {children}
-        </FormFieldContext.Provider>
+        {hintText && <small className={styles.hintText}>{hintText}</small>}
       </SpaceBetween>
-
-      {(error ?? errorText) && (
-        <p className={styles.errorMsg}>{errorText ?? error}</p>
-      )}
-      {hintText && <small className={styles.hintText}>{hintText}</small>}
     </div>
   );
 };

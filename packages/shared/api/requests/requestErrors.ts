@@ -8,6 +8,7 @@ export namespace DefaultAPIError {
     VendorNotFound: "VendorNotFound",
     VendorAccountNotFound: "VendorAccountNotFound",
     UnauthorizedAccess: "UnauthorizedAccess",
+    InvalidInput: "InvalidInput",
   } as const;
 
   export const Errors: APIErrorMap<typeof Codes> = {
@@ -40,6 +41,11 @@ export namespace DefaultAPIError {
       code: Codes.UnauthorizedAccess,
       msg: "You are unauthorized to modify this listing",
       statusCode: 401,
+    },
+    InvalidInput: {
+      code: Codes.InvalidInput,
+      msg: "Invalid input",
+      statusCode: 400,
     },
   };
 

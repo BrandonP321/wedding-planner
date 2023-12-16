@@ -13,7 +13,7 @@ export const ChoiceGroupNameInput = (props: Props) => {
   const { choiceGroup, updateChoiceGroup } = usePricingEditorContext(props);
 
   return (
-    <FormField>
+    <FormField label="Title">
       <InputField
         value={choiceGroup?.name}
         onChange={(v) =>
@@ -21,7 +21,7 @@ export const ChoiceGroupNameInput = (props: Props) => {
             cg.name = v;
           })
         }
-        placeholder="Untitled"
+        placeholder="Packages, guest count, etc."
       />
     </FormField>
   );

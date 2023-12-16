@@ -2,12 +2,17 @@
 
 $containerPadding: $sizeM;
 $containerBorderRadius: $borderRadiusM;
-$containerBorder: 1px solid gray;
+
+$headerBgColor: $baseColorDark1;
+$bgColor: $baseColorDark2;
 
 .container {
   width: 100%;
   border-radius: $containerBorderRadius;
   box-shadow: $raisedBoxShadow;
+  box-shadow: 0 0 1.5rem rgba(black, 0.9);
+  #{$colorBackgroundVar}: $baseColorDark3;
+  background-color: $bgColor;
 
   &.hasFooter {
   }
@@ -24,16 +29,13 @@ $containerBorder: 1px solid gray;
   padding: $containerPadding;
   border-top-right-radius: $containerBorderRadius;
   border-top-left-radius: $containerBorderRadius;
-  border: $containerBorder;
-  #{$colorBackgroundVar}: rgb(213, 213, 213);
-  background-color: $colorBackground;
+  border-bottom: 1px solid rgb(44, 51, 63);
+  #{$colorBackgroundVar}: $baseColorDark2;
+  background-color: $headerBgColor;
 }
 
 .content,
 .footer {
-  border-left: $containerBorder;
-  border-right: $containerBorder;
-  border-bottom: $containerBorder;
   padding: $containerPadding;
 }
 
@@ -41,6 +43,7 @@ $containerBorder: 1px solid gray;
 }
 
 .footer {
+  border-top: 1px solid rgb(44, 51, 63);
   border-bottom-left-radius: $containerBorderRadius;
   border-bottom-right-radius: $containerBorderRadius;
 }

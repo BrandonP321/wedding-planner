@@ -1,11 +1,19 @@
 @import "./webSharedStyles.scss";
 
+@include SetVarsPartialValues();
+@include SetColorsPartialValues();
+@include SetFontPartialValues();
+
 * {
   @include nonMobileNonTouchDevice() {
     @include ScrollbarWidth();
     @include ScrollbarThumb();
     @include ScrollbarTrack();
   }
+}
+
+html {
+  color: $colorTextDefault;
 }
 
 html,
@@ -35,18 +43,22 @@ html * {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-weight: bold;
 }
 
 h1,
 h2 {
-  color: $colorTextPrimary;
+  color: $colorTextHeadingPrimary;
 }
 
 h3,
-h4 {
-  color: $colorTextSecondary;
+h4,
+h5,
+h6 {
+  color: $colorTextHeadingSecondary;
 }
 
 h1 {
@@ -76,4 +88,16 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* Ensures that autofill styles don't get applied while user is still on page */
+  transition: all 99999s 99999s, border-color 0.25s;
 }

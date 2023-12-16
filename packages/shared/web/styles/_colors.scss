@@ -19,7 +19,24 @@ $baseColorBlack: rgb(0, 0, 0);
 $baseColorWhite: #ffffff;
 $baseColorGrey: #f4f4f4;
 $baseColorSoftRed: #ff6b6b;
-$baseColorSoftGreen: #4caf50;
+$baseColorGreen: #39ff14;
+
+$baseColorDark0: hsl(216, 28%, 5%);
+$baseColorDark1: hsl(216, 28%, 7%);
+$baseColorDark2: hsl(216, 28%, 9%);
+$baseColorDark3: hsl(216, 28%, 11%);
+
+$baseColorLight0: hsl(216, 16%, 88%);
+$baseColorLight1: hsl(218, 13%, 83%);
+$baseColorLight2: hsl(210, 8%, 81%);
+$baseColorLight3: hsl(216, 16%, 72%);
+
+// =============================================================================
+// Indicators
+// =============================================================================
+$indicatorColorSuccess: #39ff14;
+$indicatorColorDanger: #dc143c;
+$indicatorColorInfo: #1f4e79;
 
 // =============================================================================
 // Brand colors
@@ -38,77 +55,118 @@ $brandColorLinkedin: #0a66c2;
 // Background
 $colorBackgroundVar: --color-background;
 $colorBackground: var(#{$colorBackgroundVar});
-// @include SetRootValue($colorBackgroundVar, $baseColorWhite);
-@include SetRootValue($colorBackgroundVar, $baseColorUltraSoftBlue);
 
 // Primary
 $colorPrimaryVar: --color-primary;
 $colorPrimary: var(#{$colorPrimaryVar});
-@include SetRootValue($colorPrimaryVar, $baseColorSoftBlue);
 
 // Secondary
 $colorSecondaryVar: --color-secondary;
 $colorSecondary: var(#{$colorSecondaryVar});
-@include SetRootValue($colorSecondaryVar, $baseColorRoseGold);
 
 // Accent
 $colorAccentSilverVar: --color-accent-silver;
 $colorAccentSilver: var(#{$colorAccentSilverVar});
-@include SetRootValue($colorAccentSilverVar, $baseColorSilver);
 
 $colorAccentGoldVar: --color-accent-gold;
 $colorAccentGold: var(#{$colorAccentGoldVar});
-@include SetRootValue($colorAccentGoldVar, $baseColorGold);
+
+// Border
+$colorBorderGrayVar: --color-border-gray;
+$colorBorderGray: var(#{$colorBorderGrayVar});
+
+$colorBtnSecondaryBorderVar: --color-btn-secondary-border;
+$colorBtnSecondaryBorder: var(#{$colorBtnSecondaryBorderVar});
 
 // Text
+$colorTextHeadingPrimaryVar: --color-text-heading-primary;
+$colorTextHeadingPrimary: var(#{$colorTextHeadingPrimaryVar});
+
+$colorTextHeadingSecondaryVar: --color-text-heading-secondary;
+$colorTextHeadingSecondary: var(#{$colorTextHeadingSecondaryVar});
+
+$colorTextDefaultVar: --color-text-default;
+$colorTextDefault: var(#{$colorTextDefaultVar});
+
 $colorTextPrimaryVar: --color-text-primary;
 $colorTextPrimary: var(#{$colorTextPrimaryVar});
-@include SetRootValue($colorTextPrimaryVar, $baseColorBlack);
 
 $colorTextSecondaryVar: --color-text-secondary;
 $colorTextSecondary: var(#{$colorTextSecondaryVar});
-@include SetRootValue($colorTextSecondaryVar, $baseColorDarkGrey);
 
 $colorTextOppositePrimaryVar: --color-text-opposite-primary;
 $colorTextOppositePrimary: var(#{$colorTextOppositePrimaryVar});
-@include SetRootValue($colorTextOppositePrimaryVar, $baseColorWhite);
 
 // Status indicators
 $colorSuccessVar: --color-success;
 $colorSuccess: var(#{$colorSuccessVar});
-@include SetRootValue($colorSuccessVar, $baseColorSoftGreen);
 
 $colorDangerVar: --color-error;
 $colorDanger: var(#{$colorDangerVar});
-@include SetRootValue($colorDangerVar, $baseColorSoftRed);
 
 $colorInfoVar: --color-info;
 $colorInfo: var(#{$colorInfoVar});
-@include SetRootValue($colorInfoVar, $baseColorSoftBlue);
+
+// =============================================================================
+// Other
+// =============================================================================
+$colorRaisedPlatformBg1Var: --color-raised-platform-bg-1;
+$colorRaisedPlatformBg1: var(#{$colorRaisedPlatformBg1Var});
+
+$colorRaisedPlatformBg2Var: --color-raised-platform-bg-2;
+$colorRaisedPlatformBg2: var(#{$colorRaisedPlatformBg2Var});
+
+$colorDisabledInputBgVar: --color-disabled-input-bg;
+$colorDisabledInputBg: var(#{$colorDisabledInputBgVar});
+
+$colorDisabledInputTextVar: --color-disabled-input-text;
+$colorDisabledInputText: var(#{$colorDisabledInputTextVar});
 
 // Overlay
 $darkOverlayVar: --dark-overlay;
 $darkOverlay: var(#{$darkOverlayVar});
-@include SetRootValue($darkOverlayVar, rgb(0 0 0 / 0.5));
 
 // Box Shadow
 $darkBoxShadowVar: --dark-box-shadow;
 $darkBoxShadow: var(#{$darkBoxShadowVar});
-@include SetRootValue($darkBoxShadowVar, #{0 0 3rem BaseColorBlackFaded(0.25)});
 
 $raisedBoxShadowVar: --raised-box-shadow;
 $raisedBoxShadow: var(#{$raisedBoxShadowVar});
-@include SetRootValue(
-  $raisedBoxShadowVar,
-  #{-1rem -1rem $sizeL rgba($baseColorWhite, 0.5),
-  1rem 1rem $sizeL rgba(black, 0.25)}
-);
 
-// Oher
+// Other
 $colorDarkFadeVar: --color-dark-fade;
 $colorDarkFade: var(#{$colorDarkFadeVar});
-@include SetRootValue($colorDarkFadeVar, rgb(#{$colorTextPrimary} / 0.15));
 
 $colorTextFadedPrimaryVar: --color-text-faded-primary;
 $colorTextFadedPrimary: var(#{$colorTextFadedPrimaryVar});
-@include SetRootValue($colorTextFadedPrimaryVar, BaseColorBlackFaded(0.6));
+
+@mixin SetColorsPartialValues() {
+  :root {
+    #{$colorBackgroundVar}: $baseColorDark1;
+    #{$colorPrimaryVar}: $baseColorSoftBlue;
+    #{$colorSecondaryVar}: $baseColorRoseGold;
+    #{$colorAccentSilverVar}: $baseColorSilver;
+    #{$colorAccentGoldVar}: $baseColorGold;
+    #{$colorTextHeadingPrimaryVar}: $baseColorLight0;
+    #{$colorTextHeadingSecondaryVar}: $baseColorLight1;
+    #{$colorTextPrimaryVar}: rgb(226, 226, 226);
+    #{$colorTextDefaultVar}: $baseColorLight2;
+    #{$colorTextSecondaryVar}: rgb(194, 194, 194);
+    #{$colorTextOppositePrimaryVar}: $baseColorBlack;
+    #{$colorSuccessVar}: $baseColorGreen;
+    #{$colorDangerVar}: #dc143c;
+    #{$colorInfoVar}: #1f4e79;
+    #{$darkOverlayVar}: rgb(0 0 0 / 0.5);
+    #{$darkBoxShadowVar}: 0 0 3rem BaseColorBlackFaded(0.25);
+    #{$raisedBoxShadowVar}: -1rem -1rem 3rem -1rem rgba(#2b333e, 0.25),
+      1rem 1rem 2rem rgba(black, 0.75);
+    #{$colorDarkFadeVar}: rgb(#{$colorTextPrimary} 0.15);
+    #{$colorTextFadedPrimaryVar}: BaseColorBlackFaded(0.6);
+    #{$colorBorderGrayVar}: rgb(44, 51, 63);
+    #{$colorRaisedPlatformBg1Var}: $baseColorDark2;
+    #{$colorRaisedPlatformBg2Var}: $baseColorDark3;
+    #{$colorDisabledInputBgVar}: #4f5257;
+    #{$colorDisabledInputTextVar}: rgb(144, 144, 144);
+    #{$colorBtnSecondaryBorderVar}: $colorBorderGray;
+  }
+}

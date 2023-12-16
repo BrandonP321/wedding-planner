@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   ContainerSpaceBetween,
+  Header,
   SpaceBetween,
 } from "@wedding-planner/shared/web/components";
 import { ChoiceGroupContainer } from "../ChoiceGroups/ChoiceGroupContainer";
@@ -32,20 +33,20 @@ export const MainChoiceTab = ({ index }: MainChoiceTabProps) => {
       {!hasSingleMainChoice && <MainChoiceOptions mainChoiceIndex={index} />}
 
       <SpaceBetween vertical size="l" stretchChildren>
-        {!hasSingleMainChoice && <h3>Main choice info</h3>}
+        {!hasSingleMainChoice && <h2>Main choice info</h2>}
         <ContainerSpaceBetween>
           {!hasSingleMainChoice && (
             <MainChoiceDetailsContainer mainChoiceIndex={index} />
           )}
 
-          <Container header={<h4>Attributes</h4>}>
+          <Container header={<Header title="Attributes" variant="h3" />}>
             <MainChoiceAttributesSelector mainChoiceIndex={index} />
           </Container>
         </ContainerSpaceBetween>
       </SpaceBetween>
 
       <SpaceBetween vertical size="l" stretchChildren>
-        <h3>Choice groups</h3>
+        <Header title="Choice groups" variant="h2" />
 
         {!!choiceGroups?.length && (
           <ContainerSpaceBetween>
