@@ -9,14 +9,6 @@ import { createAssociations } from "./models/associations";
 import { configureDefaultMiddleware } from "./middleware";
 import { configureRoutes } from "./routes";
 
-import { StringSchema, addMethod, string } from "yup";
-
-addMethod(StringSchema, "myTest", function () {
-  return this.email();
-});
-
-string().myTest;
-
 const PORT = process.env.PORT ?? 8000;
 
 export const app = express();
