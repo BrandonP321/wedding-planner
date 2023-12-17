@@ -2,10 +2,21 @@
 
 .dropArea {
   padding: 2rem;
-  border: 1px dashed gray;
-  border-radius: 1rem;
-  cursor: pointer;
+  border: 2px dashed $colorInfo;
+  border-radius: $sizeS;
+  background-color: $baseColorDark2;
   text-align: center;
+}
+
+.uploadContent {
+  p {
+    font-size: $fontSizeM;
+    font-weight: bold;
+  }
+}
+
+.uploadIcon {
+  font-size: 4rem;
 }
 
 .previewThumbs {
